@@ -2,22 +2,19 @@
 def calculate_modified_attack_vector(node):
 
     cve = node.cve
-    cvss = cve.css
+    cvss = cve.cvss
     mav_accepted = False
     modified_attack_vector = cvss.attack_vector
 
     while not mav_accepted:
-        if modified_attack_vector.lower == "local" or modified_attack_vector.lower == "physical":
+        if modified_attack_vector.lower() == "local" or modified_attack_vector.lower == "physical":
             mav_accepted = True
-        elif modified_attack_vector.lower == "adjacent network":
-            pass
-            # # check node neighbors
-            # if neighbors is [] or neighbors_protected(neighbors):
-            #     modified_attack_vector = "Local"
-            # else:
-            #     mav_accepted = True
-        elif modified_attack_vector.lower == "network":
-            # check for security measures
+        elif modified_attack_vector.lower() == "adjacent network":
+            if len(node.devices.all()) == 0:
+                modified_attack_vector = "Local"
+            else:
+                mav_accepted = True
+        elif modified_attack_vector.lower() == "network":
             if node.is_connected_to_internet():
                 mav_accepted = True
             else:

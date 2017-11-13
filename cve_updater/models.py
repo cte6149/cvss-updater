@@ -106,6 +106,8 @@ class CVSS:
         self.modified_impact = ""
         self.modified_availability = ""
 
+    def __str__(self):
+        return "Attack Vector=" + self.attack_vector + " Mod. Attack Vector=" + self.modified_attack_vector
 
     @classmethod
     def from_dict(cls, values):
