@@ -1,0 +1,299 @@
+//EXECUTE INDIVIDUALLY
+CREATE INDEX ON :Internet(id);
+CREATE INDEX ON :Router(id);
+CREATE INDEX ON :Machine(id);
+CREATE INDEX ON :Server(id);
+
+//START BULK CREATE
+CREATE (internet:Internet {id:0, name:"The Internet"})
+
+CREATE (router0:Router {id:0, name:"External Router"})
+CREATE (machine1:Machine {id:11, name:"Guest Machine", os:"Windows"})
+CREATE
+  (machine1)-[:CONNECTED_TO]->(router0),
+  (router0)-[:CONNECTED_TO]->(internet)
+  
+CREATE (router1:Router {id:1, name:"Guest Wireless Router"})
+CREATE (server12:Server {id:12, name:"External Web Server"})
+CREATE (server13:Server {id:13, name:"External DNS Server"})
+CREATE (server14:Server {id:14, name:"External Mail Server"})
+CREATE (server15:Server {id:15, name:"External Web App Server"})
+CREATE
+  (server12)-[:CONNECTED_TO]->(router1),
+  (server13)-[:CONNECTED_TO]->(router1),
+  (server14)-[:CONNECTED_TO]->(router1),
+  (server15)-[:CONNECTED_TO]->(router1),
+  (router1)-[:CONNECTED_TO]->(internet)
+  
+CREATE (router2:Router {id:2, name:"Level 2 Router"})
+CREATE (machine100:Machine {id:100, name:"Developer Machine", os:"Unix"})
+CREATE (machine101:Machine {id:101, name:"Developer Machine", os:"Mac"})
+CREATE (machine102:Machine {id:102, name:"Administrator Machine"})
+CREATE (server103:Server {id:103, name:"OES Print Server"})
+CREATE (server104:Server {id:104, name:"OpenLDAP Server"})
+CREATE
+  (machine100)-[:CONNECTED_TO]->(router2),
+  (machine101)-[:CONNECTED_TO]->(router2),
+  (machine102)-[:CONNECTED_TO]->(router2),
+  (server103)-[:CONNECTED_TO]->(router2),
+  (server104)-[:CONNECTED_TO]->(router2),
+  (router2)-[:CONNECTED_TO]->(router1)
+  
+CREATE (router3:Router {id:3, name:"Level 3 Router"})
+CREATE (machine1000:Machine {id:1000, name:"VMWare ESXi", os:""})
+CREATE (machine1001:Machine {id:1001, name:"NAS", os:""})
+CREATE (server1002:Server {id:1002, name:"Backup Server"})
+CREATE (machine1003:Machine {id:1003, name:"Development GitLab"})
+CREATE (machine1004:Machine {id:1004, name:"MySQL Customer Info"})
+CREATE
+  (machine1000)-[:CONNECTED_TO]->(router3),
+  (machine1001)-[:CONNECTED_TO]->(router3),
+  (server1002)-[:CONNECTED_TO]->(router3),
+  (machine1003)-[:CONNECTED_TO]->(router3),
+  (machine1004)-[:CONNECTED_TO]->(router3),
+  (router3)-[:CONNECTED_TO]->(router2)
+//END BULK CREATE
+ 
+// START PERMISSIONS
+
+//INTERNET PERMISSIONS
+MATCH
+  (n {id:11})
+WITH n
+MATCH
+  (i:Internet)
+CREATE UNIQUE (n)<-[:CAN_COMMUNICATE_TO]-(i)
+
+MATCH
+  (n {id:12})
+WITH n
+MATCH
+  (i:Internet)
+CREATE UNIQUE (n)<-[:CAN_COMMUNICATE_TO]-(i)
+
+MATCH
+  (n {id:13})
+WITH n
+MATCH
+  (i:Internet)
+CREATE UNIQUE (n)<-[:CAN_COMMUNICATE_TO]-(i)
+
+MATCH
+  (n {id:14})
+WITH n
+MATCH
+  (i:Internet)
+CREATE UNIQUE (n)<-[:CAN_COMMUNICATE_TO]-(i)
+
+MATCH
+  (n {id:102})
+WITH n
+MATCH
+  (i:Internet)
+CREATE UNIQUE (n)<-[:CAN_COMMUNICATE_TO]-(i)
+
+// LEVEL 1 NODES
+MATCH
+  (n {id:11})
+WITH n
+MATCH
+  (i:Internet)
+CREATE (n)-[:CAN_COMMUNICATE_TO]->(i)
+
+MATCH
+  (n {id:12})
+WITH n
+MATCH
+  (i:Internet)
+CREATE (n)-[:CAN_COMMUNICATE_TO]->(i)
+
+MATCH
+  (n {id:13})
+WITH n
+MATCH
+  (i:Internet)
+CREATE (n)-[:CAN_COMMUNICATE_TO]->(i)
+
+MATCH
+  (n {id:14})
+WITH n
+MATCH
+  (i:Internet)
+CREATE (n)-[:CAN_COMMUNICATE_TO]->(i)
+
+MATCH
+  (n {id:15})
+WITH n
+MATCH
+  (i:Internet)
+CREATE (n)-[:CAN_COMMUNICATE_TO]->(i)
+
+MATCH
+  (x {id:12})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:13})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:14})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:15})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+//LEVEL 2 NODES
+MATCH
+  (x {id:100})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1,2,3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:101})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1,2,3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:102})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1,2,3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (n {id:102})
+WITH n
+MATCH
+  (i:Internet)
+CREATE (n)-[:CAN_COMMUNICATE_TO]->(i)
+
+MATCH
+  (x {id:103})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1,2]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:104})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [1,2,3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+//LEVEL 3 NODES
+MATCH
+  (x {id:1000})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [2,3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:1001})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [2,3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:1002})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:1003})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [2,3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+MATCH
+  (x {id:1004})
+WITH x
+MATCH 
+  (router:Router)<-[r:CONNECTED_TO]->(n)
+WHERE
+  (router.id IN [2,3]) AND (n:Machine OR n:Server) AND (n <> x)
+CREATE UNIQUE (x)-[:CAN_COMMUNICATE_TO]->(n)
+
+
+//START VULNERABILITIES
+MATCH
+  (x {id:12})
+CREATE (c:CVE {id:"CVE-2016-8735"})<-[:IS_VULNERABLE_TO]-(x)
+
+MATCH
+  (x {id:14})
+CREATE (c:CVE {id:"CVE-2015-2771"})<-[:IS_VULNERABLE_TO]-(x)
+
+MATCH
+  (x {id:15})
+CREATE (c:CVE {id:"CVE-2016-8735"})<-[:IS_VULNERABLE_TO]-(x)
+
+MATCH
+  (x {id:100})
+CREATE (c:CVE {id:"CVE-2017-0110"})<-[:IS_VULNERABLE_TO]-(x)
+
+MATCH
+  (x {id:14})
+CREATE (c:CVE {id:"CVE-2015-2771"})<-[:IS_VULNERABLE_TO]-(x)
+
+MATCH
+  (x {id:14})
+CREATE (c:CVE {id:"CVE-2015-2771"})<-[:IS_VULNERABLE_TO]-(x)
+
+MATCH
+  (x {id:14})
+CREATE (c:CVE {id:"CVE-2015-2771"})<-[:IS_VULNERABLE_TO]-(x)
+
+MATCH
+  (x {id:14})
+CREATE (c:CVE {id:"CVE-2015-2771"})<-[:IS_VULNERABLE_TO]-(x)
+//END CREATION SCRIPTS 
