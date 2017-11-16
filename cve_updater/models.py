@@ -6,24 +6,26 @@ import neomodel
 neomodel.config.DATABASE_URL = 'bolt://neo4j:admin@localhost:7687'
 
 
-class Internet(neomodel.StructuredNode):
-    name = neomodel.StringProperty(unique_index=True)
-    devices = neomodel.Relationship("Device", "CONNECTED_TO", cardinality=neomodel.ZeroOrMore)
+class CommunicationRelationship(neomodel.StructuredRel):
+    complexity = neomodel.StringProperty()
+    privilege_needed = neomodel.StringProperty()
 
 
-class Device(neomodel.StructuredNode):
+class Node(neomodel.StructuredNode):
     TYPE = (
         ('MACHINE', 'Machine'),
         ('SERVER', 'Server'),
         ('SWITCH', 'Switch'),
-        ('ROUTER', 'Router')
+        ('ROUTER', 'Router'),
+        ('INTERNET', 'Internet')
     )
 
     name = neomodel.StringProperty()
     type = neomodel.StringProperty(choices=TYPE, default='SERVER')
 
-    internet = neomodel.Relationship("Internet", "CONNECTED_TO", cardinality=neomodel.ZeroOrOne)
-    devices = neomodel.Relationship("Device", "CONNECTED_TO")
+    connected_devices = neomodel.Relationship("Node", "CONNECTED_TO")
+    communicates_to = neomodel.RelationshipTo("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
+    receives_communications_from = neomodel.RelationshipFrom("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
 
     cve_ = neomodel.JSONProperty(db_property="cve", required=False)
 
@@ -41,13 +43,13 @@ class Device(neomodel.StructuredNode):
     def is_connected_to_internet(self, visited=None):
         visited, queue = set(), [self]
         while queue:
-            vertex = queue.pop(0)
+            device = queue.pop(0)
 
-            if len(vertex.internet.all()) > 0:
+            if device.type == "INTERNET":
                 return True
-            if vertex not in visited:
-                visited.add(vertex)
-                queue.extend(set(vertex.devices.all()) - visited)
+            if device not in visited:
+                visited.add(device)
+                queue.extend(set(device.connected_devices.all()) - visited)
         return False
         # if visited is None:
         #     visited = []
@@ -64,7 +66,7 @@ class Device(neomodel.StructuredNode):
         # return False
 
 
-class CVE():
+class CVE:
     name = ""
 
     def __init__(self):
@@ -89,28 +91,26 @@ class CVE():
 class CVSS:
 
     def __init__(self):
-        self.attack_vector = "Local"
-        self.attack_complexity = ""
-        self.privileges_required = ""
-        self.user_interaction = ""
-        self.scope = ""
-        self.confidentiality = ""
-        self.impact = ""
-        self.availability = ""
-        self.modified_attack_vector = ""
-        self.modified_attack_complexity = ""
-        self.modified_privileges_required = ""
-        self.modified_user_interaction = ""
-        self.modified_scope = ""
-        self.modified_confidentiality = ""
-        self.modified_impact = ""
-        self.modified_availability = ""
-
-    def __str__(self):
-        return "Attack Vector=" + self.attack_vector + " Mod. Attack Vector=" + self.modified_attack_vector
+        self.attack_vector = 'Network'
+        self.attack_complexity = 'High'
+        self.privileges_required = 'None'
+        self.user_interaction = 'None'
+        self.scope = 'Changed'
+        self.confidentiality = 'High'
+        self.impact = 'High'
+        self.availability = 'High'
+        self.modified_attack_vector = 'None'
+        self.modified_attack_complexity = 'None'
+        self.modified_privileges_required = 'None'
+        self.modified_user_interaction = 'None'
+        self.modified_scope = 'None'
+        self.modified_confidentiality = 'None'
+        self.modified_impact = 'None'
+        self.modified_availability = 'None'
 
     @classmethod
     def from_dict(cls, values):
         cvss = cls()
-        cvss.__dict__ = {**cvss.__dict__, **values}
+        for key, value in values.items():
+            setattr(cvss, key, value)
         return cvss
