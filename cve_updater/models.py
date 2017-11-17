@@ -1,7 +1,8 @@
-import json
-from enum import Enum
-
+import json, math
 import neomodel
+import cve_updater
+
+from enum import Enum
 
 neomodel.config.DATABASE_URL = 'bolt://neo4j:admin@localhost:7687'
 
@@ -97,7 +98,7 @@ class CVSS:
         self.user_interaction = 'None'
         self.scope = 'Changed'
         self.confidentiality = 'High'
-        self.impact = 'High'
+        self.integrity = 'High'
         self.availability = 'High'
         self.modified_attack_vector = 'None'
         self.modified_attack_complexity = 'None'
@@ -107,6 +108,51 @@ class CVSS:
         self.modified_confidentiality = 'None'
         self.modified_impact = 'None'
         self.modified_availability = 'None'
+
+    @property
+    def base_score(self):
+
+        base_score = 0
+        if self.impact_subscore <= 0:
+            base_score = 0
+        elif self.scope == 'unchanged':
+            unrounded_base_score = min((self.impact_subscore + self.exploitability_base), 10)
+            base_score = math.ceil(unrounded_base_score * 10) / 10
+        else:
+            unrounded_base_score = min(1.08 * (self.impact_subscore + self.exploitability_base), 10)
+            base_score = math.ceil(unrounded_base_score * 10) / 10
+
+        return base_score
+
+    @property
+    def impact_subscore(self):
+
+        score = 0
+        if self.scope == 'unchanged':
+            score = 6.42 * self.impact_base
+        else:
+            score = 7.52 * (self.impact_base - 0.029) - 3.25 * math.pow((self.impact_base - 0.02), 15)
+
+        return score
+
+    @property
+    def impact_base(self):
+
+        impact_conf = cve_updater.get_impact_value(self.confidentiality)
+        impact_integ = cve_updater.get_impact_value(self.integrity)
+        impact_avail = cve_updater.get_impact_value(self.availability)
+
+        return 1 - ((1 - impact_conf) * (1 - impact_integ) * (1 - impact_avail))
+
+    @property
+    def exploitability_base(self):
+
+        attack_vector = cve_updater.get_attack_vector_value(self.attack_vector)
+        attack_complexity = cve_updater.get_attack_complexity_value(self.attack_complexity)
+        privilege_required = cve_updater.get_privilege_required_value(self.privileges_required, self.scope)
+        user_interaction = cve_updater.get_user_interaction_value(self.user_interaction)
+
+        return 8.22 * attack_vector * attack_complexity * privilege_required * user_interaction
 
     @classmethod
     def from_dict(cls, values):

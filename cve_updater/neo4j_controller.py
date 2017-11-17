@@ -4,10 +4,6 @@ from neo4j.v1 import GraphDatabase, basic_auth
 
 import cve_updater
 
-#driver = GraphDatabase.driver("bolt://localhost:7687", auth=basic_auth("neo4j", "admin"))
-
-centralities = {}
-
 
 def find_cves():
     pass
@@ -75,6 +71,7 @@ if __name__ == "__main__":
 
     device6 = cve_updater.update_cvss(device6)
     print(device6.cve.cvss.__dict__)
+    print(device6.cve.cvss.base_score)
 
     internet.delete()
     device1.delete()
