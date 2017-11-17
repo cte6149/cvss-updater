@@ -63,15 +63,16 @@ if __name__ == "__main__":
     device6.communicates_to.connect(device5, {'complexity': 'Low', 'privilege_needed': 'None'})
 
     internet.communicates_to.connect(device1, {'complexity': 'Low', 'privilege_needed': 'None'})
-    device1.communicates_to.connect(device2, {'complexity': 'Low', 'privilege_needed': 'High'})
-    device2.communicates_to.connect(device3, {'complexity': 'Low', 'privilege_needed': 'None'})
-    device3.communicates_to.connect(device4, {'complexity': 'Low', 'privilege_needed': 'Low'})
+    device1.communicates_to.connect(device2, {'complexity': 'Low', 'privilege_needed': 'None'})
+    device2.communicates_to.connect(device3, {'complexity': 'High', 'privilege_needed': 'None'})
+    device3.communicates_to.connect(device4, {'complexity': 'Low', 'privilege_needed': 'None'})
     device4.communicates_to.connect(device5, {'complexity': 'Low', 'privilege_needed': 'None'})
     device5.communicates_to.connect(device6, {'complexity': 'Low', 'privilege_needed': 'None'})
 
     device6 = cve_updater.update_cvss(device6)
     print(device6.cve.cvss.__dict__)
     print(device6.cve.cvss.base_score)
+    print(device6.cve.cvss.environmental_score)
 
     internet.delete()
     device1.delete()
