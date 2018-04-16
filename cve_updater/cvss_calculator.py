@@ -17,6 +17,7 @@ def get_impact_value(name):
         'none': 0
     }[name.lower()]
 
+
 def get_attack_complexity_value(name):
     return {
         'high': 0.44,
