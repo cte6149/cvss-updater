@@ -23,6 +23,9 @@ class Node(neomodel.StructuredNode):
 
     name = neomodel.StringProperty()
     type = neomodel.StringProperty(choices=TYPE, default='SERVER')
+    weight = neomodel.FloatProperty()
+    ev_score = neomodel.FloatProperty()
+    questionnaire_responses = neomodel.ArrayProperty(neomodel.StringProperty())
 
     connected_devices = neomodel.Relationship("Node", "CONNECTED_TO")
     communicates_to = neomodel.RelationshipTo("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
@@ -66,6 +69,28 @@ class Node(neomodel.StructuredNode):
         #         return True
         # return False
 
+    # def get_confidentiality_questionnaire_result(self):
+    #     confidentiality_questions = [0, 1, 2, 3, 5, 7]
+    #
+    #     confidentiality_result = 'none'
+    #
+    #     for x in range(0, len(confidentiality_questions)):
+    #         answer = convert_answer(self.questionnaire_responses)
+    #         if(answer == 'high'):
+    #             pass
+    #
+    #
+    # def convert_answer(answer):
+    #     value = 'high'
+    #     if answer == 'no':
+    #         value = 'none'
+    #     elif answer == 'not sure':
+    #         value = 'low'
+    #
+    #     return value
+    #
+    # def get_integrity_questionnaire_result(self):
+    #     pass
 
 class CVE:
     name = ""
