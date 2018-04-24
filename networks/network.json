@@ -1,0 +1,156 @@
+{
+    "meta": {
+        "name": "Test Network",
+        "description": "Test Network for Parsing",
+        "version": "1.0.0"
+    },
+
+    "nodes":[
+        {
+            "id": 1,
+            "name": "The Internet",
+            "type": "INTERNET",
+            "connected_to": [2,4],
+            "communicates_to": [
+                {
+                    "id": 2,
+                    "complexity": "Medium",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Test Device 1",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "MAYBE"
+                },
+                {
+                    "question_id": 2,
+                    "answer": "NO"
+                }
+            ],
+            "connected_to": [1,5],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "High",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Test Device 2",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "MAYBE"
+                },
+                {
+                    "question_id": 2,
+                    "answer": "NO"
+                }
+            ],
+            "connected_to": [4],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "High",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Test Device 3",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "MAYBE"
+                },
+                {
+                    "question_id": 2,
+                    "answer": "NO"
+                }
+            ],
+            "cve":{
+                "name": "CVE-2012-0001",
+                "cvss": {
+                    "attack_vector": "Network",
+                    "attack_complexity": "High",
+                    "privileges_required": "None",
+                    "user_interaction": "None",
+                    "scope": "Changed",
+                    "confidentiality": "High",
+                    "integrity": "High",
+                    "availability": "High",
+                    "exploit_code_maturity": "Not Defined",
+                    "remediation_level": "Not Defined",
+                    "report_confidence": "Not Defined"
+                }
+            },
+            "connected_to": [3,5],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "High",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Test Device 4",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "MAYBE"
+                },
+                {
+                    "question_id": 2,
+                    "answer": "NO"
+                }
+            ],
+            "connected_to": [4],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "High",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Test Device 5",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "MAYBE"
+                },
+                {
+                    "question_id": 2,
+                    "answer": "NO"
+                }
+            ],
+            "connected_to": [2,3,4],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "High",
+                    "privilege_needed": "None"
+                }
+            ]
+        }
+    ]
+
+
+}

@@ -1,0 +1,90 @@
+{
+    "meta": {
+        "name": "Template Network",
+        "description": "Template for creating a network",
+        "version": "1.0.0"
+    },
+
+    nodes:[
+        {
+            "id": 1,
+            "name": "<Insert Name Here>",
+            "type": "<"MACHINE","SERVER","SWITCH","ROUTER","INTERNET">,
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": <"YES","MAYBE","NO">
+                },
+                {
+                    "question_id": 2,
+                    "answer": <"YES","MAYBE","NO">
+                }
+            ],
+            "cve":{
+                "name": "CVE-2012-0001",
+                "cvss": {
+                    "attack_vector": "Network",
+                    "attack_complexity": "High",
+                    "privileges_required": "None",
+                    "user_interaction": "None",
+                    "scope": "Changed",
+                    "confidentiality": "High",
+                    "integrity": "High",
+                    "availability": "High",
+                    "exploit_code_maturity": "Not Defined",
+                    "remediation_level": "Not Defined",
+                    "report_confidence": "Not Defined"
+                }
+            },
+            "connected_to": [2],
+            "communicates_to": [
+                {
+                    "id": 2,
+                    "complexity": <"Low","Medium","High">,
+                    "privilege_needed": "None","Low","High"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "<Insert Name Here>",
+            "type": "<"MACHINE","SERVER","SWITCH","ROUTER","INTERNET">,
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": <"YES","MAYBE","NO">
+                },
+                {
+                    "question_id": 2,
+                    "answer": <"YES","MAYBE","NO">
+                }
+            ],
+            "cve": {
+                "name": "CVE-2012-0001",
+                "cvss": {
+                    "attack_vector": "Network",
+                    "attack_complexity": "High",
+                    "privileges_required": "None",
+                    "user_interaction": "None",
+                    "scope": "Changed",
+                    "confidentiality": "High",
+                    "integrity": "High",
+                    "availability": "High",
+                    "exploit_code_maturity": "Not Defined",
+                    "remediation_level": "Not Defined",
+                    "report_confidence": "Not Defined"
+                }
+            },
+            "connected_to": [1],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": <"Low","Medium","High">,
+                    "privilege_needed": <"None","Low","High">
+                }
+            ]
+        }
+    ]
+
+
+}
