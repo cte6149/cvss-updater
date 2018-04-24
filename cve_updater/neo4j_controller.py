@@ -97,12 +97,13 @@ if __name__ == "__main__":
     device4.communicates_to.connect(device5, {'complexity': 'Low', 'privilege_needed': 'None'})
     device5.communicates_to.connect(device6, {'complexity': 'Low', 'privilege_needed': 'None'})
 
+    eigenvector_centrality(cve_updater.Node.nodes)
+
+    device6.refresh()
     device6 = cve_updater.update_cvss(device6)
     print(device6.cve.cvss.__dict__)
     print(device6.cve.cvss.base_score)
     print(device6.cve.cvss.environmental_score)
-
-    eigenvector_centrality(cve_updater.Node.nodes)
 
     #internet.delete()
     #device1.delete()
