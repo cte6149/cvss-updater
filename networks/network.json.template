@@ -2,7 +2,10 @@
     "meta": {
         "name": "Template Network",
         "description": "Template for creating a network",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "confidentiality_requirement": "High",
+        "integrity_requirement": "High",
+        "availability_requirement": "High"
     },
 
     nodes:[

@@ -105,14 +105,25 @@ def _calculate_modified_scope(node):
 
 
 def _calculate_modified_confidentiality(node):
-    return node.cve.cvss.confidentiality
+    if node.confidentiality_ev_score < 1/3:
+        return 'None'
+    elif (1/3) <= node.confidentiality_ev_score < (2/3):
+        return 'Low'
+    else:
+        return 'High'
 
 
 def _calculate_modified_integrity(node):
-    return node.cve.cvss.integrity
+    if node.integrity_ev_score < 1/3:
+        return 'None'
+    elif (1/3) <= node.integrity_ev_score < (2/3):
+        return 'Low'
+    else:
+        return 'High'
 
 
 def _calculate_modified_availability(node):
+    # determine normalize connectivity
     if node.ev_score < 1/3:
         return 'None'
     elif (1/3) <= node.ev_score < (2/3):

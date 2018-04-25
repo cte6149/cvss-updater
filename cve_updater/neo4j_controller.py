@@ -10,26 +10,6 @@ def find_cves():
     pass
 
 
-def eigenvector_centrality(neonodes):
-
-    #convert neo nodes into networkx graph
-    nx_graph = nx.DiGraph()
-
-    for node in neonodes:
-        nx_graph.add_node(node.id)
-
-    for node in neonodes:
-        for neighbor in node.receives_communications_from.all():
-            edge = (neighbor.id, node.id, node.weight)
-            nx_graph.add_weighted_edges_from([edge])
-
-    ev_results = nx.eigenvector_centrality(nx_graph, weight='weight')
-
-    for node in neonodes:
-        node.ev_score = ev_results[node.id]
-        node.save()
-
-
 if __name__ == "__main__":
     print("Testing Connection")
 
@@ -96,8 +76,6 @@ if __name__ == "__main__":
     device3.communicates_to.connect(device4, {'complexity': 'Low', 'privilege_needed': 'None'})
     device4.communicates_to.connect(device5, {'complexity': 'Low', 'privilege_needed': 'None'})
     device5.communicates_to.connect(device6, {'complexity': 'Low', 'privilege_needed': 'None'})
-
-    eigenvector_centrality(cve_updater.Node.nodes)
 
     device6.refresh()
     device6 = cve_updater.update_cvss(device6)

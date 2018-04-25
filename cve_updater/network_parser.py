@@ -1,4 +1,5 @@
 import json
+import networkx as nx
 import cve_updater
 
 
@@ -71,13 +72,55 @@ def node_has_cve(node):
 
 
 def create_network(network_json):
+    nodes = generate_nodes(network_json)
+    confidentiality_ev_scores = eigenvector_centrality(nodes, "confidentiality_weight")
+    integrity_ev_scores = eigenvector_centrality(nodes, "integrity_weight")
+
+    print(confidentiality_ev_scores)
+    print(integrity_ev_scores)
+    return nodes
+
+
+def generate_nodes(network_json):
     nodes = dict()
     network_connected_to = dict()
     network_communicates_to = dict()
 
     for json_node in network_json["nodes"]:
         node_id = json_node["id"]
-        node = parse_node(json_node)
+
+        node = cve_updater.Node()
+        node.name = json_node["name"]
+        node.type = json_node["type"].upper()
+
+        if(node.type != "INTERNET"):
+            node.confidentiality_weight, node.integrity_weight = determine_weights(json_node["questionnaire_responses"])
+
+        if "cve" in json_node:
+            json_cve = json_node["cve"]
+            cve = cve_updater.CVE()
+            cve.name = json_cve["name"]
+
+            json_cvss = json_cve["cvss"]
+            cvss = cve_updater.CVSS()
+            cvss.attack_vector = json_cvss["attack_vector"]
+            cvss.attack_complexity = json_cvss["attack_complexity"]
+            cvss.privileges_required = json_cvss["privileges_required"]
+            cvss.user_interaction = json_cvss["user_interaction"]
+            cvss.scope = json_cvss["scope"]
+            cvss.confidentiality = json_cvss["confidentiality"]
+            cvss.integrity = json_cvss["integrity"]
+            cvss.availability = json_cvss["availability"]
+            cvss.exploit_code_maturity = json_cvss["exploit_code_maturity"]
+            cvss.remediation_level = json_cvss["remediation_level"]
+            cvss.report_confidence = json_cvss["report_confidence"]
+
+            cvss.confidentiality_requirement = network_json["meta"]["confidentiality_requirement"]
+            cvss.integrity_requirement = network_json["meta"]["integrity_requirement"]
+            cvss.availability_requirement = network_json["meta"]["availability_requirement"]
+            cve.cvss = cvss
+            node.cve = cve
+
         node.save()
 
         nodes[node_id] = node
@@ -94,40 +137,52 @@ def create_network(network_json):
                 "privilege_needed": communicates_to_connection["privilege_needed"]
             })
 
-    return nodes
+    return cve_updater.Node.nodes
 
 
-def parse_node(json_node):
-    node = cve_updater.Node()
-    node.name = json_node["name"]
+def determine_weights(questionnaire_answers):
+    confidentiality_questions = [1, 2, 4, 5, 6, 7, 9]
+    integrity_questions = [1, 2, 3, 4, 6, 8]
 
-    if "cve" in json_node:
-        json_cve = json_node["cve"]
-        cve = cve_updater.CVE()
-        cve.name = json_cve["name"]
+    confidentiality_weight = 1
+    integrity_weight = 1
 
-        json_cvss = json_cve["cvss"]
-        cvss = cve_updater.CVSS()
-        cvss.attack_vector = json_cvss["attack_vector"]
-        cvss.attack_complexity = json_cvss["attack_complexity"]
-        cvss.privileges_required = json_cvss["privileges_required"]
-        cvss.user_interaction = json_cvss["user_interaction"]
-        cvss.scope = json_cvss["scope"]
-        cvss.confidentiality = json_cvss["confidentiality"]
-        cvss.integrity = json_cvss["integrity"]
-        cvss.availability = json_cvss["availability"]
-        cvss.exploit_code_maturity = json_cvss["exploit_code_maturity"]
-        cvss.remediation_level = json_cvss["remediation_level"]
-        cvss.report_confidence = json_cvss["report_confidence"]
+    for answer in questionnaire_answers:
+        score = 1
+        if answer["answer"].lower() == "no":
+            score = 1
+        elif answer["answer"].lower() == "maybe":
+            score = 2
+        elif answer["answer"].lower() == "yes":
+            score = 3
 
-        cve.cvss = cvss
-        node.cve = cve
+        if answer["question_id"] in confidentiality_questions:
+            if score > confidentiality_weight:
+                confidentiality_weight = score
+        elif answer["question_id"] in integrity_questions:
+            if score > integrity_weight:
+                integrity_weight = score
 
-    return node
+    return confidentiality_weight, integrity_weight
+
+
+def eigenvector_centrality(neonodes, weight):
+
+    nx_graph = nx.DiGraph()
+
+    for node in neonodes:
+        nx_graph.add_node(node.id)
+
+    for node in neonodes:
+        for neighbor in node.receives_communications_from.all():
+            edge = (neighbor.id, node.id, node.__dict__[weight])
+            nx_graph.add_weighted_edges_from([edge])
+
+    return nx.eigenvector_centrality(nx_graph, weight="weight")
 
 
 def main():
-    print(import_network("../networks/network.json"))
+    import_network("../networks/network.json")
 
 
 if __name__ == "__main__":

@@ -23,9 +23,11 @@ class Node(neomodel.StructuredNode):
 
     name = neomodel.StringProperty()
     type = neomodel.StringProperty(choices=TYPE, default='SERVER')
-    weight = neomodel.FloatProperty()
-    ev_score = neomodel.FloatProperty()
-    questionnaire_responses = neomodel.ArrayProperty(neomodel.StringProperty())
+    confidentiality_weight = neomodel.FloatProperty(default=3.0)
+    integrity_weight = neomodel.FloatProperty(default=3.0)
+
+    confidentiality_ev_score = neomodel.FloatProperty()
+    integrity_ev_score = neomodel.FloatProperty()
 
     connected_devices = neomodel.Relationship("Node", "CONNECTED_TO")
     communicates_to = neomodel.RelationshipTo("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
