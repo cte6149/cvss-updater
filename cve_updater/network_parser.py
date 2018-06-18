@@ -76,8 +76,11 @@ def create_network(network_json):
     confidentiality_ev_scores = eigenvector_centrality(nodes, "confidentiality_weight")
     integrity_ev_scores = eigenvector_centrality(nodes, "integrity_weight")
 
-    print(confidentiality_ev_scores)
-    print(integrity_ev_scores)
+    for node in nodes:
+        node.confidentiality_ev_score = confidentiality_ev_scores[node.id]
+        node.integrity_ev_score = integrity_ev_scores[node.id]
+        node.save()
+
     return nodes
 
 
@@ -93,7 +96,7 @@ def generate_nodes(network_json):
         node.name = json_node["name"]
         node.type = json_node["type"].upper()
 
-        if(node.type != "INTERNET"):
+        if node.type != "INTERNET":
             node.confidentiality_weight, node.integrity_weight = determine_weights(json_node["questionnaire_responses"])
 
         if "cve" in json_node:

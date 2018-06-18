@@ -2,7 +2,10 @@
     "meta": {
         "name": "Test Network",
         "description": "Test Network for Parsing",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "confidentiality_requirement": "LOW",
+        "integrity_requirement": "LOW",
+        "availability_requirement": "LOW"
     },
 
     "nodes":[

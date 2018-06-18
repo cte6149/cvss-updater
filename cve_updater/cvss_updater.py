@@ -1,3 +1,5 @@
+import cve_updater
+
 
 def _calculate_modified_attack_vector(node):
 
@@ -124,30 +126,34 @@ def _calculate_modified_integrity(node):
 
 def _calculate_modified_availability(node):
     # determine normalize connectivity
-    if node.ev_score < 1/3:
-        return 'None'
-    elif (1/3) <= node.ev_score < (2/3):
-        return 'Low'
-    else:
-        return 'High'
+    # if node.ev_score < 1/3:
+    #     return 'None'
+    # elif (1/3) <= node.ev_score < (2/3):
+    #     return 'Low'
+    # else:
+    #     return 'High'
+    return node.cve.cvss.modified_availability
 
 
-def update_cvss(node):
-    print('Updating cvss')
-    cve = node.cve
-    cvss = cve.cvss
+def update_cvss(network):
+    for node in network:
+        if node.cve is not None:
 
-    cvss.modified_attack_vector = _calculate_modified_attack_vector(node)
-    cvss.modified_attack_complexity = _calculate_modified_attack_complexity(node)
-    cvss.modified_privileges_required = _calculate_modified_privileges_required(node)
-    cvss.modified_user_interaction = _calculate_modified_user_interaction(node)
-    cvss.modified_scope = _calculate_modified_scope(node)
-    cvss.modified_confidentiality = _calculate_modified_confidentiality(node)
-    cvss.modified_impact = _calculate_modified_integrity(node)
-    cvss.modified_availability = _calculate_modified_availability(node)
+            print('Updating cvss')
+            cve = node.cve
+            cvss = cve.cvss
 
-    cve.cvss = cvss
-    node.cve = cve
-    node.save()
+            cvss.modified_attack_vector = _calculate_modified_attack_vector(node)
+            cvss.modified_attack_complexity = _calculate_modified_attack_complexity(node)
+            cvss.modified_privileges_required = _calculate_modified_privileges_required(node)
+            cvss.modified_user_interaction = _calculate_modified_user_interaction(node)
+            cvss.modified_scope = _calculate_modified_scope(node)
+            cvss.modified_confidentiality = _calculate_modified_confidentiality(node)
+            cvss.modified_impact = _calculate_modified_integrity(node)
+            cvss.modified_availability = _calculate_modified_availability(node)
 
-    return node
+            cve.cvss = cvss
+            node.cve = cve
+            node.save()
+
+    return cve_updater.Node.nodes
