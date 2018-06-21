@@ -28,6 +28,7 @@ class Node(neomodel.StructuredNode):
 
     confidentiality_ev_score = neomodel.FloatProperty()
     integrity_ev_score = neomodel.FloatProperty()
+    availability_ev_score = neomodel.FloatProperty()
 
     connected_devices = neomodel.Relationship("Node", "CONNECTED_TO")
     communicates_to = neomodel.RelationshipTo("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)

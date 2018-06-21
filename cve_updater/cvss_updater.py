@@ -125,14 +125,12 @@ def _calculate_modified_integrity(node):
 
 
 def _calculate_modified_availability(node):
-    # determine normalize connectivity
-    # if node.ev_score < 1/3:
-    #     return 'None'
-    # elif (1/3) <= node.ev_score < (2/3):
-    #     return 'Low'
-    # else:
-    #     return 'High'
-    return node.cve.cvss.modified_availability
+    if node.availability_ev_score < 1/3:
+        return 'None'
+    elif (1/3) <= node.availability_ev_score < (2/3):
+        return 'Low'
+    else:
+        return 'High'
 
 
 def update_cvss(network):

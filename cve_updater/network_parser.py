@@ -6,7 +6,7 @@ import cve_updater
 def import_network(file_path):
     contents = read_json(file_path)
 
-    if valid_network(contents):
+    if contents != [] and valid_network(contents):
         return create_network(contents)
 
 
@@ -75,10 +75,12 @@ def create_network(network_json):
     nodes = generate_nodes(network_json)
     confidentiality_ev_scores = eigenvector_centrality(nodes, "confidentiality_weight")
     integrity_ev_scores = eigenvector_centrality(nodes, "integrity_weight")
+    availability_ev_scores = betweeness_centrality(nodes)
 
     for node in nodes:
         node.confidentiality_ev_score = confidentiality_ev_scores[node.id]
         node.integrity_ev_score = integrity_ev_scores[node.id]
+        node.availability_ev_score = availability_ev_scores[node.id]
         node.save()
 
     return nodes
@@ -182,6 +184,33 @@ def eigenvector_centrality(neonodes, weight):
             nx_graph.add_weighted_edges_from([edge])
 
     return nx.eigenvector_centrality(nx_graph, weight="weight")
+
+
+def betweeness_centrality(neonodes):
+    nx_graph = nx.Graph()
+
+    internet = None
+    for node in neonodes:
+        nx_graph.add_node(node.id)
+        if node.type == "INTERNET":
+            internet = node.id
+
+    for node in neonodes:
+        for neighbor in node.connected_devices.all():
+            edge = (neighbor.id, node.id)
+            nx_graph.add_edges_from([edge])
+
+    betweeness = nx.betweenness_centrality_source(nx_graph, sources=[internet], normalized=True)
+
+    minimum = min(betweeness.values())
+    maximum = max(betweeness.values())
+
+    values = dict()
+    for entry in betweeness.items():
+        normalized = (entry[1] - minimum) / (maximum - minimum)
+        values[entry[0]] = normalized
+
+    return values
 
 
 def main():
