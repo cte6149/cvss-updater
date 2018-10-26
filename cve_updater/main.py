@@ -1,3 +1,4 @@
+import json
 import cve_updater
 
 
@@ -28,9 +29,9 @@ def main():
     print(network)
     for node in network:
         if node.cve is not None:
-            print(node.cve.cvss.__dict__)
-            print(node.cve.cvss.base_score)
-            print(node.cve.cvss.environmental_score)
+            print(json.dumps(node.cve.cvss.__dict__, indent=2))
+            print("Base Score:", node.cve.cvss.base_score)
+            print("Environmental Score:", node.cve.cvss.environmental_score)
 
 
 if __name__ == "__main__":

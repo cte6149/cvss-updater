@@ -1,0 +1,460 @@
+{
+    "meta": {
+        "name": "Real World Example Network 1",
+        "description": "",
+        "version": "1.0.0",
+        "confidentiality_requirement": "High",
+        "integrity_requirement": "High",
+        "availability_requirement": "High"
+    },
+
+    "nodes":[
+        {
+            "id": 1,
+            "name": "The Internet",
+            "type": "INTERNET",
+            "connected_to": [2],
+            "communicates_to": [
+                {
+                    "id": 2,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 3,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 4,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 5,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 6,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 10,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 11,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 12,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 13,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 14,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },
+                {
+                    "id": 15,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },{
+            "id": 2,
+            "name": "ARIS Modem",
+            "type": "ROUTER",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [1],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 3,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "ASUS Router",
+            "type": "ROUTER",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [2],
+            "communicates_to": [
+                {
+                    "id": 2,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 4,
+                    "complexity": "High",
+                    "privilege_needed": "High"
+                },{
+                    "id": 5,
+                    "complexity": "High",
+                    "privilege_needed": "High"
+                },
+                {
+                    "id": 6,
+                    "complexity": "High",
+                    "privilege_needed": "High"
+                },
+                {
+                    "id": 10,
+                    "complexity": "High",
+                    "privilege_needed": "High"
+                },{
+                    "id": 12,
+                    "complexity": "High",
+                    "privilege_needed": "High"
+                },{
+                    "id": 13,
+                    "complexity": "High",
+                    "privilege_needed": "High"
+                },{
+                    "id": 14,
+                    "complexity": "High",
+                    "privilege_needed": "High"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Samsung Phone",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [3],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "High",
+                    "privilege_needed": "Low"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Samsung Phone",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [3],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Linksys Wireless Extender",
+            "type": "ROUTER",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [3],
+            "communicates_to": [
+                {
+                    "id": 3,
+                    "complexity": "Low",
+                    "privilege_needed": "Low"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "name": "Belkin Switch",
+            "type": "SWITCH",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [6],
+            "communicates_to": []
+        },
+        {
+            "id": 8,
+            "name": "HP Printer",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [7],
+            "communicates_to": [
+                {
+                    "id": 4,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 5,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 6,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 10,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 12,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 13,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 14,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "name": "DELL Printer",
+            "type": "MACHINE",
+            "questionnaire_responses":[],
+            "connected_to": [7],
+            "communicates_to": [
+                {
+                    "id": 4,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 5,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 6,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 10,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 12,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 13,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 14,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "name": "Toshiba Laptop",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [7],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 8,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 9,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "name": "Linksys Wireless Router",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [3],
+            "communicates_to": [
+                {
+                    "id": 4,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "name": "Developer Laptop",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [11],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 8,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 9,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "name": "Desktop",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [11],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 8,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 9,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 15,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "name": "Samsung Phone",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [11],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ],
+            "cve":{
+                "name": "CVE-2012-0001",
+                "cvss": {
+                    "attack_vector": "Network",
+                    "attack_complexity": "High",
+                    "privileges_required": "None",
+                    "user_interaction": "None",
+                    "scope": "Changed",
+                    "confidentiality": "High",
+                    "integrity": "High",
+                    "availability": "High",
+                    "exploit_code_maturity": "Not Defined",
+                    "remediation_level": "Not Defined",
+                    "report_confidence": "Not Defined"
+                }
+            }
+        },
+        {
+            "id": 15,
+            "name": "Virtual Desktop",
+            "type": "MACHINE",
+            "questionnaire_responses":[
+                {
+                    "question_id": 1,
+                    "answer": "YES"
+                }
+            ],
+            "connected_to": [13],
+            "communicates_to": [
+                {
+                    "id": 1,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                },{
+                    "id": 13,
+                    "complexity": "Low",
+                    "privilege_needed": "None"
+                }
+            ]
+        }
+    ]
+}

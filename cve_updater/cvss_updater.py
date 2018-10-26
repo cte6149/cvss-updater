@@ -147,7 +147,7 @@ def update_cvss(network):
             cvss.modified_user_interaction = _calculate_modified_user_interaction(node)
             cvss.modified_scope = _calculate_modified_scope(node)
             cvss.modified_confidentiality = _calculate_modified_confidentiality(node)
-            cvss.modified_impact = _calculate_modified_integrity(node)
+            cvss.modified_integrity = _calculate_modified_integrity(node)
             cvss.modified_availability = _calculate_modified_availability(node)
 
             cve.cvss = cvss
