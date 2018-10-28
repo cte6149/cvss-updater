@@ -19,19 +19,19 @@ def main():
 
     while True:
         file_path = get_user_file()
-        network = cve_updater.import_network(file_path)
+        connectivity_network, communication_network = cve_updater.import_network(file_path)
 
-        if network is not None:
+        if connectivity_network is not None and communication_network is not None:
             break
 
-    network = cve_updater.update_cvss(network)
+    cves = cve_updater.update_cvss(connectivity_network, communication_network)
 
-    print(network)
-    for node in network:
-        if node.cve is not None:
-            print(json.dumps(node.cve.cvss.__dict__, indent=2))
-            print("Base Score:", node.cve.cvss.base_score)
-            print("Environmental Score:", node.cve.cvss.environmental_score)
+    for node_id, cve in cves.items():
+        print("Updated CVSS for Node: " + str(node_id))
+        print('Base Score:', cve_updater.base_score(cve['cvss']))
+        print('Environmental Score:', cve_updater.environmental_score(cve['cvss']))
+
+        print(json.dumps(communication_network.nodes[node_id], sort_keys=False, indent=2))
 
 
 if __name__ == "__main__":

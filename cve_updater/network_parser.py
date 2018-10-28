@@ -1,13 +1,13 @@
 import json
 import networkx as nx
-import cve_updater
+from cve_updater.networkx_controller import create_networks
 
 
 def import_network(file_path):
     contents = read_json(file_path)
 
     if contents != [] and valid_network(contents):
-        return create_network(contents)
+        return create_networks(contents)
 
 
 def read_json(file_path):
@@ -71,150 +71,21 @@ def node_has_cve(node):
     return "cve" in node
 
 
-def create_network(network_json):
-    nodes = generate_nodes(network_json)
-    confidentiality_ev_scores = eigenvector_centrality(nodes, "confidentiality_weight")
-    integrity_ev_scores = eigenvector_centrality(nodes, "integrity_weight")
-    availability_ev_scores = betweeness_centrality(nodes)
-
-    for node in nodes:
-        node.confidentiality_ev_score = confidentiality_ev_scores[node.id]
-        node.integrity_ev_score = integrity_ev_scores[node.id]
-        node.availability_ev_score = availability_ev_scores[node.id]
-        node.save()
-
-    return nodes
-
-
-def generate_nodes(network_json):
-    nodes = dict()
-    network_connected_to = dict()
-    network_communicates_to = dict()
-
-    for json_node in network_json["nodes"]:
-        node_id = json_node["id"]
-
-        node = cve_updater.Node()
-        node.name = json_node["name"]
-        node.type = json_node["type"].upper()
-
-        if node.type != "INTERNET":
-            node.confidentiality_weight, node.integrity_weight = determine_weights(json_node["questionnaire_responses"])
-
-        if "cve" in json_node:
-            json_cve = json_node["cve"]
-            cve = cve_updater.CVE()
-            cve.name = json_cve["name"]
-
-            json_cvss = json_cve["cvss"]
-            cvss = cve_updater.CVSS()
-            cvss.attack_vector = json_cvss["attack_vector"]
-            cvss.attack_complexity = json_cvss["attack_complexity"]
-            cvss.privileges_required = json_cvss["privileges_required"]
-            cvss.user_interaction = json_cvss["user_interaction"]
-            cvss.scope = json_cvss["scope"]
-            cvss.confidentiality = json_cvss["confidentiality"]
-            cvss.integrity = json_cvss["integrity"]
-            cvss.availability = json_cvss["availability"]
-            cvss.exploit_code_maturity = json_cvss["exploit_code_maturity"]
-            cvss.remediation_level = json_cvss["remediation_level"]
-            cvss.report_confidence = json_cvss["report_confidence"]
-
-            cvss.confidentiality_requirement = network_json["meta"]["confidentiality_requirement"]
-            cvss.integrity_requirement = network_json["meta"]["integrity_requirement"]
-            cvss.availability_requirement = network_json["meta"]["availability_requirement"]
-            cve.cvss = cvss
-            node.cve = cve
-
-        node.save()
-
-        nodes[node_id] = node
-        network_connected_to[node_id] = json_node["connected_to"]
-        network_communicates_to[node_id] = json_node["communicates_to"]
-
-    for node_id, node in nodes.items():
-        for connected_node in network_connected_to[node_id]:
-            node.connected_devices.connect(nodes[connected_node])
-
-        for communicates_to_connection in network_communicates_to[node_id]:
-            node.communicates_to.connect(nodes[communicates_to_connection["id"]], {
-                "complexity": communicates_to_connection["complexity"],
-                "privilege_needed": communicates_to_connection["privilege_needed"]
-            })
-
-    return cve_updater.Node.nodes
-
-
-def determine_weights(questionnaire_answers):
-    confidentiality_questions = [1, 2, 4, 5, 6, 7, 9]
-    integrity_questions = [1, 2, 3, 4, 6, 8]
-
-    confidentiality_weight = 1
-    integrity_weight = 1
-
-    for answer in questionnaire_answers:
-        score = 1
-        if answer["answer"].lower() == "no":
-            score = 1
-        elif answer["answer"].lower() == "maybe":
-            score = 2
-        elif answer["answer"].lower() == "yes":
-            score = 3
-
-        if answer["question_id"] in confidentiality_questions:
-            if score > confidentiality_weight:
-                confidentiality_weight = score
-        elif answer["question_id"] in integrity_questions:
-            if score > integrity_weight:
-                integrity_weight = score
-
-    return confidentiality_weight, integrity_weight
-
-
-def eigenvector_centrality(neonodes, weight):
-
-    nx_graph = nx.DiGraph()
-
-    for node in neonodes:
-        nx_graph.add_node(node.id)
-
-    for node in neonodes:
-        for neighbor in node.receives_communications_from.all():
-            edge = (neighbor.id, node.id, node.__dict__[weight])
-            nx_graph.add_weighted_edges_from([edge])
-
-    return nx.eigenvector_centrality(nx_graph, weight="weight")
-
-
-def betweeness_centrality(neonodes):
-    nx_graph = nx.Graph()
-
-    internet = None
-    for node in neonodes:
-        nx_graph.add_node(node.id)
-        if node.type == "INTERNET":
-            internet = node.id
-
-    for node in neonodes:
-        for neighbor in node.connected_devices.all():
-            edge = (neighbor.id, node.id)
-            nx_graph.add_edges_from([edge])
-
-    betweeness = nx.betweenness_centrality_source(nx_graph, sources=[internet], normalized=True)
-
-    minimum = min(betweeness.values())
-    maximum = max(betweeness.values())
-
-    values = dict()
-    for entry in betweeness.items():
-        normalized = (entry[1] - minimum) / (maximum - minimum)
-        values[entry[0]] = normalized
-
-    return values
-
-
 def main():
-    import_network("../networks/network.json")
+    connectivity, communication = import_network("./networks/network.json")
+
+    print("Connectivity:")
+    for node in connectivity.nodes:
+        print(node, "-", *connectivity.neighbors(node))
+
+    print("Communication:")
+    for node in communication.nodes:
+        for neighbor in communication.neighbors(node):
+            print(node, "-", neighbor, communication.edges[node, neighbor])
+
+    print("CVEs:")
+    for node in nx.get_node_attributes(connectivity, 'cve'):
+        print(node)
 
 
 if __name__ == "__main__":

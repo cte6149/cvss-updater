@@ -93,3 +93,112 @@ def get_modified_privilege_required_value(name, modified_scope):
         values['high'] = 0.50
 
     return values[name.lower()]
+
+
+def base_score(cvss):
+
+    base_score = 0
+    if impact_subscore(cvss) <= 0:
+        base_score = 0
+    elif cvss['scope'] == 'unchanged':
+        unrounded_base_score = min((impact_subscore(cvss) + exploitability_base(cvss)), 10)
+        base_score = math.ceil(unrounded_base_score * 10) / 10
+    else:
+        unrounded_base_score = min(1.08 * (impact_subscore(cvss) + exploitability_base(cvss)), 10)
+        base_score = math.ceil(unrounded_base_score * 10) / 10
+
+    return base_score
+
+
+def impact_subscore(cvss):
+
+    score = 0
+    if cvss['scope'] == 'unchanged':
+        score = 6.42 * impact_base(cvss)
+    else:
+        score = 7.52 * (impact_base(cvss) - 0.029) - 3.25 * math.pow((impact_base(cvss) - 0.02), 15)
+
+    return score
+
+
+def impact_base(cvss):
+
+    impact_conf = get_impact_value(cvss['confidentiality'])
+    impact_integ = get_impact_value(cvss['integrity'])
+    impact_avail = get_impact_value(cvss['availability'])
+
+    return 1 - ((1 - impact_conf) * (1 - impact_integ) * (1 - impact_avail))
+
+
+def exploitability_base(cvss):
+
+    attack_vector = get_attack_vector_value(cvss['attack_vector'])
+    attack_complexity = get_attack_complexity_value(cvss['attack_complexity'])
+    privilege_required = get_privilege_required_value(cvss['privileges_required'], cvss['scope'])
+    user_interaction = get_user_interaction_value(cvss['user_interaction'])
+
+    return 8.22 * attack_vector * attack_complexity * privilege_required * user_interaction
+
+
+def temporal_score(self):
+    return None
+
+
+def environmental_score(cvss):
+    environmental_score = 0
+
+    exploit_code_maturity = get_exploit_code_maturity_value(cvss['exploit_code_maturity'])
+    remediation_level = get_remediation_level_value(cvss['remediation_level'])
+    report_confidence = get_report_confidence_value(cvss['report_confidence'])
+
+    if modified_impact_subscore(cvss) <= 0:
+        environmental_score = 0
+    elif cvss['modified_scope'] == 'unchanged':
+        unrounded_modified_score = min((modified_impact_subscore(cvss) + modified_exploitability(cvss)), 10)
+        modified_score = math.ceil(unrounded_modified_score * 10) / 10
+
+        unrounded_environmental_score = modified_score * exploit_code_maturity * remediation_level * report_confidence
+        environmental_score = math.ceil(unrounded_environmental_score * 10) / 10
+    else:
+        unrounded_modified_score = min(1.08 * (modified_impact_subscore(cvss) + modified_exploitability(cvss)), 10)
+        modified_score = math.ceil(unrounded_modified_score * 10) / 10
+
+        unrounded_environmental_score = modified_score * exploit_code_maturity * remediation_level * report_confidence
+        environmental_score = math.ceil(unrounded_environmental_score * 10) / 10
+    return environmental_score
+
+
+def modified_impact_subscore(cvss):
+    score = 0
+    if cvss['modified_scope'] == 'unchanged':
+        score = 6.42 * modified_impact_score(cvss)
+    else:
+        score = 7.52 * (modified_impact_score(cvss)-0.029) - 3.25 * math.pow((modified_impact_score(cvss) - 0.02), 15)
+
+    return score
+
+
+def modified_impact_score(cvss):
+
+    confidentiality_requirement = get_security_requirement_value(cvss['confidentiality_requirement'])
+    integrity_requirement = get_security_requirement_value(cvss['integrity_requirement'])
+    availability_requirement = get_security_requirement_value(cvss['availability_requirement'])
+
+    modified_impact_conf = get_impact_value(cvss['modified_confidentiality'])
+    modified_impact_integ = get_impact_value(cvss['modified_integrity'])
+    modified_impact_avail = get_impact_value(cvss['modified_availability'])
+
+    return min(1 - (
+    (1 - modified_impact_conf * confidentiality_requirement) * (1 - modified_impact_integ * integrity_requirement) * (
+    1 - modified_impact_avail * availability_requirement)), 0.915)
+
+
+def modified_exploitability(cvss):
+
+    modified_attack_vector = get_attack_vector_value(cvss['modified_attack_vector'])
+    modified_attack_complexity = get_attack_complexity_value(cvss['modified_attack_complexity'])
+    modified_privilege_required = get_privilege_required_value(cvss['modified_privileges_required'], cvss['modified_scope'])
+    modified_user_interaction = get_user_interaction_value(cvss['modified_user_interaction'])
+
+    return round(
+        10000000 * 8.22 * modified_attack_vector * modified_attack_complexity * modified_privilege_required * modified_user_interaction) / 10000000
