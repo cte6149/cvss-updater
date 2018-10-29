@@ -1,5 +1,4 @@
 import networkx as nx
-import cve_updater
 
 
 def create_networks(network_json):
