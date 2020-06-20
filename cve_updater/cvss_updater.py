@@ -1,26 +1,39 @@
+from collections import defaultdict
+
 import cve_updater
 import networkx as nx
+
+from cve_updater.exceptions import MissingCveException
+from cve_updater.models import NodeType
+
+
+def get_internet_nodes(G):
+    return [node[0] for node in G.nodes(data=True) if node[1]['type'] == NodeType.INTERNET]
 
 
 def _calculate_modified_attack_vector(connectivity_network: nx.Graph, node):
 
     mav_accepted = False
-    modified_attack_vector = connectivity_network.nodes[node]['cve']['cvss']['attack_vector']
+    try:
+        modified_attack_vector = connectivity_network.nodes(data=True)[node]['cve']['cvss']['attack_vector']
+    except KeyError:
+        raise MissingCveException("Can't process node without a CVE")
 
     while not mav_accepted:
-        if modified_attack_vector.lower() == "local" or modified_attack_vector.lower == "physical":
+        if modified_attack_vector.lower() == "local" or modified_attack_vector.lower() == "physical":
             mav_accepted = True
         elif modified_attack_vector.lower() == "adjacent network":
-            if len(connectivity_network.neighbors(node)) == 0:
+            if not next(connectivity_network.neighbors(node), None):
                 modified_attack_vector = "Local"
             else:
                 mav_accepted = True
         elif modified_attack_vector.lower() == "network":
-            for internet_source in cve_updater.get_internet_nodes(connectivity_network):
+            for internet_source in get_internet_nodes(connectivity_network):
                 if nx.has_path(connectivity_network, internet_source, node):
                     mav_accepted = True
-                else:
-                    modified_attack_vector = "Adjacent Network"
+                    break
+            else:
+                modified_attack_vector = "Adjacent Network"
 
     return modified_attack_vector
 
@@ -56,16 +69,16 @@ def _path_with_no_privileges_to_internet(communication_network: nx.DiGraph, node
         if device not in visited:
             visited.add(device)
 
-            low_privileges = set()
+            no_privileges = set()
 
             for neighbor in communication_network.neighbors(device):
                 relationship = communication_network.edges[device, neighbor]
                 if relationship['privilege_needed'] == 'None':
                     if communication_network.nodes[neighbor]['type'] == 'INTERNET':
                         return True
-                    low_privileges.add(neighbor)
+                    no_privileges.add(neighbor)
 
-            queue.extend(low_privileges - visited)
+            queue.extend(no_privileges - visited)
     return False
 
 
@@ -77,16 +90,16 @@ def _path_with_low_or_no_privileges_to_internet(communication_network: nx.DiGrap
         if device not in visited:
             visited.add(device)
 
-            low_complexity_neighbors = set()
+            low_or_no_privleges_neighbors = set()
 
             for neighbor in communication_network.neighbors(device):
                 relationship = communication_network.edges[device, neighbor]
-                if relationship['privilege_needed'] in ['None', 'Low']:
+                if relationship['privilege_needed'] != 'High':
                     if neighbor.type == 'INTERNET':
                         return True
-                    low_complexity_neighbors.add(neighbor)
+                    low_or_no_privleges_neighbors.add(neighbor)
 
-            queue.extend(low_complexity_neighbors - visited)
+            queue.extend(low_or_no_privleges_neighbors - visited)
     return False
 
 
@@ -132,6 +145,9 @@ def _calculate_modified_integrity(communication_network, node):
 
 def _calculate_modified_availability(connectivity_network: nx.Graph, node):
     score = nx.betweenness_centrality(connectivity_network, normalized=True)[node]
+
+    d = defaultdict(lambda: 0, {'1': 1})
+    print(nx.percolation_centrality(connectivity_network,states=d))
 
     if score < 1/3:
         return 'None'

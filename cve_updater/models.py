@@ -1,18 +1,36 @@
-import json, math
-import neomodel
+import json, math, enum
+
 import cve_updater
 
-from enum import Enum
 
-neomodel.config.DATABASE_URL = 'bolt://neo4j:admin@localhost:7687'
+class NodeType(enum.Enum):
+    INTERNET = 'Internet'
+    MACHINE = 'Machine'
+    SERVER = 'Server'
+    SWITCH = 'Switch'
+    ROUTER = 'Router'
 
 
-class CommunicationRelationship(neomodel.StructuredRel):
-    complexity = neomodel.StringProperty()
-    privilege_needed = neomodel.StringProperty()
+class Node:
+
+    def __init__(self, node_id, name="", node_type=NodeType.MACHINE):
+        self.id = node_id
+        self.type = node_type
+        self.name = name
+
+    def __repr__(self):
+        return f"<Node: id={self.id}, type={self.type}, name='{self.name}'>"
+
+    def __str__(self):
+        return f'ID: {self.id}; {self.name}'
 
 
-class Node(neomodel.StructuredNode):
+class OldCommunicationRelationship():
+    complexity = None
+    privilege_needed = None
+
+
+class OldNode:
     TYPE = (
         ('MACHINE', 'Machine'),
         ('SERVER', 'Server'),
@@ -21,20 +39,20 @@ class Node(neomodel.StructuredNode):
         ('INTERNET', 'Internet')
     )
 
-    name = neomodel.StringProperty()
-    type = neomodel.StringProperty(choices=TYPE, default='SERVER')
-    confidentiality_weight = neomodel.FloatProperty(default=3.0)
-    integrity_weight = neomodel.FloatProperty(default=3.0)
-
-    confidentiality_ev_score = neomodel.FloatProperty()
-    integrity_ev_score = neomodel.FloatProperty()
-    availability_ev_score = neomodel.FloatProperty()
-
-    connected_devices = neomodel.Relationship("Node", "CONNECTED_TO")
-    communicates_to = neomodel.RelationshipTo("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
-    receives_communications_from = neomodel.RelationshipFrom("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
-
-    cve_ = neomodel.JSONProperty(db_property="cve", required=False)
+    # name = neomodel.StringProperty()
+    # type = neomodel.StringProperty(choices=TYPE, default='SERVER')
+    # confidentiality_weight = neomodel.FloatProperty(default=3.0)
+    # integrity_weight = neomodel.FloatProperty(default=3.0)
+    #
+    # confidentiality_ev_score = neomodel.FloatProperty()
+    # integrity_ev_score = neomodel.FloatProperty()
+    # availability_ev_score = neomodel.FloatProperty()
+    #
+    # connected_devices = neomodel.Relationship("Node", "CONNECTED_TO")
+    # communicates_to = neomodel.RelationshipTo("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
+    # receives_communications_from = neomodel.RelationshipFrom("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
+    #
+    # cve_ = neomodel.JSONProperty(db_property="cve", required=False)
 
     @property
     def cve(self):
@@ -96,11 +114,16 @@ class Node(neomodel.StructuredNode):
     #     pass
 
 class CVE:
-    name = ""
 
-    def __init__(self):
-        self.name = ""
+    def __init__(self, name):
+        self.name = name
         self._cvss = None
+
+    def __repr__(self):
+        return (f"<CVE: name='{self.name}'"
+                f", base_score='{self.cvss.base_score if self._cvss else 'N/A'}'"
+                f", environmental_score='{self.cvss.envvironmental_score if self._cvss else 'N/A'}'"
+                ">")
 
     @classmethod
     def from_dict(cls, values):
@@ -120,14 +143,14 @@ class CVE:
 class CVSS:
 
     def __init__(self):
-        self.attack_vector = 'Network'
-        self.attack_complexity = 'High'
+        self.attack_vector = 'Physical'
+        self.attack_complexity = 'Low'
         self.privileges_required = 'None'
         self.user_interaction = 'None'
-        self.scope = 'Changed'
-        self.confidentiality = 'High'
-        self.integrity = 'High'
-        self.availability = 'High'
+        self.scope = 'unchanged'
+        self.confidentiality = 'None'
+        self.integrity = 'None'
+        self.availability = 'None'
 
         self.exploit_code_maturity = 'Not Defined'
         self.remediation_level = 'Not Defined'
@@ -144,6 +167,9 @@ class CVSS:
         self.modified_confidentiality = 'None'
         self.modified_integrity = 'None'
         self.modified_availability = 'None'
+
+    def __repr__(self):
+        return f'<CVSS: base_score={self.base_score}, environmental_score={self.environmental_score}>'
 
     @property
     def base_score(self):

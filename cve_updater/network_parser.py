@@ -1,6 +1,8 @@
 import json
 import networkx as nx
-from cve_updater.networkx_controller import create_networks
+
+from .networkx_controller import create_networks
+from .exceptions import EmptyNetworkException, MissingInternetNodeException, MissingCveException
 
 
 def import_network(file_path):
@@ -25,8 +27,7 @@ def read_json(file_path):
 def valid_network(network_json):
 
     if not nodes_exist(network_json):
-        print("You must have a least 2 nodes in the network")
-        return False
+        raise EmptyNetworkException("You must have a least 2 nodes in the network")
 
     cve_exists = False
     internet_exists = False
@@ -41,12 +42,10 @@ def valid_network(network_json):
         if not cve_exists:
             cve_exists = node_has_cve(node)
 
-    if not cve_exists:
-        print("You must have at least 1 CVE in the network")
-        return False
-    elif not internet_exists:
-        print("You must have at least 1 Node of Type Internet Node")
-        return False
+    if not internet_exists:
+        raise MissingInternetNodeException("You must have at least 1 Node of Type Internet Node")
+    elif not cve_exists:
+        raise MissingCveException("You must have at least 1 CVE in the network")
 
     if meta_name_exists(network_json):
         print("Successfully loaded network: " + network_json["meta"]["name"])

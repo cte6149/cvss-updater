@@ -1,5 +1,16 @@
 import math
+import enum
 
+
+class AttackVector(enum.Enum):
+    NETWORK = 0.85
+    ADJACENT_NETWORK = 0.62
+    LOCAL = 0.55
+    PHYSICAL = 0.2
+
+    @classmethod
+    def get_value(cls, name):
+        pass
 
 def get_attack_vector_value(name):
     return {
@@ -10,6 +21,11 @@ def get_attack_vector_value(name):
     }[name.lower()]
 
 
+class Impact(enum.Enum):
+    HIGH = 0.56
+    LOW = 0.22
+    NONE = 0
+
 def get_impact_value(name):
     return {
         'high': 0.56,
@@ -18,12 +34,19 @@ def get_impact_value(name):
     }[name.lower()]
 
 
+class AttackComplexity(enum.Enum):
+    HIGH = 0.44
+    LOW = 0.77
+
 def get_attack_complexity_value(name):
     return {
         'high': 0.44,
         'low': 0.77
     }[name.lower()]
 
+
+class PrivilegeRequired(enum.Enum):
+    pass
 
 def get_privilege_required_value(name, scope):
     values = {'none': 0.85}
@@ -37,12 +60,23 @@ def get_privilege_required_value(name, scope):
     return values[name.lower()]
 
 
+class UserInteration(enum.Enum):
+    REQUIRED = 0.62
+    NONE = 0.85
+
 def get_user_interaction_value(name):
     return {
         'required': 0.62,
         'none': 0.85
     }[name.lower()]
 
+
+class ExploitCodeMaturity(enum.Enum):
+    NOT_DEFINED = 1
+    HIGH = 1
+    FUNCTIONAL = 0.97
+    PROOF_OF_CONCEPT = 0.94
+    UNPROVEN = 0.91
 
 def get_exploit_code_maturity_value(name):
     return {
@@ -54,6 +88,13 @@ def get_exploit_code_maturity_value(name):
     }[name.lower()]
 
 
+class REMEDIATION_LEVEL(enum.Enum):
+    NOT_DEFINED = 1
+    UNAVAILABLE = 1
+    WORKAROUND = 0.97
+    TEMPORARY_FIX = 0.96
+    OFFICIAL_FIX = 0.95
+
 def get_remediation_level_value(name):
     return {
         'not defined': 1,
@@ -64,6 +105,12 @@ def get_remediation_level_value(name):
     }[name.lower()]
 
 
+class ReportConfidence(enum.Enum):
+    NOT_DEFINED = 1
+    CONFIRMED = 1
+    REASONABLE = 0.96
+    UNKNOWN = 0.92
+
 def get_report_confidence_value(name):
     return {
         'not defined': 1,
@@ -72,6 +119,12 @@ def get_report_confidence_value(name):
         'unknown': 0.92
     }[name.lower()]
 
+
+class SecurityRequirement(enum.Enum):
+    NOT_DEFINED = 1
+    HIGH = 1.5
+    MEDIUM = 1
+    LOW = 0.5
 
 def get_security_requirement_value(name):
     return {
@@ -82,6 +135,8 @@ def get_security_requirement_value(name):
     }[name.lower()]
 
 
+class ModifiedPrivilegeRequired(enum.Enum):
+    pass 
 def get_modified_privilege_required_value(name, modified_scope):
     values = {'none': 0.85}
 
