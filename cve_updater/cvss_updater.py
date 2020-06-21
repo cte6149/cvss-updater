@@ -8,7 +8,7 @@ from cve_updater.models import NodeType
 
 
 def get_internet_nodes(G):
-    return [node[0] for node in G.nodes(data=True) if node[1]['type'] == NodeType.INTERNET]
+    return (node[0] for node in G.nodes(data=True) if node[1]['type'] == NodeType.INTERNET)
 
 
 def _calculate_modified_attack_vector(connectivity_network: nx.Graph, node):
@@ -119,9 +119,14 @@ def _calculate_modified_scope(network: nx.Graph, node):
     return network.nodes[node]['cve']['cvss']['scope']
 
 
+def internetless_subgraph(G):
+    internet_nodes = get_internet_nodes(G)
+    return nx.subgraph_view(G, lambda node: node not in internet_nodes)
+
+
 def _calculate_modified_confidentiality(communication_network, node):
-    subnet = list(set(communication_network) - set(cve_updater.get_internet_nodes(communication_network)))
-    score = nx.eigenvector_centrality(communication_network.subgraph(subnet), weight='confidentiality_weight')[node]
+    subnet = internetless_subgraph(communication_network)
+    score = nx.eigenvector_centrality(subnet, weight='confidentiality_weight')[node]
 
     if score < 1/3:
         return 'None'
@@ -132,8 +137,8 @@ def _calculate_modified_confidentiality(communication_network, node):
 
 
 def _calculate_modified_integrity(communication_network, node):
-    subnet = list(set(communication_network) - set(cve_updater.get_internet_nodes(communication_network)))
-    score = nx.eigenvector_centrality(communication_network.subgraph(subnet), weight='integrity_weight')[node]
+    subnet = internetless_subgraph(communication_network)
+    score = nx.eigenvector_centrality(subnet, weight='integrity_weight')[node]
 
     if score < 1/3:
         return 'None'

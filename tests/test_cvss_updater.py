@@ -4,7 +4,10 @@ import networkx as nx
 
 from cve_updater.cvss_updater import (
     _calculate_modified_attack_vector,
-    _calculate_modified_attack_complexity
+    _calculate_modified_attack_complexity,
+    _calculate_modified_user_interaction,
+    _calculate_modified_scope,
+    internetless_subgraph,
 )
 
 from cve_updater.models import NodeType
@@ -114,3 +117,41 @@ class ModifiedAttackComplexityTestCases(unittest.TestCase):
         mac = _calculate_modified_attack_complexity(self.communication_graph, 1)
 
         assert mac == 'Low'
+
+
+class ModifiedPrivilegesTestCases(unittest.TestCase):
+    pass
+
+
+class ModifiedUserInteractionTestCases(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.connectivity_graph = nx.Graph()
+        self.connectivity_graph.add_node(0, type=NodeType.MACHINE, cve={'cvss': {'user_interaction': 'None'}})
+
+    def test_user_interaction_unchanged(self):
+        assert _calculate_modified_user_interaction(self.connectivity_graph, 0) == 'None'
+
+
+class ModifiedScopeTestCases(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.connectivity_graph = nx.Graph()
+        self.connectivity_graph.add_node(0, type=NodeType.MACHINE, cve={'cvss': {'scope': 'Unchanged'}})
+
+    def test_user_interaction_unchanged(self):
+        assert _calculate_modified_scope(self.connectivity_graph, 0) == 'Unchanged'
+
+
+def test_retrieve_subgraph_with_no_internet_nodes():
+    G = nx.Graph()
+    G.add_node(0, type=NodeType.INTERNET)
+    G.add_node(1, type=NodeType.MACHINE)
+    G.add_node(2, type=NodeType.MACHINE)
+    G.add_node(3, type=NodeType.MACHINE)
+    G.add_node(4, type=NodeType.MACHINE)
+
+    subgraph = internetless_subgraph(G)
+
+    assert 0 not in subgraph
+    assert all(node in G for node in subgraph)
