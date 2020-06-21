@@ -5,7 +5,8 @@ import networkx as nx
 
 from cve_updater.exceptions import MissingCveException
 from cve_updater.models import NodeType
-from cve_updater.cvss_calculator import AttackVector
+from cve_updater.cvss_calculator import AttackVector, AttackComplexity
+
 
 def get_internet_nodes(G):
     return (node[0] for node in G.nodes(data=True) if node[1]['type'] == NodeType.INTERNET)
@@ -52,13 +53,13 @@ def _calculate_modified_attack_complexity(communication_network: nx.DiGraph, nod
 
             for neighbor in communication_network.neighbors(device):
                 relationship = communication_network.edges[device, neighbor]
-                if relationship['complexity'] == 'Low':
+                if relationship['complexity'] == AttackComplexity.LOW:
                     if communication_network.nodes[neighbor]['type'] == NodeType.INTERNET:
-                        return 'Low'
+                        return AttackComplexity.LOW
                     low_complexity_neighbors.add(neighbor)
 
             queue.extend(low_complexity_neighbors - visited)
-    return 'High'
+    return AttackComplexity.HIGH
 
 
 def _path_with_no_privileges_to_internet(communication_network: nx.DiGraph, node):
