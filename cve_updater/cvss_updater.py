@@ -5,7 +5,7 @@ import networkx as nx
 
 from cve_updater.exceptions import MissingCveException
 from cve_updater.models import NodeType
-
+from cve_updater.cvss_calculator import AttackVector
 
 def get_internet_nodes(G):
     return (node[0] for node in G.nodes(data=True) if node[1]['type'] == NodeType.INTERNET)
@@ -20,20 +20,20 @@ def _calculate_modified_attack_vector(connectivity_network: nx.Graph, node):
         raise MissingCveException("Can't process node without a CVE")
 
     while not mav_accepted:
-        if modified_attack_vector.lower() == "local" or modified_attack_vector.lower() == "physical":
+        if modified_attack_vector == AttackVector.LOCAL or modified_attack_vector == AttackVector.PHYSICAL:
             mav_accepted = True
-        elif modified_attack_vector.lower() == "adjacent network":
+        elif modified_attack_vector == AttackVector.ADJACENT_NETWORK:
             if not next(connectivity_network.neighbors(node), None):
-                modified_attack_vector = "Local"
+                modified_attack_vector = AttackVector.LOCAL
             else:
                 mav_accepted = True
-        elif modified_attack_vector.lower() == "network":
+        elif modified_attack_vector == AttackVector.NETWORK:
             for internet_source in get_internet_nodes(connectivity_network):
                 if nx.has_path(connectivity_network, internet_source, node):
                     mav_accepted = True
                     break
             else:
-                modified_attack_vector = "Adjacent Network"
+                modified_attack_vector = AttackVector.ADJACENT_NETWORK
 
     return modified_attack_vector
 
