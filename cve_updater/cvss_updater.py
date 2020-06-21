@@ -53,7 +53,7 @@ def _calculate_modified_attack_complexity(communication_network: nx.DiGraph, nod
             for neighbor in communication_network.neighbors(device):
                 relationship = communication_network.edges[device, neighbor]
                 if relationship['complexity'] == 'Low':
-                    if communication_network.nodes[neighbor]['type'] == 'INTERNET':
+                    if communication_network.nodes[neighbor]['type'] == NodeType.INTERNET:
                         return 'Low'
                     low_complexity_neighbors.add(neighbor)
 

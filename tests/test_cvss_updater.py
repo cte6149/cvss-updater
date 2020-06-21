@@ -2,8 +2,12 @@ import unittest
 
 import networkx as nx
 
-from cve_updater.cvss_updater import _calculate_modified_attack_vector
-from cve_updater.models import Node, NodeType
+from cve_updater.cvss_updater import (
+    _calculate_modified_attack_vector,
+    _calculate_modified_attack_complexity
+)
+
+from cve_updater.models import NodeType
 from cve_updater.exceptions import MissingCveException
 
 
@@ -66,3 +70,47 @@ class ModifiedAttackVectorTestCases(unittest.TestCase):
         self.connectivity_graph.remove_edge(0, 1)
         mav = _calculate_modified_attack_vector(self.connectivity_graph, 2)
         assert mav == 'Adjacent Network'
+
+
+class ModifiedAttackComplexityTestCases(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.communication_graph = nx.DiGraph()
+        self.communication_graph.add_node(0, type=NodeType.INTERNET)
+        self.communication_graph.add_node(1, type=NodeType.MACHINE, cve={'cvss': {}})
+
+    def test_node_not_attached_to_internet_high_complexity(self):
+        mac = _calculate_modified_attack_complexity(self.communication_graph, 1)
+        assert mac == 'High'
+
+    def test_node_attached_to_internet_with_high_complexity(self):
+        self.communication_graph.add_edge(1, 0, complexity='High')
+        mac = _calculate_modified_attack_complexity(self.communication_graph, 1)
+
+        assert mac == 'High'
+
+    def test_node_attached_to_internet_with_low_complexity(self):
+        self.communication_graph.add_edge(1, 0, complexity='Low')
+        mac = _calculate_modified_attack_complexity(self.communication_graph, 1)
+
+        assert mac == 'Low'
+
+    def test_node_multiple_paths_to_internet_with_high_complexity(self):
+        self.communication_graph.add_node(2, type=NodeType.MACHINE)
+        self.communication_graph.add_edge(1, 0, complexity='High')
+        self.communication_graph.add_edge(2, 0, complexity='High')
+        self.communication_graph.add_edge(1, 2, complexity='High')
+
+        mac = _calculate_modified_attack_complexity(self.communication_graph, 1)
+
+        assert mac == 'High'
+
+    def test_node_multiple_paths_to_internet_with_low_complexity_longest_path(self):
+        self.communication_graph.add_node(2, type=NodeType.MACHINE)
+        self.communication_graph.add_edge(1, 0, complexity='High')
+        self.communication_graph.add_edge(2, 0, complexity='Low')
+        self.communication_graph.add_edge(1, 2, complexity='Low')
+
+        mac = _calculate_modified_attack_complexity(self.communication_graph, 1)
+
+        assert mac == 'Low'
