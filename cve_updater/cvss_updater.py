@@ -75,7 +75,7 @@ def _path_with_no_privileges_to_internet(communication_network: nx.DiGraph, node
             for neighbor in communication_network.neighbors(device):
                 relationship = communication_network.edges[device, neighbor]
                 if relationship['privilege_needed'] == 'None':
-                    if communication_network.nodes[neighbor]['type'] == 'INTERNET':
+                    if communication_network.nodes[neighbor]['type'] == NodeType.INTERNET:
                         return True
                     no_privileges.add(neighbor)
 
@@ -96,7 +96,7 @@ def _path_with_low_or_no_privileges_to_internet(communication_network: nx.DiGrap
             for neighbor in communication_network.neighbors(device):
                 relationship = communication_network.edges[device, neighbor]
                 if relationship['privilege_needed'] != 'High':
-                    if neighbor.type == 'INTERNET':
+                    if communication_network.nodes[neighbor]['type'] == NodeType.INTERNET:
                         return True
                     low_or_no_privleges_neighbors.add(neighbor)
 
