@@ -10,9 +10,11 @@ from cve_updater.cvss_updater import (
     _calculate_modified_privileges_required,
     _calculate_modified_user_interaction,
     _calculate_modified_scope,
+    _calculate_modified_confidentiality,
+    _calculate_modified_integrity,
     internetless_subgraph,
     _path_with_no_privileges_to_internet,
-    _path_with_low_or_no_privileges_to_internet
+    _path_with_low_or_no_privileges_to_internet,
 )
 from cve_updater.models import NodeType
 from cve_updater.exceptions import MissingCveException
@@ -255,6 +257,66 @@ class ModifiedScopeTestCases(unittest.TestCase):
 
     def test_user_interaction_unchanged(self):
         assert _calculate_modified_scope(self.connectivity_graph, 'A') == 'Unchanged'
+
+
+class ModifiedConfidentialityTestCases(unittest.TestCase):
+
+    def test_return_none_if_eigenvector_lt_one_third(self):
+        G = nx.Graph()
+        G.add_node('A', type=NodeType.MACHINE)
+
+        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+            mock_eigenvector.return_value = {'A': 0}
+            assert _calculate_modified_confidentiality(G, 'A') == 'None'
+            assert mock_eigenvector.called
+
+    def test_return_none_if_eigenvector_gte_one_third_lt_two_third(self):
+        G = nx.Graph()
+        G.add_node('A', type=NodeType.MACHINE)
+
+        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+            mock_eigenvector.return_value = {'A': 1/3}
+            assert _calculate_modified_confidentiality(G, 'A') == 'Low'
+            assert mock_eigenvector.called
+
+    def test_return_none_if_eigenvector_gte_two_third(self):
+        G = nx.Graph()
+        G.add_node('A', type=NodeType.MACHINE)
+
+        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+            mock_eigenvector.return_value = {'A': 2/3}
+            assert _calculate_modified_confidentiality(G, 'A') == 'High'
+            assert mock_eigenvector.called
+
+
+class ModifiedIntegrityTestCases(unittest.TestCase):
+
+    def test_return_none_if_eigenvector_lt_one_third(self):
+        G = nx.Graph()
+        G.add_node('A', type=NodeType.MACHINE)
+
+        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+            mock_eigenvector.return_value = {'A': 0}
+            assert _calculate_modified_integrity(G, 'A') == 'None'
+            assert mock_eigenvector.called
+
+    def test_return_none_if_eigenvector_gte_one_third_lt_two_third(self):
+        G = nx.Graph()
+        G.add_node('A', type=NodeType.MACHINE)
+
+        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+            mock_eigenvector.return_value = {'A': 1/3}
+            assert _calculate_modified_integrity(G, 'A') == 'Low'
+            assert mock_eigenvector.called
+
+    def test_return_none_if_eigenvector_gte_two_third(self):
+        G = nx.Graph()
+        G.add_node('A', type=NodeType.MACHINE)
+
+        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+            mock_eigenvector.return_value = {'A': 2/3}
+            assert _calculate_modified_integrity(G, 'A') == 'High'
+            assert mock_eigenvector.called
 
 
 def test_retrieve_subgraph_with_no_internet_nodes():
