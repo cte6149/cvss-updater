@@ -1,5 +1,7 @@
 import json, math, enum
 
+from collections import abc
+
 import cve_updater
 
 
@@ -115,9 +117,9 @@ class OldNode:
 
 class CVE:
 
-    def __init__(self, name):
+    def __init__(self, name, cvss=None):
         self.name = name
-        self._cvss = None
+        self._cvss = cvss
 
     def __repr__(self):
         return (f"<CVE: name='{self.name}'"
@@ -133,28 +135,28 @@ class CVE:
 
     @property
     def cvss(self):
-        return CVSS.from_dict(self._cvss) if self._cvss else None
+        return self._cvss
 
     @cvss.setter
     def cvss(self, cvss):
-        self._cvss = cvss.__dict__
+        self._cvss = cvss
 
 
 class CVSS:
 
-    def __init__(self):
-        self.attack_vector = 'Physical'
-        self.attack_complexity = 'Low'
-        self.privileges_required = 'None'
-        self.user_interaction = 'None'
-        self.scope = 'unchanged'
-        self.confidentiality = 'None'
-        self.integrity = 'None'
-        self.availability = 'None'
+    def __init__(self, *args, **kwargs):
+        self.attack_vector = kwargs.get('attack_vector', 'Physical')
+        self.attack_complexity = kwargs.get('attack_complexity', 'Low')
+        self.privileges_required = kwargs.get('privileges_required', 'None')
+        self.user_interaction = kwargs.get('user_interaction', 'None')
+        self.scope = kwargs.get('scope', 'unchanged')
+        self.confidentiality = kwargs.get('confidentiality', 'None')
+        self.integrity = kwargs.get('integrity', 'None')
+        self.availability = kwargs.get('availability', 'None')
 
-        self.exploit_code_maturity = 'Not Defined'
-        self.remediation_level = 'Not Defined'
-        self.report_confidence = 'Not Defined'
+        self.exploit_code_maturity = kwargs.get('exploit_code_maturity', 'Not Defined')
+        self.remediation_level = kwargs.get('remediation_level', 'Not Defined')
+        self.report_confidence = kwargs.get('report_confidence', 'Not Defined')
 
         self.modified_attack_vector = 'None'
         self.modified_attack_complexity = 'None'
@@ -286,3 +288,43 @@ class CVSS:
         for key, value in values.items():
             setattr(cvss, key, value)
         return cvss
+
+
+class Answer(enum.Enum):
+    NO = 1
+    MAYBE = 2
+    YES = 3
+
+
+class Questionnaire(abc.MutableMapping):
+
+    CONFIDENTIALITY_QUESTIONS = [1, 2, 4, 5, 6, 7, 9]
+    INTEGRITY_QUESTIONS = [1, 2, 3, 4, 6, 8]
+
+    def __init__(self, answers=()):
+        self.answers = {
+            1: Answer.NO,
+            2: Answer.NO,
+            3: Answer.NO,
+            4: Answer.NO,
+            5: Answer.NO,
+            6: Answer.NO,
+            7: Answer.NO,
+            8: Answer.NO,
+        }
+        self.answers.update(answers)
+
+    def __setitem__(self, k, v):
+        self.answers[k] = v
+
+    def __delitem__(self, v):
+        del self.answers[v]
+
+    def __getitem__(self, k):
+        return self.answers[k]
+
+    def __len__(self):
+        return len(self.answers)
+
+    def __iter__(self):
+        return iter(self.answers)

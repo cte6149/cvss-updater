@@ -2,7 +2,7 @@ import unittest
 
 from unittest import mock
 
-from cve_updater.models import Node, NodeType, CVE, CVSS
+from cve_updater.models import Node, NodeType, CVE, CVSS, Questionnaire, Answer
 
 
 class NodeTestCase(unittest.TestCase):
@@ -120,3 +120,24 @@ class CvssTestCase(unittest.TestCase):
             self.cvss.availability = case[2]
 
             assert round(self.cvss.impact_base, 2) == case[3]
+
+
+class QuestionnaireTestCases(unittest.TestCase):
+
+    def test_creation_with_no_data_yields_no_answers(self):
+
+        questionnaire = Questionnaire()
+
+        assert all(answer == Answer.NO for answer in questionnaire.answers)
+
+    def test_creation_with_answers_updates_default_questionnaire_results(self):
+
+        questionnaire = Questionnaire(answers={1: Answer.YES})
+
+        assert any(answer == Answer.YES for _, answer in questionnaire.answers)
+
+    def test_questionnaire_defines_get_item(self):
+
+        questionnaire = Questionnaire()
+
+        assert questionnaire[1] == Answer.NO

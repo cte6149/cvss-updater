@@ -71,7 +71,7 @@ def node_has_cve(node):
 
 
 def main():
-    connectivity, communication = import_network("./networks/network.json")
+    connectivity, communication = import_network("../networks/network.json")
 
     print("Connectivity:")
     for node in connectivity.nodes:
