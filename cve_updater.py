@@ -1,31 +1,42 @@
+import argparse
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
+import sys
 
-from cve_updater import import_network, update_cvss, base_score, environmental_score
+from util.cvss_calculator import base_score, environmental_score
+from util.cvss_updater import update_cvss
+from util.network_parser import import_network
 
 
-def get_user_file():
+class JsonFileType(argparse.FileType):
+    def __call__(self, filename):
+        if not filename.endswith('.json'):
+            raise argparse.ArgumentTypeError(
+                'Not a JSON file'
+            )
+        return super().__call__(filename)
 
-    while True:
-        print("Supported File Types: .json")
-        file_path = input("Input network file to load: ")
-        formatted_path = file_path.split(".")
 
-        if len(formatted_path) == 2 and formatted_path[1] == "json":
-            return file_path
-        else:
-            print("Unsupported File Type!\n")
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('file_name', type=JsonFileType('r'))
+
+    parsed_args = parser.parse_args(args)
+
+    return parsed_args
 
 
 def main():
 
-    while True:
-        file_path = get_user_file()
-        connectivity_network, communication_network = import_network(file_path)
+    args = parse_args(sys.argv[1:])
 
-        if connectivity_network is not None and communication_network is not None:
-            break
+    file = args.file_name
+
+    connectivity_network, communication_network = import_network(file)
+
+    if connectivity_network is None and communication_network is None:
+        return
 
     cves = update_cvss(connectivity_network, communication_network)
 

@@ -1,6 +1,6 @@
 import networkx as nx
 
-from cve_updater.models import Questionnaire, Answer, CVE, CVSS
+from util.models import Questionnaire, Answer, CVE, CVSS
 
 
 def parse_network(network_data):

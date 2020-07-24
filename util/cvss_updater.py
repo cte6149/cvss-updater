@@ -1,11 +1,10 @@
 from collections import defaultdict
 
-import cve_updater
 import networkx as nx
 
-from cve_updater.exceptions import MissingCveException
-from cve_updater.models import NodeType
-from cve_updater.cvss_calculator import AttackVector, AttackComplexity
+from .exceptions import MissingCveException
+from .models import NodeType
+from .cvss_calculator import AttackVector, AttackComplexity
 
 
 def get_internet_nodes(G):

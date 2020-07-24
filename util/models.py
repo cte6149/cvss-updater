@@ -1,8 +1,7 @@
 import json, math, enum
+import util
 
 from collections import abc
-
-import cve_updater
 
 
 class NodeType(enum.Enum):
@@ -202,19 +201,19 @@ class CVSS:
     @property
     def impact_base(self):
 
-        impact_conf = cve_updater.get_impact_value(self.confidentiality)
-        impact_integ = cve_updater.get_impact_value(self.integrity)
-        impact_avail = cve_updater.get_impact_value(self.availability)
+        impact_conf = util.get_impact_value(self.confidentiality)
+        impact_integ = util.get_impact_value(self.integrity)
+        impact_avail = util.get_impact_value(self.availability)
 
         return 1 - ((1 - impact_conf) * (1 - impact_integ) * (1 - impact_avail))
 
     @property
     def exploitability_base(self):
 
-        attack_vector = cve_updater.get_attack_vector_value(self.attack_vector)
-        attack_complexity = cve_updater.get_attack_complexity_value(self.attack_complexity)
-        privilege_required = cve_updater.get_privilege_required_value(self.privileges_required, self.scope)
-        user_interaction = cve_updater.get_user_interaction_value(self.user_interaction)
+        attack_vector = util.get_attack_vector_value(self.attack_vector)
+        attack_complexity = util.get_attack_complexity_value(self.attack_complexity)
+        privilege_required = util.get_privilege_required_value(self.privileges_required, self.scope)
+        user_interaction = util.get_user_interaction_value(self.user_interaction)
 
         return 8.22 * attack_vector * attack_complexity * privilege_required * user_interaction
 
@@ -226,9 +225,9 @@ class CVSS:
     def environmental_score(self):
         environmental_score = 0
 
-        exploit_code_maturity = cve_updater.get_exploit_code_maturity_value(self.exploit_code_maturity)
-        remediation_level = cve_updater.get_remediation_level_value(self.remediation_level)
-        report_confidence = cve_updater.get_report_confidence_value(self.report_confidence)
+        exploit_code_maturity = util.get_exploit_code_maturity_value(self.exploit_code_maturity)
+        remediation_level = util.get_remediation_level_value(self.remediation_level)
+        report_confidence = util.get_report_confidence_value(self.report_confidence)
 
         if self.modified_impact_subscore <= 0:
             environmental_score = 0
@@ -259,13 +258,13 @@ class CVSS:
     @property
     def modified_impact_score(self):
 
-        confidentiality_requirement = cve_updater.get_security_requirement_value(self.confidentiality_requirement)
-        integrity_requirement = cve_updater.get_security_requirement_value(self.integrity_requirement)
-        availability_requirement = cve_updater.get_security_requirement_value(self.availability_requirement)
+        confidentiality_requirement = util.get_security_requirement_value(self.confidentiality_requirement)
+        integrity_requirement = util.get_security_requirement_value(self.integrity_requirement)
+        availability_requirement = util.get_security_requirement_value(self.availability_requirement)
 
-        modified_impact_conf = cve_updater.get_impact_value(self.modified_confidentiality)
-        modified_impact_integ = cve_updater.get_impact_value(self.modified_integrity)
-        modified_impact_avail = cve_updater.get_impact_value(self.modified_availability)
+        modified_impact_conf = util.get_impact_value(self.modified_confidentiality)
+        modified_impact_integ = util.get_impact_value(self.modified_integrity)
+        modified_impact_avail = util.get_impact_value(self.modified_availability)
 
         return min(1 - (
         (1 - modified_impact_conf * confidentiality_requirement) * (1 - modified_impact_integ * integrity_requirement) * (
@@ -274,10 +273,10 @@ class CVSS:
     @property
     def modified_exploitability(self):
 
-        modified_attack_vector = cve_updater.get_attack_vector_value(self.modified_attack_vector)
-        modified_attack_complexity = cve_updater.get_attack_complexity_value(self.modified_attack_complexity)
-        modified_privilege_required = cve_updater.get_privilege_required_value(self.modified_privileges_required, self.modified_scope)
-        modified_user_interaction = cve_updater.get_user_interaction_value(self.modified_user_interaction)
+        modified_attack_vector = util.get_attack_vector_value(self.modified_attack_vector)
+        modified_attack_complexity = util.get_attack_complexity_value(self.modified_attack_complexity)
+        modified_privilege_required = util.get_privilege_required_value(self.modified_privileges_required, self.modified_scope)
+        modified_user_interaction = util.get_user_interaction_value(self.modified_user_interaction)
 
         return round(
             10000000 * 8.22 * modified_attack_vector * modified_attack_complexity * modified_privilege_required * modified_user_interaction) / 10000000
@@ -327,4 +326,4 @@ class Questionnaire(abc.MutableMapping):
         return len(self.answers)
 
     def __iter__(self):
-        return iter(self.answers)
+        return iter(self.answers.items())

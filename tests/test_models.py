@@ -2,7 +2,7 @@ import unittest
 
 from unittest import mock
 
-from cve_updater.models import Node, NodeType, CVE, CVSS, Questionnaire, Answer
+from util.models import Node, NodeType, CVE, CVSS, Questionnaire, Answer
 
 
 class NodeTestCase(unittest.TestCase):
@@ -51,7 +51,7 @@ class CvssTestCase(unittest.TestCase):
         assert repr(self.cvss) == expected
 
     def test_base_score_returns_zero_if_subscore_less_than_zero(self):
-        with mock.patch('cve_updater.models.CVSS.impact_subscore',
+        with mock.patch('util.models.CVSS.impact_subscore',
                         new_callable=mock.PropertyMock) as mock_impact_subscore:
 
             mock_impact_subscore.return_value = 0
@@ -59,7 +59,7 @@ class CvssTestCase(unittest.TestCase):
             mock_impact_subscore.assert_called_once()
 
     def test_base_score_uses_calculation_when_impact_subscore_gt_zero_and_scope_unchanged(self):
-        with mock.patch('cve_updater.models.CVSS.impact_subscore',
+        with mock.patch('util.models.CVSS.impact_subscore',
                         new_callable=mock.PropertyMock) as mock_impact_subscore:
 
             mock_impact_subscore.return_value = 1
@@ -69,7 +69,7 @@ class CvssTestCase(unittest.TestCase):
             assert mock_impact_subscore.call_count == 2
 
     def test_base_score_uses_calculation_when_impact_subscore_gt_zero_and_scope_changed(self):
-        with mock.patch('cve_updater.models.CVSS.impact_subscore',
+        with mock.patch('util.models.CVSS.impact_subscore',
                         new_callable=mock.PropertyMock) as mock_impact_subscore:
 
             mock_impact_subscore.return_value = 1
@@ -79,7 +79,7 @@ class CvssTestCase(unittest.TestCase):
             assert mock_impact_subscore.call_count == 2
 
     def test_impact_subscore_uses_calculation_when_scope_unchanged(self):
-        with mock.patch('cve_updater.models.CVSS.impact_base',
+        with mock.patch('util.models.CVSS.impact_base',
                         new_callable=mock.PropertyMock) as mock_impact_base:
 
             mock_impact_base.return_value = 1
@@ -88,7 +88,7 @@ class CvssTestCase(unittest.TestCase):
             mock_impact_base.assert_called_once()
 
     def test_impact_subscore_uses_calculation_when_scope_changed(self):
-        with mock.patch('cve_updater.models.CVSS.impact_base',
+        with mock.patch('util.models.CVSS.impact_base',
                         new_callable=mock.PropertyMock) as mock_impact_base:
 
             mock_impact_base.return_value = 1
@@ -124,17 +124,17 @@ class CvssTestCase(unittest.TestCase):
 
 class QuestionnaireTestCases(unittest.TestCase):
 
-    def test_creation_with_no_data_yields_no_answers(self):
+    def test_creation_with_no_data_yields_NO_answers(self):
 
         questionnaire = Questionnaire()
 
-        assert all(answer == Answer.NO for answer in questionnaire.answers)
+        assert all(answer == Answer.NO for answer in questionnaire.answers.values())
 
     def test_creation_with_answers_updates_default_questionnaire_results(self):
 
         questionnaire = Questionnaire(answers={1: Answer.YES})
 
-        assert any(answer == Answer.YES for _, answer in questionnaire.answers)
+        assert any(answer == Answer.YES for answer in questionnaire.answers.values())
 
     def test_questionnaire_defines_get_item(self):
 

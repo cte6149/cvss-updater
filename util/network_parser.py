@@ -5,23 +5,11 @@ from .networkx_controller import create_networks
 from .exceptions import EmptyNetworkException, MissingInternetNodeException, MissingCveException
 
 
-def import_network(file_path):
-    contents = read_json(file_path)
+def import_network(f):
+    contents = json.load(f)
 
     if contents != [] and valid_network(contents):
         return create_networks(contents)
-
-
-def read_json(file_path):
-    file_contents = dict()
-
-    try:
-        with open(file_path) as f:
-            file_contents = json.load(f)
-    except FileNotFoundError as e:
-        print("File " + e.filename + " Not Found!")
-
-    return file_contents
 
 
 def valid_network(network_json):

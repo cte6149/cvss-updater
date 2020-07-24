@@ -2,8 +2,8 @@ import unittest
 
 import networkx as nx
 
-from cve_updater.network_parsers.json_parser import parse_network, _parse_questionnaire, _parse_cve, _parse_cvss
-from cve_updater.models import Questionnaire, Answer, CVE, CVSS
+from util.network_parsers.json_parser import parse_network, _parse_questionnaire, _parse_cve, _parse_cvss
+from util.models import Questionnaire, Answer, CVE, CVSS
 
 
 class JsonParserTestCases(unittest.TestCase):

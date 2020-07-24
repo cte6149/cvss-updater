@@ -1,7 +1,7 @@
 import unittest
 
-from cve_updater.network_parser import valid_network
-from cve_updater import exceptions
+from util.network_parser import valid_network
+from util import exceptions
 
 
 class NetworkValidatorTestCase(unittest.TestCase):

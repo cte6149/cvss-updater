@@ -4,7 +4,7 @@ import networkx as nx
 
 from unittest import mock
 
-from cve_updater.cvss_updater import (
+from util.cvss_updater import (
     _calculate_modified_attack_vector,
     _calculate_modified_attack_complexity,
     _calculate_modified_privileges_required,
@@ -16,9 +16,9 @@ from cve_updater.cvss_updater import (
     _path_with_no_privileges_to_internet,
     _path_with_low_or_no_privileges_to_internet,
 )
-from cve_updater.models import NodeType
-from cve_updater.exceptions import MissingCveException
-from cve_updater.cvss_calculator import AttackVector, AttackComplexity
+from util.models import NodeType
+from util.exceptions import MissingCveException
+from util.cvss_calculator import AttackVector, AttackComplexity
 
 
 class ModifiedAttackVectorTestCases(unittest.TestCase):
@@ -135,20 +135,20 @@ class ModifiedPrivilegesTestCases(unittest.TestCase):
         self.communication_graph.add_node('C', type=NodeType.MACHINE, cve={'cvss': {}})
 
     def test_path_to_internet_with_none_privileges_returns_none(self):
-        with mock.patch('cve_updater.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test:
+        with mock.patch('util.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test:
             mock_no_priv_test.return_value = True
             assert _calculate_modified_privileges_required(self.communication_graph, 'C') == 'None'
 
     def test_path_to_internet_with_low_or_none_privileges_returns_low(self):
-        with mock.patch('cve_updater.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test, \
-                mock.patch('cve_updater.cvss_updater._path_with_low_or_no_privileges_to_internet') as mock_no_low_priv_test:
+        with mock.patch('util.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test, \
+                mock.patch('util.cvss_updater._path_with_low_or_no_privileges_to_internet') as mock_no_low_priv_test:
             mock_no_priv_test.return_value = False
             mock_no_low_priv_test.return_value = True
             assert _calculate_modified_privileges_required(self.communication_graph, 'C') == 'Low'
 
     def test_no_path_to_internet_with_none_or_low_privileges_returns_high(self):
-        with mock.patch('cve_updater.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test, \
-                mock.patch('cve_updater.cvss_updater._path_with_low_or_no_privileges_to_internet') as mock_no_low_priv_test:
+        with mock.patch('util.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test, \
+                mock.patch('util.cvss_updater._path_with_low_or_no_privileges_to_internet') as mock_no_low_priv_test:
             mock_no_priv_test.return_value = False
             mock_no_low_priv_test.return_value = False
             assert _calculate_modified_privileges_required(self.communication_graph, 'C') == 'High'
@@ -265,7 +265,7 @@ class ModifiedConfidentialityTestCases(unittest.TestCase):
         G = nx.Graph()
         G.add_node('A', type=NodeType.MACHINE)
 
-        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+        with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 0}
             assert _calculate_modified_confidentiality(G, 'A') == 'None'
             assert mock_eigenvector.called
@@ -274,7 +274,7 @@ class ModifiedConfidentialityTestCases(unittest.TestCase):
         G = nx.Graph()
         G.add_node('A', type=NodeType.MACHINE)
 
-        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+        with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 1/3}
             assert _calculate_modified_confidentiality(G, 'A') == 'Low'
             assert mock_eigenvector.called
@@ -283,7 +283,7 @@ class ModifiedConfidentialityTestCases(unittest.TestCase):
         G = nx.Graph()
         G.add_node('A', type=NodeType.MACHINE)
 
-        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+        with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 2/3}
             assert _calculate_modified_confidentiality(G, 'A') == 'High'
             assert mock_eigenvector.called
@@ -295,7 +295,7 @@ class ModifiedIntegrityTestCases(unittest.TestCase):
         G = nx.Graph()
         G.add_node('A', type=NodeType.MACHINE)
 
-        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+        with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 0}
             assert _calculate_modified_integrity(G, 'A') == 'None'
             assert mock_eigenvector.called
@@ -304,7 +304,7 @@ class ModifiedIntegrityTestCases(unittest.TestCase):
         G = nx.Graph()
         G.add_node('A', type=NodeType.MACHINE)
 
-        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+        with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 1/3}
             assert _calculate_modified_integrity(G, 'A') == 'Low'
             assert mock_eigenvector.called
@@ -313,7 +313,7 @@ class ModifiedIntegrityTestCases(unittest.TestCase):
         G = nx.Graph()
         G.add_node('A', type=NodeType.MACHINE)
 
-        with mock.patch('cve_updater.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
+        with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 2/3}
             assert _calculate_modified_integrity(G, 'A') == 'High'
             assert mock_eigenvector.called
