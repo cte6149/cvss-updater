@@ -4,7 +4,6 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import sys
 
-from util.cvss_calculator import base_score, environmental_score
 from util.cvss_updater import update_cvss
 from util.network_parser import import_network
 
@@ -41,11 +40,11 @@ def main():
     cves = update_cvss(connectivity_network, communication_network)
 
     for node_id, cve in cves.items():
-        print("Updated CVSS for Node: " + str(node_id))
-        print('Base Score:', base_score(cve['cvss']))
-        print('Environmental Score:', environmental_score(cve['cvss']))
+       print("Updated CVSS for Node: " + str(node_id))
+       print('Base Score:', cve.cvss.base_score)
+       print('Environmental Score:', cve.cvss.environmental_score)
 
-        print(json.dumps(communication_network.nodes[node_id], sort_keys=False, indent=2))
+       print(json.dumps(communication_network.nodes[node_id], sort_keys=False, indent=2))
 
     color_map = ['blue'] * len(connectivity_network)
     for node in nx.get_node_attributes(connectivity_network, 'cve'):

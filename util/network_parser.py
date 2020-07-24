@@ -1,7 +1,7 @@
 import json
 import networkx as nx
 
-from .networkx_controller import create_networks
+from .network_parsers import json_parser
 from .exceptions import EmptyNetworkException, MissingInternetNodeException, MissingCveException
 
 
@@ -9,7 +9,7 @@ def import_network(f):
     contents = json.load(f)
 
     if contents != [] and valid_network(contents):
-        return create_networks(contents)
+        return json_parser.parse_network(contents)
 
 
 def valid_network(network_json):

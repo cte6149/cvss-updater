@@ -2,8 +2,15 @@ import unittest
 
 import networkx as nx
 
-from util.network_parsers.json_parser import parse_network, _parse_questionnaire, _parse_cve, _parse_cvss
+from util.network_parsers.json_parser import (
+    parse_network,
+    _parse_questionnaire,
+    _parse_cve,
+    _parse_cvss,
+    _parse_communication_node
+)
 from util.models import Questionnaire, Answer, CVE, CVSS
+from util.cvss_calculator import AttackComplexity, PrivilegeRequired
 
 
 class JsonParserTestCases(unittest.TestCase):
@@ -132,3 +139,35 @@ class CvssPaserTestCases(unittest.TestCase):
         cvss = _parse_cvss({})
 
         assert isinstance(cvss, CVSS)
+
+
+class CommunicationNodeParserTestCases(unittest.TestCase):
+
+    def test_parsing_empty_details_returns_defaults(self):
+        data = {
+            'id': 1,
+        }
+
+        metadata = _parse_communication_node(data)
+
+        expected_data = {
+            'v_of_edge': 1,
+            'complexity': AttackComplexity.LOW,
+            'privilege_needed': "None",
+        }
+        assert metadata == expected_data
+
+    def test_parsing_complexity_metadata_yields_attack_complexity_enum(self):
+        data = {
+            'id': 1,
+            'complexity': 'High'
+        }
+
+        metadata = _parse_communication_node(data)
+
+        expected_data = {
+            'v_of_edge': 1,
+            'complexity': AttackComplexity.HIGH,
+            'privilege_needed': "None",
+        }
+        assert metadata == expected_data

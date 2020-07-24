@@ -1,6 +1,7 @@
 import networkx as nx
 
 from util.models import Questionnaire, Answer, CVE, CVSS
+from util.cvss_calculator import AttackComplexity
 
 
 def parse_network(network_data):
@@ -19,12 +20,22 @@ def parse_network(network_data):
 
         communication_edges = node.pop('communicates_to', [])
         for communication_node in communication_edges:
-            communication_graph.add_edge(node_id, communication_node.pop('id'), **communication_node)
+            parsed_node = _parse_communication_node(communication_node)
+            communication_graph.add_edge(node_id, **parsed_node)
 
         connectivity_graph.add_node(node_id, **node)
         communication_graph.add_node(node_id, **node)
 
     return connectivity_graph, communication_graph
+
+
+def _parse_communication_node(node):
+    return {
+        'v_of_edge': node.pop('id'),
+        'complexity': AttackComplexity[node.pop('complexity', 'low').upper()],
+        'privilege_needed': 'None',
+        **node,
+    }
 
 
 def _parse_questionnaire(questionnaire_data):
