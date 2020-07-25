@@ -1,4 +1,4 @@
-import json, math, enum
+import math, enum
 import util
 
 from collections import abc
@@ -123,7 +123,7 @@ class CVE:
     def __repr__(self):
         return (f"<CVE: name='{self.name}'"
                 f", base_score='{self.cvss.base_score if self._cvss else 'N/A'}'"
-                f", environmental_score='{self.cvss.envvironmental_score if self._cvss else 'N/A'}'"
+                f", environmental_score='{self.cvss.environmental_score if self._cvss else 'N/A'}'"
                 ">")
 
     @classmethod
@@ -143,34 +143,34 @@ class CVE:
 
 class CVSS:
 
-    def __init__(self, *args, **kwargs):
-        self.attack_vector = kwargs.get('attack_vector', 'Physical')
-        self.attack_complexity = kwargs.get('attack_complexity', 'Low')
-        self.privileges_required = kwargs.get('privileges_required', 'None')
-        self.user_interaction = kwargs.get('user_interaction', 'None')
+    def __init__(self, **kwargs):
+        self.attack_vector = kwargs.get('attack_vector', util.AttackVector.PHYSICAL)
+        self.attack_complexity = kwargs.get('attack_complexity', util.AttackComplexity.LOW)
+        self.privileges_required = kwargs.get('privileges_required', util.PrivilegeRequired.NONE)
+        self.user_interaction = kwargs.get('user_interaction', util.UserInteraction.NONE)
         self.scope = kwargs.get('scope', 'unchanged')
-        self.confidentiality = kwargs.get('confidentiality', 'None')
-        self.integrity = kwargs.get('integrity', 'None')
-        self.availability = kwargs.get('availability', 'None')
+        self.confidentiality = kwargs.get('confidentiality', util.Impact.NONE)
+        self.integrity = kwargs.get('integrity', util.Impact.NONE)
+        self.availability = kwargs.get('availability', util.Impact.NONE)
 
-        self.exploit_code_maturity = kwargs.get('exploit_code_maturity', 'Not Defined')
-        self.remediation_level = kwargs.get('remediation_level', 'Not Defined')
-        self.report_confidence = kwargs.get('report_confidence', 'Not Defined')
+        self.exploit_code_maturity = kwargs.get('exploit_code_maturity', util.ExploitCodeMaturity.NOT_DEFINED)
+        self.remediation_level = kwargs.get('remediation_level', util.RemediationLevel.NOT_DEFINED)
+        self.report_confidence = kwargs.get('report_confidence', util.ReportConfidence.NOT_DEFINED)
 
-        self.modified_attack_vector = 'None'
-        self.modified_attack_complexity = 'None'
-        self.modified_privileges_required = 'None'
-        self.modified_user_interaction = 'None'
+        self.modified_attack_vector = kwargs.get('modified_attack_vector', util.AttackVector.NOT_DEFINED)
+        self.modified_attack_complexity = kwargs.get('modified_attack_complexity', util.AttackComplexity.NOT_DEFINED)
+        self.modified_privileges_required = kwargs.get('modified_privileges_required', util.PrivilegeRequired.NOT_DEFINED)
+        self.modified_user_interaction = kwargs.get('modified_user_interaction', util.UserInteraction.NOT_DEFINED)
         self.modified_scope = 'None'
-        self.confidentiality_requirement = 'High'
-        self.integrity_requirement = 'High'
-        self.availability_requirement = 'High'
-        self.modified_confidentiality = 'None'
-        self.modified_integrity = 'None'
-        self.modified_availability = 'None'
+        self.confidentiality_requirement = kwargs.get('confidentiality_requirement', util.SecurityRequirement.NOT_DEFINED)
+        self.integrity_requirement = kwargs.get('integrity_requirement', util.SecurityRequirement.NOT_DEFINED)
+        self.availability_requirement = kwargs.get('availability_requirement', util.SecurityRequirement.NOT_DEFINED)
+        self.modified_confidentiality = kwargs.get('modified_confidentiality', util.Impact.NOT_DEFINED)
+        self.modified_integrity = kwargs.get('modified_integrity', util.Impact.NOT_DEFINED)
+        self.modified_availability = kwargs.get('modified_availability', util.Impact.NOT_DEFINED)
 
-    def __repr__(self):
-        return f'<CVSS: base_score={self.base_score}, environmental_score={self.environmental_score}>'
+    def __str__(self):
+        return f'CVSS: base_score={self.base_score}, environmental_score={self.environmental_score}'
 
     @property
     def base_score(self):
@@ -201,19 +201,19 @@ class CVSS:
     @property
     def impact_base(self):
 
-        impact_conf = util.get_impact_value(self.confidentiality)
-        impact_integ = util.get_impact_value(self.integrity)
-        impact_avail = util.get_impact_value(self.availability)
+        impact_conf = self.confidentiality.value
+        impact_integ = self.integrity.value
+        impact_avail = self.availability.value
 
         return 1 - ((1 - impact_conf) * (1 - impact_integ) * (1 - impact_avail))
 
     @property
     def exploitability_base(self):
 
-        attack_vector = util.get_attack_vector_value(self.attack_vector)
-        attack_complexity = util.get_attack_complexity_value(self.attack_complexity)
+        attack_vector = self.attack_vector.value
+        attack_complexity = self.attack_complexity.value
         privilege_required = util.get_privilege_required_value(self.privileges_required, self.scope)
-        user_interaction = util.get_user_interaction_value(self.user_interaction)
+        user_interaction = self.user_interaction.value
 
         return 8.22 * attack_vector * attack_complexity * privilege_required * user_interaction
 
@@ -225,9 +225,9 @@ class CVSS:
     def environmental_score(self):
         environmental_score = 0
 
-        exploit_code_maturity = util.get_exploit_code_maturity_value(self.exploit_code_maturity)
-        remediation_level = util.get_remediation_level_value(self.remediation_level)
-        report_confidence = util.get_report_confidence_value(self.report_confidence)
+        exploit_code_maturity = self.exploit_code_maturity.value
+        remediation_level = self.remediation_level.value
+        report_confidence = self.report_confidence.value
 
         if self.modified_impact_subscore <= 0:
             environmental_score = 0
@@ -258,13 +258,13 @@ class CVSS:
     @property
     def modified_impact_score(self):
 
-        confidentiality_requirement = util.get_security_requirement_value(self.confidentiality_requirement)
-        integrity_requirement = util.get_security_requirement_value(self.integrity_requirement)
-        availability_requirement = util.get_security_requirement_value(self.availability_requirement)
+        confidentiality_requirement = self.confidentiality_requirement.value
+        integrity_requirement = self.integrity_requirement.value
+        availability_requirement = self.availability_requirement.value
 
-        modified_impact_conf = util.get_impact_value(self.modified_confidentiality)
-        modified_impact_integ = util.get_impact_value(self.modified_integrity)
-        modified_impact_avail = util.get_impact_value(self.modified_availability)
+        modified_impact_conf = self.modified_confidentiality.value
+        modified_impact_integ = self.modified_integrity.value
+        modified_impact_avail = self.modified_availability.value
 
         return min(1 - (
         (1 - modified_impact_conf * confidentiality_requirement) * (1 - modified_impact_integ * integrity_requirement) * (
@@ -273,10 +273,10 @@ class CVSS:
     @property
     def modified_exploitability(self):
 
-        modified_attack_vector = util.get_attack_vector_value(self.modified_attack_vector)
-        modified_attack_complexity = util.get_attack_complexity_value(self.modified_attack_complexity)
+        modified_attack_vector = self.modified_attack_vector.value
+        modified_attack_complexity = self.modified_attack_complexity.value
         modified_privilege_required = util.get_privilege_required_value(self.modified_privileges_required, self.modified_scope)
-        modified_user_interaction = util.get_user_interaction_value(self.modified_user_interaction)
+        modified_user_interaction = self.modified_user_interaction.value
 
         return round(
             10000000 * 8.22 * modified_attack_vector * modified_attack_complexity * modified_privilege_required * modified_user_interaction) / 10000000

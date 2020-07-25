@@ -23,6 +23,11 @@ def parse_network(network_data):
             parsed_node = _parse_communication_node(communication_node)
             communication_graph.add_edge(node_id, **parsed_node)
 
+        cve_data = node.pop('cve', None)
+        if cve_data:
+            cve = _parse_cve(cve_data)
+            node['cve'] = cve
+        print(node)
         connectivity_graph.add_node(node_id, **node)
         communication_graph.add_node(node_id, **node)
 
@@ -49,4 +54,6 @@ def _parse_cve(cve_data):
 
 
 def _parse_cvss(cvss_data):
-    return CVSS(**cvss_data)
+    cvss = CVSS(**cvss_data)
+    print(cvss)
+    return cvss

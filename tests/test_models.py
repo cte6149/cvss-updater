@@ -1,9 +1,10 @@
 import unittest
+import re
 
 from unittest import mock
 
 from util.models import Node, NodeType, CVE, CVSS, Questionnaire, Answer
-
+from util.cvss_calculator import Impact
 
 class NodeTestCase(unittest.TestCase):
 
@@ -45,10 +46,10 @@ class CvssTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.cvss = CVSS()
 
-    def test_repr(self):
-        expected = "<CVSS: base_score=0, environmental_score=0>"
+    def test_str(self):
+        expected = r'CVSS: base_score=[0-9]*.?[0-9]*, environmental_score=[0-9]*.?[0-9]*'
 
-        assert repr(self.cvss) == expected
+        assert re.match(expected, str(self.cvss))
 
     def test_base_score_returns_zero_if_subscore_less_than_zero(self):
         with mock.patch('util.models.CVSS.impact_subscore',
@@ -99,19 +100,19 @@ class CvssTestCase(unittest.TestCase):
 
     def test_impact_base_calculation(self):
         test_cases = [
-            ('None', 'None', 'None', 0),
-            ('Low', 'Low', 'Low', 0.53),
-            ('High', 'High', 'High', 0.91),
-            ('Low', 'None', 'None', 0.22),
-            ('High', 'None', 'None', 0.56),
-            ('None', 'Low', 'None', 0.22),
-            ('None', 'High', 'None', 0.56),
-            ('None', 'None', 'Low', 0.22),
-            ('None', 'None', 'High', 0.56),
-            ('Low', 'Low', 'None', 0.39),
-            ('High', 'High', 'None', 0.81),
-            ('Low', 'None', 'Low', 0.39),
-            ('High', 'None', 'High', 0.81),
+            (Impact.NONE, Impact.NONE, Impact.NONE, 0),
+            (Impact.LOW, Impact.LOW, Impact.LOW, 0.53),
+            (Impact.HIGH, Impact.HIGH, Impact.HIGH, 0.91),
+            (Impact.LOW, Impact.NONE, Impact.NONE, 0.22),
+            (Impact.HIGH, Impact.NONE, Impact.NONE, 0.56),
+            (Impact.NONE, Impact.LOW, Impact.NONE, 0.22),
+            (Impact.NONE, Impact.HIGH, Impact.NONE, 0.56),
+            (Impact.NONE, Impact.NONE, Impact.LOW, 0.22),
+            (Impact.NONE, Impact.NONE, Impact.HIGH, 0.56),
+            (Impact.LOW, Impact.LOW, Impact.NONE, 0.39),
+            (Impact.HIGH, Impact.HIGH, Impact.NONE, 0.81),
+            (Impact.LOW, Impact.NONE, Impact.LOW, 0.39),
+            (Impact.HIGH, Impact.NONE, Impact.HIGH, 0.81),
         ]
 
         for case in test_cases:

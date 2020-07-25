@@ -15,10 +15,11 @@ def _calculate_modified_attack_vector(connectivity_network: nx.Graph, node):
 
     mav_accepted = False
     try:
-        modified_attack_vector = connectivity_network.nodes(data=True)[node]['cve']['cvss']['attack_vector']
+        modified_attack_vector = connectivity_network.nodes(data=True)[node]['cve'].cvss.attack_vector
     except KeyError:
         raise MissingCveException("Can't process node without a CVE")
 
+    print(modified_attack_vector)
     while not mav_accepted:
         if modified_attack_vector == AttackVector.LOCAL or modified_attack_vector == AttackVector.PHYSICAL:
             mav_accepted = True
@@ -112,11 +113,11 @@ def _calculate_modified_privileges_required(communication_network: nx.DiGraph, n
 
 
 def _calculate_modified_user_interaction(network: nx.Graph, node):
-    return network.nodes[node]['cve']['cvss']['user_interaction']
+    return network.nodes[node]['cve'].cvss.user_interaction
 
 
 def _calculate_modified_scope(network: nx.Graph, node):
-    return network.nodes[node]['cve']['cvss']['scope']
+    return network.nodes[node]['cve'].cvss.scope
 
 
 def internetless_subgraph(G):
