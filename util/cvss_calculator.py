@@ -10,18 +10,10 @@ class AttackVector(enum.Enum):
     NOT_DEFINED = 0.85
 
 
-class Impact(enum.Enum):
-    HIGH = 0.56
-    LOW = 0.22
-    NONE = 0
-    NOT_DEFINED = 0.56
-
-
 class AttackComplexity(enum.Enum):
+    NOT_DEFINED = 0.77
     HIGH = 0.44
     LOW = 0.77
-    NOT_DEFINED = 0.77
-
 
 
 class PrivilegeRequired(enum.Enum):
@@ -38,7 +30,7 @@ def get_privilege_required_value(name, scope):
         PrivilegeRequired.NONE: 0.85,
         PrivilegeRequired.NOT_DEFINED: 0.85,
     }
-    if scope.lower() == "unchanged":
+    if scope == Scope.UNCHANGED:
         values[PrivilegeRequired.LOW] = 0.62
         values[PrivilegeRequired.HIGH] = 0.27
     else:
@@ -52,6 +44,19 @@ class UserInteraction(enum.Enum):
     REQUIRED = 0.62
     NONE = 0.85
     NOT_DEFINED = 0.85
+
+
+class Scope(enum.Enum):
+    NOT_DEFINED = 'Not Defined'
+    UNCHANGED = 'Unchanged'
+    CHANGED = 'Changed'
+
+
+class Impact(enum.Enum):
+    HIGH = 0.56
+    LOW = 0.22
+    NONE = 0
+    NOT_DEFINED = 0.56
 
 
 class ExploitCodeMaturity(enum.Enum):
@@ -84,20 +89,5 @@ class SecurityRequirement(enum.Enum):
     LOW = 0.5
 
 
-class ModifiedPrivilegeRequired(enum.Enum):
-    NONE = 'None'
-    LOW = 'Low'
-    HIGH = 'High'
-
-
 def get_modified_privilege_required_value(name, modified_scope):
-    values = {PrivilegeRequired.NONE: 0.85}
-
-    if modified_scope.lower() == "unchanged":
-        values[PrivilegeRequired.LOW] = 0.62
-        values[PrivilegeRequired.HIGH] = 0.27
-    else:
-        values[PrivilegeRequired.LOW] = 0.68
-        values[PrivilegeRequired.HIGH] = 0.50
-
-    return values[name]
+    return get_privilege_required_value(name, modified_scope)

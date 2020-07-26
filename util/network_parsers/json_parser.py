@@ -1,5 +1,7 @@
 import networkx as nx
 
+import util
+
 from util.models import Questionnaire, Answer, CVE, CVSS
 from util.cvss_calculator import AttackComplexity
 
@@ -54,6 +56,42 @@ def _parse_cve(cve_data):
 
 
 def _parse_cvss(cvss_data):
+    cvss_data['attack_vector'] = util.AttackVector[_convert_readable_value_to_enum_name(
+        cvss_data.get('attack_vector', 'Network')
+    )]
+    cvss_data['attack_complexity'] = util.AttackComplexity[_convert_readable_value_to_enum_name(
+        cvss_data.get('attack_complexity', 'Low')
+    )]
+    cvss_data['privileges_required'] = util.PrivilegeRequired[_convert_readable_value_to_enum_name(
+        cvss_data.get('privileges_required', 'None')
+    )]
+    cvss_data['user_interaction'] = util.UserInteraction[_convert_readable_value_to_enum_name(
+        cvss_data.get('user_interaction', 'None')
+    )]
+    cvss_data['scope'] = util.Scope[_convert_readable_value_to_enum_name(
+        cvss_data.get('scope', 'Changed')
+    )]
+    cvss_data['exploit_code_maturity'] = util.ExploitCodeMaturity[_convert_readable_value_to_enum_name(
+        cvss_data.get('exploit_code_maturity', 'High')
+    )]
+    cvss_data['remediation_level'] = util.RemediationLevel[_convert_readable_value_to_enum_name(
+        cvss_data.get('remediation_level', 'Unavailable')
+    )]
+    cvss_data['report_confidence'] = util.ReportConfidence[_convert_readable_value_to_enum_name(
+        cvss_data.get('report_confidence', 'Confirmed')
+    )]
+    cvss_data['confidentiality'] = util.Impact[_convert_readable_value_to_enum_name(
+        cvss_data.get('confidentiality', 'High')
+    )]
+    cvss_data['integrity'] = util.Impact[_convert_readable_value_to_enum_name(
+        cvss_data.get('integrity', 'High')
+    )]
+    cvss_data['availability'] = util.Impact[_convert_readable_value_to_enum_name(
+        cvss_data.get('availability', 'High')
+    )]
     cvss = CVSS(**cvss_data)
-    print(cvss)
     return cvss
+
+
+def _convert_readable_value_to_enum_name(name):
+    return name.replace(' ', '_').upper()

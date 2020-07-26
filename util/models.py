@@ -148,7 +148,7 @@ class CVSS:
         self.attack_complexity = kwargs.get('attack_complexity', util.AttackComplexity.LOW)
         self.privileges_required = kwargs.get('privileges_required', util.PrivilegeRequired.NONE)
         self.user_interaction = kwargs.get('user_interaction', util.UserInteraction.NONE)
-        self.scope = kwargs.get('scope', 'unchanged')
+        self.scope = kwargs.get('scope', util.Scope.CHANGED)
         self.confidentiality = kwargs.get('confidentiality', util.Impact.NONE)
         self.integrity = kwargs.get('integrity', util.Impact.NONE)
         self.availability = kwargs.get('availability', util.Impact.NONE)
@@ -161,10 +161,12 @@ class CVSS:
         self.modified_attack_complexity = kwargs.get('modified_attack_complexity', util.AttackComplexity.NOT_DEFINED)
         self.modified_privileges_required = kwargs.get('modified_privileges_required', util.PrivilegeRequired.NOT_DEFINED)
         self.modified_user_interaction = kwargs.get('modified_user_interaction', util.UserInteraction.NOT_DEFINED)
-        self.modified_scope = 'None'
+        self.modified_scope = kwargs.get('modified_scope', self.scope)
+
         self.confidentiality_requirement = kwargs.get('confidentiality_requirement', util.SecurityRequirement.NOT_DEFINED)
         self.integrity_requirement = kwargs.get('integrity_requirement', util.SecurityRequirement.NOT_DEFINED)
         self.availability_requirement = kwargs.get('availability_requirement', util.SecurityRequirement.NOT_DEFINED)
+
         self.modified_confidentiality = kwargs.get('modified_confidentiality', util.Impact.NOT_DEFINED)
         self.modified_integrity = kwargs.get('modified_integrity', util.Impact.NOT_DEFINED)
         self.modified_availability = kwargs.get('modified_availability', util.Impact.NOT_DEFINED)
@@ -172,13 +174,63 @@ class CVSS:
     def __str__(self):
         return f'CVSS: base_score={self.base_score}, environmental_score={self.environmental_score}'
 
+    def __repr__(self):
+        return (f'CVSS('
+                f'attack_vector={self.attack_vector}'
+                f', attack_complexity={self.attack_complexity}'
+                f', privileges_required={self.privileges_required}'
+                f', user_interaction={self.user_interaction}'
+                f', scope={self.scope}'
+                f', confidentiality={self.confidentiality}'
+                f', integrity={self.integrity}'
+                f', availability={self.availability}'
+                f', exploit_code_maturity={self.exploit_code_maturity}'
+                f', remediation_level={self.remediation_level}'
+                f', report_confidence={self.report_confidence}'
+                f', modified_attack_vector={self.modified_attack_vector}'
+                f', modified_attack_complexity={self.modified_attack_complexity}'
+                f', modified_privileges_required={self.modified_privileges_required}'
+                f', modified_user_interaction={self.modified_user_interaction}'
+                f', modified_scope={self.modified_scope}'
+                f', modified_confidentiality={self.modified_confidentiality}'
+                f', modified_integrity={self.modified_integrity}'
+                f', modified_availability={self.modified_availability}'
+                f', confidentiality_requirement={self.confidentiality_requirement}'
+                f', integrity_requirement={self.integrity_requirement}'
+                f', availability_requirement={self.availability_requirement}'
+                f')')
+
+    def full_diff(self):
+        return (
+            f'attack_vector\t\t|\t{self.attack_vector} -> {self.modified_attack_vector}\n'
+            f'attack_complexity\t|\t{self.attack_complexity} -> {self.modified_attack_complexity}\n'
+            f'privileges_required\t|\t{self.privileges_required} -> {self.modified_privileges_required}\n'
+            f'user_interaction\t|\t{self.user_interaction} -> {self.modified_user_interaction}\n'
+            f'scope\t\t\t\t|\t{self.scope} -> {self.modified_scope}\n'
+            f'confidentiality\t\t|\t{self.confidentiality} -> {self.modified_confidentiality}\n'
+            f'integrity\t\t\t|\t{self.integrity} -> {self.modified_integrity}\n'
+            f'availability\t\t|\t{self.availability} -> {self.modified_availability}\n'
+        )
+
+    def diff(self):
+        results = ''
+        results += f'attack_vector\t\t|\t{self.attack_vector} -> {self.modified_attack_vector}\n' if self.attack_vector != self.modified_attack_vector else ''
+        results += f'attack_complexity\t|\t{self.attack_complexity} -> {self.modified_attack_complexity}\n' if self.attack_complexity != self.modified_attack_complexity else ''
+        results += f'privileges_required\t|\t{self.privileges_required} -> {self.modified_privileges_required}\n' if self.privileges_required != self.modified_privileges_required else ''
+        results += f'user_interaction\t|\t{self.user_interaction} -> {self.modified_user_interaction}\n' if self.user_interaction != self.modified_user_interaction else ''
+        results += f'scope\t\t\t\t|\t{self.scope} -> {self.modified_scope}\n' if self.scope != self.modified_scope else ''
+        results += f'confidentiality\t\t|\t{self.confidentiality} -> {self.modified_confidentiality}\n' if self.confidentiality != self.modified_confidentiality else ''
+        results += f'integrity\t\t\t|\t{self.integrity} -> {self.modified_integrity}\n' if self.integrity != self.modified_integrity else ''
+        results += f'availability\t\t|\t{self.availability} -> {self.modified_availability}\n' if self.availability != self.modified_availability else ''
+        return results
+
     @property
     def base_score(self):
 
         base_score = 0
         if self.impact_subscore <= 0:
             base_score = 0
-        elif self.scope == 'unchanged':
+        elif self.scope == util.Scope.UNCHANGED:
             unrounded_base_score = min((self.impact_subscore + self.exploitability_base), 10)
             base_score = math.ceil(unrounded_base_score * 10) / 10
         else:
@@ -191,7 +243,7 @@ class CVSS:
     def impact_subscore(self):
 
         score = 0
-        if self.scope == 'unchanged':
+        if self.scope == util.Scope.UNCHANGED:
             score = 6.42 * self.impact_base
         else:
             score = 7.52 * (self.impact_base - 0.029) - 3.25 * math.pow((self.impact_base - 0.02), 15)
@@ -231,7 +283,7 @@ class CVSS:
 
         if self.modified_impact_subscore <= 0:
             environmental_score = 0
-        elif self.modified_scope == 'unchanged':
+        elif self.modified_scope == util.Scope.UNCHANGED:
             unrounded_modified_score = min((self.modified_impact_subscore + self.modified_exploitability), 10)
             modified_score = math.ceil(unrounded_modified_score * 10) / 10
 
@@ -248,7 +300,7 @@ class CVSS:
     @property
     def modified_impact_subscore(self):
         score = 0
-        if self.scope == 'unchanged':
+        if self.scope == util.Scope.UNCHANGED:
             score = 6.42 * self.modified_impact_score
         else:
             score = 7.52 * (self.modified_impact_score-0.029) - 3.25 * math.pow((self.modified_impact_score - 0.02), 15)

@@ -40,18 +40,17 @@ def main():
     cves = update_cvss(connectivity_network, communication_network)
 
     for node_id, cve in cves.items():
-       print("Updated CVSS for Node: " + str(node_id))
-       print('Base Score:', cve.cvss.base_score)
-       print('Environmental Score:', cve.cvss.environmental_score)
+        print("Updated CVSS for Node: " + str(node_id))
+        print(repr(cve.cvss))
+        print('Base Score:', cve.cvss.base_score)
+        print('Environmental Score:', cve.cvss.environmental_score)
+        print(f'==Full Diff==\n{cve.cvss.full_diff()}')
 
-       print(json.dumps(communication_network.nodes[node_id], sort_keys=False, indent=2))
+        print(f'++Diff++\n{cve.cvss.diff()}')
 
     color_map = ['blue'] * len(connectivity_network)
     for node in nx.get_node_attributes(connectivity_network, 'cve'):
-        print(f'Node: {node}')
         color_map[node-1] = 'red'
-
-    print(color_map)
 
     nx.draw(connectivity_network, node_color=color_map, with_labels=True, font_weight='bold')
     plt.show()

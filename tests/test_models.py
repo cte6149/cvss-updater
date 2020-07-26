@@ -4,7 +4,8 @@ import re
 from unittest import mock
 
 from util.models import Node, NodeType, CVE, CVSS, Questionnaire, Answer
-from util.cvss_calculator import Impact
+from util.cvss_calculator import Impact, Scope
+
 
 class NodeTestCase(unittest.TestCase):
 
@@ -64,7 +65,7 @@ class CvssTestCase(unittest.TestCase):
                         new_callable=mock.PropertyMock) as mock_impact_subscore:
 
             mock_impact_subscore.return_value = 1
-            self.cvss.scope = 'unchanged'
+            self.cvss.scope = Scope.UNCHANGED
             assert self.cvss.base_score == 2.0
             assert mock_impact_subscore.called
             assert mock_impact_subscore.call_count == 2
@@ -74,7 +75,7 @@ class CvssTestCase(unittest.TestCase):
                         new_callable=mock.PropertyMock) as mock_impact_subscore:
 
             mock_impact_subscore.return_value = 1
-            self.cvss.scope = 'changed'
+            self.cvss.scope = Scope.CHANGED
             assert self.cvss.base_score == 2.1
             assert mock_impact_subscore.called
             assert mock_impact_subscore.call_count == 2
@@ -84,7 +85,7 @@ class CvssTestCase(unittest.TestCase):
                         new_callable=mock.PropertyMock) as mock_impact_base:
 
             mock_impact_base.return_value = 1
-            self.cvss.scope = 'unchanged'
+            self.cvss.scope = Scope.UNCHANGED
             assert self.cvss.impact_subscore == 6.42
             mock_impact_base.assert_called_once()
 
@@ -93,7 +94,7 @@ class CvssTestCase(unittest.TestCase):
                         new_callable=mock.PropertyMock) as mock_impact_base:
 
             mock_impact_base.return_value = 1
-            self.cvss.scope = 'changed'
+            self.cvss.scope = Scope.CHANGED
             assert round(self.cvss.impact_subscore, 2) == 4.90
             assert mock_impact_base.called
             assert mock_impact_base.call_count == 2

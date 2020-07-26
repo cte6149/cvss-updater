@@ -18,7 +18,7 @@ from util.cvss_updater import (
 )
 from util.models import NodeType, CVE, CVSS
 from util.exceptions import MissingCveException
-from util.cvss_calculator import AttackVector, AttackComplexity, UserInteraction
+from util.cvss_calculator import AttackVector, AttackComplexity, UserInteraction, Impact
 
 
 class ModifiedAttackVectorTestCases(unittest.TestCase):
@@ -268,7 +268,7 @@ class ModifiedConfidentialityTestCases(unittest.TestCase):
 
         with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 0}
-            assert _calculate_modified_confidentiality(G, 'A') == 'None'
+            assert _calculate_modified_confidentiality(G, 'A') == Impact.NONE
             assert mock_eigenvector.called
 
     def test_return_none_if_eigenvector_gte_one_third_lt_two_third(self):
@@ -277,7 +277,7 @@ class ModifiedConfidentialityTestCases(unittest.TestCase):
 
         with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 1/3}
-            assert _calculate_modified_confidentiality(G, 'A') == 'Low'
+            assert _calculate_modified_confidentiality(G, 'A') == Impact.LOW
             assert mock_eigenvector.called
 
     def test_return_none_if_eigenvector_gte_two_third(self):
@@ -286,7 +286,7 @@ class ModifiedConfidentialityTestCases(unittest.TestCase):
 
         with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 2/3}
-            assert _calculate_modified_confidentiality(G, 'A') == 'High'
+            assert _calculate_modified_confidentiality(G, 'A') == Impact.HIGH
             assert mock_eigenvector.called
 
 
@@ -298,7 +298,7 @@ class ModifiedIntegrityTestCases(unittest.TestCase):
 
         with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 0}
-            assert _calculate_modified_integrity(G, 'A') == 'None'
+            assert _calculate_modified_integrity(G, 'A') == Impact.NONE
             assert mock_eigenvector.called
 
     def test_return_none_if_eigenvector_gte_one_third_lt_two_third(self):
@@ -307,7 +307,7 @@ class ModifiedIntegrityTestCases(unittest.TestCase):
 
         with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 1/3}
-            assert _calculate_modified_integrity(G, 'A') == 'Low'
+            assert _calculate_modified_integrity(G, 'A') == Impact.LOW
             assert mock_eigenvector.called
 
     def test_return_none_if_eigenvector_gte_two_third(self):
@@ -316,7 +316,7 @@ class ModifiedIntegrityTestCases(unittest.TestCase):
 
         with mock.patch('util.cvss_updater.nx.eigenvector_centrality') as mock_eigenvector:
             mock_eigenvector.return_value = {'A': 2/3}
-            assert _calculate_modified_integrity(G, 'A') == 'High'
+            assert _calculate_modified_integrity(G, 'A') == Impact.HIGH
             assert mock_eigenvector.called
 
 

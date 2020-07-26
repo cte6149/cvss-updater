@@ -2,9 +2,11 @@ from collections import defaultdict
 
 import networkx as nx
 
+import util
+
 from .exceptions import MissingCveException
 from .models import NodeType
-from .cvss_calculator import AttackVector, AttackComplexity
+from .cvss_calculator import AttackVector, AttackComplexity, Impact
 
 
 def get_internet_nodes(G):
@@ -19,7 +21,6 @@ def _calculate_modified_attack_vector(connectivity_network: nx.Graph, node):
     except KeyError:
         raise MissingCveException("Can't process node without a CVE")
 
-    print(modified_attack_vector)
     while not mav_accepted:
         if modified_attack_vector == AttackVector.LOCAL or modified_attack_vector == AttackVector.PHYSICAL:
             mav_accepted = True
@@ -106,10 +107,10 @@ def _path_with_low_or_no_privileges_to_internet(communication_network: nx.DiGrap
 
 def _calculate_modified_privileges_required(communication_network: nx.DiGraph, node):
     if _path_with_no_privileges_to_internet(communication_network, node):
-        return "None"
+        return util.PrivilegeRequired.NONE
     elif _path_with_low_or_no_privileges_to_internet(communication_network, node):
-        return "Low"
-    return 'High'
+        return util.PrivilegeRequired.LOW
+    return util.PrivilegeRequired.HIGH
 
 
 def _calculate_modified_user_interaction(network: nx.Graph, node):
@@ -130,11 +131,11 @@ def _calculate_modified_confidentiality(communication_network, node):
     score = nx.eigenvector_centrality(subnet, weight='confidentiality_weight')[node]
 
     if score < 1/3:
-        return 'None'
+        return Impact.NONE
     elif (1/3) <= score < (2/3):
-        return 'Low'
+        return Impact.LOW
     else:
-        return 'High'
+        return Impact.HIGH
 
 
 def _calculate_modified_integrity(communication_network, node):
@@ -142,11 +143,11 @@ def _calculate_modified_integrity(communication_network, node):
     score = nx.eigenvector_centrality(subnet, weight='integrity_weight')[node]
 
     if score < 1/3:
-        return 'None'
+        return Impact.NONE
     elif (1/3) <= score < (2/3):
-        return 'Low'
+        return Impact.LOW
     else:
-        return 'High'
+        return Impact.HIGH
 
 
 def _calculate_modified_availability(connectivity_network: nx.Graph, node):
@@ -156,25 +157,25 @@ def _calculate_modified_availability(connectivity_network: nx.Graph, node):
     print(nx.percolation_centrality(connectivity_network,states=d))
 
     if score < 1/3:
-        return 'None'
+        return util.Impact.NONE
     elif (1/3) <= score < (2/3):
-        return 'Low'
+        return util.Impact.LOW
     else:
-        return 'High'
+        return util.Impact.HIGH
 
 
 def update_cvss(connectivity_network: nx.Graph, communication_network: nx.DiGraph):
     cves = dict()
     for node in nx.get_node_attributes(connectivity_network, 'cve'):
         cve = connectivity_network.nodes[node]['cve']
-        cve['cvss']['modified_attack_vector'] = _calculate_modified_attack_vector(connectivity_network, node)
-        cve['cvss']['modified_attack_complexity'] = _calculate_modified_attack_complexity(communication_network, node)
-        cve['cvss']['modified_privileges_required'] = _calculate_modified_privileges_required(communication_network, node)
-        cve['cvss']['modified_user_interaction'] = _calculate_modified_user_interaction(communication_network, node)
-        cve['cvss']['modified_scope'] = _calculate_modified_scope(communication_network, node)
-        cve['cvss']['modified_confidentiality'] = _calculate_modified_confidentiality(communication_network, node)
-        cve['cvss']['modified_integrity'] = _calculate_modified_integrity(communication_network, node)
-        cve['cvss']['modified_availability'] = _calculate_modified_availability(connectivity_network, node)
+        cve.cvss.modified_attack_vector = _calculate_modified_attack_vector(connectivity_network, node)
+        cve.cvss.modified_attack_complexity = _calculate_modified_attack_complexity(communication_network, node)
+        cve.cvss.modified_privileges_required = _calculate_modified_privileges_required(communication_network, node)
+        cve.cvss.modified_user_interaction = _calculate_modified_user_interaction(communication_network, node)
+        cve.cvss.modified_scope = _calculate_modified_scope(communication_network, node)
+        cve.cvss.modified_confidentiality = _calculate_modified_confidentiality(communication_network, node)
+        cve.cvss.modified_integrity = _calculate_modified_integrity(communication_network, node)
+        cve.cvss.modified_availability = _calculate_modified_availability(connectivity_network, node)
 
         cves[node] = cve
 
