@@ -18,7 +18,7 @@ from util.cvss_updater import (
 )
 from util.models import NodeType, CVE, CVSS
 from util.exceptions import MissingCveException
-from util.cvss_calculator import AttackVector, AttackComplexity, UserInteraction, Impact
+from util.cvss_calculator import AttackVector, AttackComplexity, UserInteraction, Impact, PrivilegeRequired
 
 
 class ModifiedAttackVectorTestCases(unittest.TestCase):
@@ -138,21 +138,21 @@ class ModifiedPrivilegesTestCases(unittest.TestCase):
     def test_path_to_internet_with_none_privileges_returns_none(self):
         with mock.patch('util.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test:
             mock_no_priv_test.return_value = True
-            assert _calculate_modified_privileges_required(self.communication_graph, 'C') == 'None'
+            assert _calculate_modified_privileges_required(self.communication_graph, 'C') == PrivilegeRequired.NONE
 
     def test_path_to_internet_with_low_or_none_privileges_returns_low(self):
         with mock.patch('util.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test, \
                 mock.patch('util.cvss_updater._path_with_low_or_no_privileges_to_internet') as mock_no_low_priv_test:
             mock_no_priv_test.return_value = False
             mock_no_low_priv_test.return_value = True
-            assert _calculate_modified_privileges_required(self.communication_graph, 'C') == 'Low'
+            assert _calculate_modified_privileges_required(self.communication_graph, 'C') == PrivilegeRequired.LOW
 
     def test_no_path_to_internet_with_none_or_low_privileges_returns_high(self):
         with mock.patch('util.cvss_updater._path_with_no_privileges_to_internet') as mock_no_priv_test, \
                 mock.patch('util.cvss_updater._path_with_low_or_no_privileges_to_internet') as mock_no_low_priv_test:
             mock_no_priv_test.return_value = False
             mock_no_low_priv_test.return_value = False
-            assert _calculate_modified_privileges_required(self.communication_graph, 'C') == 'High'
+            assert _calculate_modified_privileges_required(self.communication_graph, 'C') == PrivilegeRequired.HIGH
 
 
 class PathToInternetNonePrivilegesTestCases(unittest.TestCase):

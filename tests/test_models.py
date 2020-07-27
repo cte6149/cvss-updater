@@ -3,28 +3,8 @@ import re
 
 from unittest import mock
 
-from util.models import Node, NodeType, CVE, CVSS, Questionnaire, Answer
+from util.models import NodeType, CVE, CVSS, Questionnaire, Answer
 from util.cvss_calculator import Impact, Scope
-
-
-class NodeTestCase(unittest.TestCase):
-
-    def test_repr(self):
-        node = Node(node_id=1, name='Test Machine')
-        expected = "<Node: id=1, type=NodeType.MACHINE, name='Test Machine'>"
-
-        assert repr(node) == expected
-
-    def test_str(self):
-        node = Node(node_id=1, name='Test Machine')
-        expected = "ID: 1; Test Machine"
-
-        assert str(node) == expected
-
-    def test_default_type_is_machine(self):
-        node = Node(node_id=1)
-
-        assert node.type == NodeType.MACHINE
 
 
 class CveTestCase(unittest.TestCase):
@@ -34,12 +14,6 @@ class CveTestCase(unittest.TestCase):
         expected = "<CVE: name='1', base_score='N/A', environmental_score='N/A'>"
 
         assert repr(cve) == expected
-
-    # def test_str(self):
-    #     node = Node(node_id=1, name='Test Machine')
-    #     expected = "ID: 1; Test Machine"
-    #
-    #     assert str(node) == expected
 
 
 class CvssTestCase(unittest.TestCase):

@@ -12,108 +12,6 @@ class NodeType(enum.Enum):
     ROUTER = 'Router'
 
 
-class Node:
-
-    def __init__(self, node_id, name="", node_type=NodeType.MACHINE):
-        self.id = node_id
-        self.type = node_type
-        self.name = name
-
-    def __repr__(self):
-        return f"<Node: id={self.id}, type={self.type}, name='{self.name}'>"
-
-    def __str__(self):
-        return f'ID: {self.id}; {self.name}'
-
-
-class OldCommunicationRelationship():
-    complexity = None
-    privilege_needed = None
-
-
-class OldNode:
-    TYPE = (
-        ('MACHINE', 'Machine'),
-        ('SERVER', 'Server'),
-        ('SWITCH', 'Switch'),
-        ('ROUTER', 'Router'),
-        ('INTERNET', 'Internet')
-    )
-
-    # name = neomodel.StringProperty()
-    # type = neomodel.StringProperty(choices=TYPE, default='SERVER')
-    # confidentiality_weight = neomodel.FloatProperty(default=3.0)
-    # integrity_weight = neomodel.FloatProperty(default=3.0)
-    #
-    # confidentiality_ev_score = neomodel.FloatProperty()
-    # integrity_ev_score = neomodel.FloatProperty()
-    # availability_ev_score = neomodel.FloatProperty()
-    #
-    # connected_devices = neomodel.Relationship("Node", "CONNECTED_TO")
-    # communicates_to = neomodel.RelationshipTo("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
-    # receives_communications_from = neomodel.RelationshipFrom("Node", "CAN_COMMUNICATE_TO", model=CommunicationRelationship)
-    #
-    # cve_ = neomodel.JSONProperty(db_property="cve", required=False)
-
-    @property
-    def cve(self):
-        return CVE.from_dict(self.cve_) if self.cve_ else None
-
-    @cve.setter
-    def cve(self, cve):
-        self.cve_ = cve.__dict__
-
-    def __hash__(self):
-        return hash(self.id)
-
-    def is_connected_to_internet(self, visited=None):
-        visited, queue = set(), [self]
-        while queue:
-            device = queue.pop(0)
-
-            if device.type == "INTERNET":
-                return True
-            if device not in visited:
-                visited.add(device)
-                queue.extend(set(device.connected_devices.all()) - visited)
-        return False
-        # if visited is None:
-        #     visited = []
-        #
-        # visited.append(self)
-        # print(visited)
-        #
-        # if len(self.internet.all()) > 0:
-        #     return True
-        #
-        # for neighbor in self.devices.all():
-        #     if neighbor not in visited and neighbor.is_connected_to_internet(visited):
-        #         return True
-        # return False
-
-    # def get_confidentiality_questionnaire_result(self):
-    #     confidentiality_questions = [0, 1, 2, 3, 5, 7]
-    #
-    #     confidentiality_result = 'none'
-    #
-    #     for x in range(0, len(confidentiality_questions)):
-    #         answer = convert_answer(self.questionnaire_responses)
-    #         if(answer == 'high'):
-    #             pass
-    #
-    #
-    # def convert_answer(answer):
-    #     value = 'high'
-    #     if answer == 'no':
-    #         value = 'none'
-    #     elif answer == 'not sure':
-    #         value = 'low'
-    #
-    #     return value
-    #
-    # def get_integrity_questionnaire_result(self):
-    #     pass
-
 class CVE:
 
     def __init__(self, name, cvss=None):
@@ -125,12 +23,6 @@ class CVE:
                 f", base_score='{self.cvss.base_score if self._cvss else 'N/A'}'"
                 f", environmental_score='{self.cvss.environmental_score if self._cvss else 'N/A'}'"
                 ">")
-
-    @classmethod
-    def from_dict(cls, values):
-        cve = cls()
-        cve.__dict__ = {**cve.__dict__, **values}
-        return cve
 
     @property
     def cvss(self):
@@ -332,13 +224,6 @@ class CVSS:
 
         return round(
             10000000 * 8.22 * modified_attack_vector * modified_attack_complexity * modified_privilege_required * modified_user_interaction) / 10000000
-
-    @classmethod
-    def from_dict(cls, values):
-        cvss = cls()
-        for key, value in values.items():
-            setattr(cvss, key, value)
-        return cvss
 
 
 class Answer(enum.Enum):
