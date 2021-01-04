@@ -1,3 +1,5 @@
+import logging
+
 from collections import defaultdict
 
 import networkx as nx
@@ -7,6 +9,9 @@ import util
 from .exceptions import MissingCveException
 from .models import NodeType
 from .cvss_calculator import AttackVector, AttackComplexity, Impact
+
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def get_internet_nodes(G):
@@ -127,8 +132,9 @@ def internetless_subgraph(G):
 
 
 def _calculate_modified_confidentiality(communication_network, node):
-    subnet = internetless_subgraph(communication_network)
-    score = nx.eigenvector_centrality(subnet, weight='confidentiality_weight')[node]
+    # subnet = internetless_subgraph(communication_network)
+    # score = nx.eigenvector_centrality(subnet, weight='confidentiality_weight')[node]
+    score = nx.eigenvector_centrality(communication_network, weight='confidentiality_weight')[node]
 
     if score < 1/3:
         return Impact.NONE
@@ -139,8 +145,9 @@ def _calculate_modified_confidentiality(communication_network, node):
 
 
 def _calculate_modified_integrity(communication_network, node):
-    subnet = internetless_subgraph(communication_network)
-    score = nx.eigenvector_centrality(subnet, weight='integrity_weight')[node]
+    # subnet = internetless_subgraph(communication_network)
+    # score = nx.eigenvector_centrality(subnet, weight='integrity_weight')[node]
+    score = nx.eigenvector_centrality(communication_network, weight='integrity_weight')[node]
 
     if score < 1/3:
         return Impact.NONE
@@ -152,9 +159,6 @@ def _calculate_modified_integrity(communication_network, node):
 
 def _calculate_modified_availability(connectivity_network: nx.Graph, node):
     score = nx.betweenness_centrality(connectivity_network, normalized=True)[node]
-
-    d = defaultdict(lambda: 0, {'1': 1})
-    print(nx.percolation_centrality(connectivity_network,states=d))
 
     if score < 1/3:
         return util.Impact.NONE

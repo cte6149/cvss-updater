@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "name": "Base Thesis Network",
+    "description": "Base Network found in Wang paper",
+    "version": "1.0.0",
+    "confidentiality_requirement": "High",
+    "integrity_requirement": "High",
+    "availability_requirement": "High"
+  },
+  "nodes":[
+    {
+      "id": 1,
+      "name": "The Internet",
+      "type": "INTERNET",
+      "connected_to": [2],
+      "communicates_to": []
+    },
+    {
+      "id": 2,
+      "name": "Network Router",
+      "type": "ROUTER",
+      "connected_to": [3, 9],
+      "communicates_to": []
+    },
+    {
+      "id": 3,
+      "name": "Subnet 1 Router",
+      "type": "ROUTER",
+      "connected_to": [ 5, 6, 7, 8],
+      "communicates_to": []
+    },
+    {
+      "id": 5,
+      "name": "192.168.4.110",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": []
+    },
+        {
+      "id": 6,
+      "name": "192.168.4.123",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": []
+    },
+    {
+      "id": 7,
+      "name": "192.168.4.136",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": []
+    },
+    {
+      "id": 8,
+      "name": "192.168.4.171",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": []
+    },
+    {
+      "id": 4,
+      "name": "Subnet 2 Router",
+      "type": "ROUTER",
+      "connected_to": [9, 10, 11, 12],
+      "communicates_to": []
+    },
+    {
+      "id": 9,
+      "name": "192.168.3.177",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": []
+    },
+        {
+      "id": 10,
+      "name": "192.168.3.182",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": []
+    },
+    {
+      "id": 11,
+      "name": "192.168.3.195",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": []
+    },
+    {
+      "id": 12,
+      "name": "192.168.3.94",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": []
+    }
+  ]
+}

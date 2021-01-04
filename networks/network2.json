@@ -82,7 +82,23 @@
                     "complexity": "High",
                     "privilege_needed": "High"
                 }
-            ]
+            ],
+            "cve":{
+                "name": "CVE-2012-0001",
+                "cvss": {
+                    "attack_vector": "Network",
+                    "attack_complexity": "High",
+                    "privileges_required": "Low",
+                    "user_interaction": "None",
+                    "scope": "Changed",
+                    "confidentiality": "High",
+                    "integrity": "High",
+                    "availability": "None",
+                    "exploit_code_maturity": "Not Defined",
+                    "remediation_level": "Not Defined",
+                    "report_confidence": "Not Defined"
+                }
+            }
         },
         {
             "id": 4,
@@ -241,7 +257,7 @@
         {
             "id": 11,
             "name": "Linksys Wireless Router",
-            "type": "ROUTER",
+            "type": "MACHINE",
             "questionnaire_responses": {
                 "1": "YES"
             },
@@ -320,23 +336,7 @@
                     "complexity": "Low",
                     "privilege_needed": "None"
                 }
-            ],
-            "cve":{
-                "name": "CVE-2012-0001",
-                "cvss": {
-                    "attack_vector": "Network",
-                    "attack_complexity": "High",
-                    "privileges_required": "Low",
-                    "user_interaction": "None",
-                    "scope": "Changed",
-                    "confidentiality": "High",
-                    "integrity": "High",
-                    "availability": "None",
-                    "exploit_code_maturity": "Not Defined",
-                    "remediation_level": "Not Defined",
-                    "report_confidence": "Not Defined"
-                }
-            }
+            ]
         },
         {
             "id": 15,

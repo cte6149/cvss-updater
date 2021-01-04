@@ -247,6 +247,7 @@ class Questionnaire(abc.MutableMapping):
             6: Answer.NO,
             7: Answer.NO,
             8: Answer.NO,
+            9: Answer.NO,
         }
         self.answers.update(answers)
 
@@ -264,3 +265,17 @@ class Questionnaire(abc.MutableMapping):
 
     def __iter__(self):
         return iter(self.answers.items())
+
+    @property
+    def confidentiality_weight(self):
+        return max(answer.value for question_id, answer in self if question_id in self.CONFIDENTIALITY_QUESTIONS)
+
+    @property
+    def integrity_weight(self):
+        return max(answer.value for question_id, answer in self if question_id in self.INTEGRITY_QUESTIONS)
+
+    def __str__(self):
+        return f'confidentiality_weight: {self.confidentiality_weight} -- integrity_weight: {self.integrity_weight}'
+
+    def __repr__(self):
+        return str(self)

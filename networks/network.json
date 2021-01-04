@@ -25,7 +25,7 @@
       "id": 2,
       "name": "Test Device 1",
       "type": "MACHINE",
-      "connected_to": [1,3,4,5,6,7],
+      "connected_to": [3],
       "communicates_to": [
         {
           "id": 1,
@@ -42,8 +42,8 @@
     {
         "id": 3,
         "name": "Test Device 2",
-        "type": "MACHINE",
-        "connected_to": [2],
+        "type": "ROUTER",
+        "connected_to": [4, 5, 6, 11],
         "communicates_to": [
             {
               "id": 2,
@@ -61,7 +61,7 @@
       "id": 4,
       "name": "Test Device 3",
       "type": "MACHINE",
-      "connected_to": [2],
+      "connected_to": [],
       "communicates_to": [
         {
           "id": 3,
@@ -79,7 +79,7 @@
       "id": 5,
       "name": "Test Device 4",
       "type": "MACHINE",
-      "connected_to": [2],
+      "connected_to": [5],
       "communicates_to": [
         {
           "id": 4,
@@ -115,12 +115,9 @@
       "id": 7,
       "name": "Test Device 6",
       "type": "MACHINE",
-      "questionnaire_responses":[
-        {
-          "question_id": 8,
-          "answer": "YES"
-        }
-      ],
+      "questionnaire_responses": {
+          "8": "YES"
+      },
       "cve":{
         "name": "CVE-2012-0001",
         "cvss": {

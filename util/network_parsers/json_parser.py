@@ -2,7 +2,7 @@ import networkx as nx
 
 import util
 
-from util.models import Questionnaire, Answer, CVE, CVSS
+from util.models import Questionnaire, Answer, CVE, CVSS, NodeType
 from util.cvss_calculator import AttackComplexity
 
 
@@ -15,6 +15,7 @@ def parse_network(network_data):
 
     for node in node_data:
         node_id = node.pop('id')
+        node_type = NodeType[node.pop('type')]
 
         connectivity_edges = node.pop('connected_to', [])
         for connected_node in connectivity_edges:
@@ -29,9 +30,21 @@ def parse_network(network_data):
         if cve_data:
             cve = _parse_cve(cve_data)
             node['cve'] = cve
+
+        questionnare_data = node.pop('questionnaire_responses', {})
+        questionnaire = _parse_questionnaire(questionnare_data)
+        node['questionnaire'] = questionnaire
+
         print(node)
-        connectivity_graph.add_node(node_id, **node)
-        communication_graph.add_node(node_id, **node)
+        connectivity_graph.add_node(node_id, type=node_type, **node)
+        # communication_graph.add_node(node_id, confidentiality_weight=questionnaire.confidentiality_weight, integrity_weight=questionnaire.integrity_weight, **node)
+        communication_graph.add_node(node_id, type=node_type, **node)
+
+    for node, predecessors in communication_graph.pred.items():
+        for predecessor in predecessors:
+            questionnaire = communication_graph.nodes(data=True)[node]['questionnaire']
+            communication_graph.pred[node][predecessor]['confidentiality_weight'] = questionnaire.confidentiality_weight
+            communication_graph.pred[node][predecessor]['integrity_weight'] = questionnaire.integrity_weight
 
     return connectivity_graph, communication_graph
 
@@ -46,7 +59,7 @@ def _parse_communication_node(node):
 
 
 def _parse_questionnaire(questionnaire_data):
-    converted_answers = {key: Answer[value] for key, value in questionnaire_data.items()}
+    converted_answers = {int(key): Answer[value] for key, value in questionnaire_data.items()}
     return Questionnaire(converted_answers)
 
 
