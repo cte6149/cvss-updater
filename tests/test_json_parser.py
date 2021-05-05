@@ -41,9 +41,9 @@ class JsonParserTestCases(unittest.TestCase):
 
         data = {
             'nodes': [
-                {'id': 'A'},
-                {'id': 'B'},
-                {'id': 'C'},
+                {'id': 'A', 'type': 'MACHINE'},
+                {'id': 'B', 'type': 'MACHINE'},
+                {'id': 'C', 'type': 'MACHINE'},
             ]
         }
 
@@ -60,7 +60,8 @@ class JsonParserTestCases(unittest.TestCase):
             'nodes': [
                 {
                     'id': 'A',
-                    'key': 'value'
+                    'key': 'value',
+                    'type': 'MACHINE'
                 },
             ]
         }
@@ -75,6 +76,7 @@ class JsonParserTestCases(unittest.TestCase):
             'nodes': [
                 {
                     'id': 'A',
+                    'type': 'MACHINE',
                     'connected_to': ['B']
                 }
             ]
@@ -89,9 +91,10 @@ class JsonParserTestCases(unittest.TestCase):
             'nodes': [
                 {
                     'id': 'A',
+                    'type': 'MACHINE',
                     'communicates_to': [{
                         'id': 'B',
-                        'key': 'value'
+                        'key': 'value',
                     }]
                 }
             ]

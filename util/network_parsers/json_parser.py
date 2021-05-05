@@ -42,7 +42,7 @@ def parse_network(network_data):
 
     for node, predecessors in communication_graph.pred.items():
         for predecessor in predecessors:
-            questionnaire = communication_graph.nodes(data=True)[node]['questionnaire']
+            questionnaire = communication_graph.nodes(data=True)[node].get('questionnaire', Questionnaire())
             communication_graph.pred[node][predecessor]['confidentiality_weight'] = questionnaire.confidentiality_weight
             communication_graph.pred[node][predecessor]['integrity_weight'] = questionnaire.integrity_weight
 
