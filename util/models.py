@@ -98,9 +98,9 @@ class CVSS:
             f'attack_complexity\t|\t{self.attack_complexity} -> {self.modified_attack_complexity}\n'
             f'privileges_required\t|\t{self.privileges_required} -> {self.modified_privileges_required}\n'
             f'user_interaction\t|\t{self.user_interaction} -> {self.modified_user_interaction}\n'
-            f'scope\t\t\t\t|\t{self.scope} -> {self.modified_scope}\n'
+            f'scope\t\t\t|\t{self.scope} -> {self.modified_scope}\n'
             f'confidentiality\t\t|\t{self.confidentiality} -> {self.modified_confidentiality}\n'
-            f'integrity\t\t\t|\t{self.integrity} -> {self.modified_integrity}\n'
+            f'integrity\t\t|\t{self.integrity} -> {self.modified_integrity}\n'
             f'availability\t\t|\t{self.availability} -> {self.modified_availability}\n'
         )
 
@@ -110,9 +110,9 @@ class CVSS:
         results += f'attack_complexity\t|\t{self.attack_complexity} -> {self.modified_attack_complexity}\n' if self.attack_complexity != self.modified_attack_complexity else ''
         results += f'privileges_required\t|\t{self.privileges_required} -> {self.modified_privileges_required}\n' if self.privileges_required != self.modified_privileges_required else ''
         results += f'user_interaction\t|\t{self.user_interaction} -> {self.modified_user_interaction}\n' if self.user_interaction != self.modified_user_interaction else ''
-        results += f'scope\t\t\t\t|\t{self.scope} -> {self.modified_scope}\n' if self.scope != self.modified_scope else ''
+        results += f'scope\t\t\t|\t{self.scope} -> {self.modified_scope}\n' if self.scope != self.modified_scope else ''
         results += f'confidentiality\t\t|\t{self.confidentiality} -> {self.modified_confidentiality}\n' if self.confidentiality != self.modified_confidentiality else ''
-        results += f'integrity\t\t\t|\t{self.integrity} -> {self.modified_integrity}\n' if self.integrity != self.modified_integrity else ''
+        results += f'integrity\t\t|\t{self.integrity} -> {self.modified_integrity}\n' if self.integrity != self.modified_integrity else ''
         results += f'availability\t\t|\t{self.availability} -> {self.modified_availability}\n' if self.availability != self.modified_availability else ''
         return results
 
