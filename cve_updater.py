@@ -1,12 +1,17 @@
 #! venv/bin/python3
 
+import json
 import argparse
+import random
 import networkx as nx
 import matplotlib.pyplot as plt
 import sys
+import copy
+
+from functools import partial
 
 from util.cvss_updater import update_cvss
-from util.network_parser import import_network
+from util.network_parser import import_network, json_parser
 from util.models import NodeType
 
 
@@ -19,25 +24,16 @@ class JsonFileType(argparse.FileType):
         return super().__call__(filename)
 
 
-def single_run(args):
-    file = args.file_name
+def print_cve_data_for_node(node_id, cve):
+    print("Updated CVSS for Node: " + str(node_id))
+    print('Base Score:', cve.cvss.base_score)
+    print('Environmental Score:', cve.cvss.environmental_score, '\n')
+    print(f'==Full Diff==\n{cve.cvss.full_diff()}')
 
-    connectivity_network, communication_network = import_network(file)
+    print(f'++Diff++\n{cve.cvss.diff()}')
 
-    if connectivity_network is None and communication_network is None:
-        exit(0)
 
-    cves = update_cvss(connectivity_network, communication_network)
-
-    for node_id, cve in cves.items():
-        print("Updated CVSS for Node: " + str(node_id))
-        print(repr(cve.cvss))
-        print('Base Score:', cve.cvss.base_score)
-        print('Environmental Score:', cve.cvss.environmental_score)
-        print(f'==Full Diff==\n{cve.cvss.full_diff()}')
-
-        print(f'++Diff++\n{cve.cvss.diff()}')
-
+def generate_graph_view(connectivity_network, communication_network):
     color_map = ['blue'] * len(connectivity_network)
     for node in communication_network.nodes(data=True):
         ID = 0
@@ -62,12 +58,81 @@ def single_run(args):
     # plt.show()
 
 
+def single_run(args):
+    file = args.file_name
+
+    connectivity_network, communication_network = import_network(file)
+
+    if connectivity_network is None and communication_network is None:
+        exit(0)
+
+    cves = update_cvss(connectivity_network, communication_network)
+
+    for node_id, cve in cves.items():
+        print_cve_data_for_node(node_id, cve)
+
+    generate_graph_view(connectivity_network, communication_network)
+
+
 def random_cve(args):
-    print(args)
+
+    connectivity_network, communication_network = import_network(args.template_filename, ignore_cve=True)
+
+    number_of_nodes = connectivity_network.number_of_nodes() - 1 # subtract internet node since cve cannot exist there
+    if args.num_runs >= number_of_nodes:
+        raise Exception("Number of runs exceeds number of nodes")
+
+    cve_json = json.load(args.cve_filename)
+    template_cve = json_parser._parse_cve(cve_json['cve'])
+
+    random.seed(args.seed)
+    print(args.seed)
+
+    visited_nodes = set()
+    cve_results = dict()
+
+    for run in range(0, args.num_runs):
+        node_id = random.randint(2, number_of_nodes) # internet node is id 1
+        while node_id in visited_nodes:
+            print("Run already completed for node: ", node_id)
+            node_id = random.randint(1, number_of_nodes)
+
+        visited_nodes.add(node_id)
+
+        print("Placing CVE on node ", node_id)
+        cve = copy.deepcopy(template_cve)
+        connectivity_network.nodes[node_id]['cve'] = cve
+        communication_network.nodes[node_id]['cve'] = cve
+
+        cves = update_cvss(connectivity_network, communication_network)
+
+        cve_results.update(cves)
+        del connectivity_network.nodes[node_id]['cve']
+        del communication_network.nodes[node_id]['cve']
+
+    print(template_cve)
+    print('=====')
+    for node_id, cve in cve_results.items():
+        print_cve_data_for_node(node_id, cve)
+        print('=====\n')
+
+    generate_graph_view(connectivity_network, communication_network)
 
 
 def random_communications(args):
     print(args)
+    # parse network
+
+    # generate seed if not given
+    # set seed for randomization
+    # print seed for the run
+
+    # check to make sure number of runs is less than or equal to number of nodes in network
+    # for each run in runs
+        # randomly generate communications network
+        # run cve updater on network
+        # print the results of the run
+        # print communications in A -> [B,C] pairs
 
 
 def add_single_run_command(subparser):
@@ -83,7 +148,7 @@ def add_random_cve_command(subparser):
     random_cve_cmd.add_argument('template_filename', type=JsonFileType('r'), help='The template file to generate runs off of')
     random_cve_cmd.add_argument('cve_filename', type=JsonFileType('r'), help='The description of the CVE')
     random_cve_cmd.add_argument('--num_runs', type=int, default=1, help='The number of runs to create')
-    random_cve_cmd.add_argument('--seed', type=str, default=1, help='The seed used for randomization')
+    random_cve_cmd.add_argument('--seed', type=str, default=random.randrange(sys.maxsize), help='The seed used for randomization')
     random_cve_cmd.set_defaults(func=random_cve)
 
 
@@ -107,5 +172,5 @@ if __name__ == "__main__":
     try:
         args = parser.parse_args(sys.argv[1:])
         args.func(args)
-    except Exception:
+    except argparse.ArgumentError:
         parser.print_usage()

@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "name": "Test Network",
+    "description": "Test Network for Parsing",
+    "version": "1.0.0",
+    "confidentiality_requirement": "High",
+    "integrity_requirement": "High",
+    "availability_requirement": "High"
+  },
+  "nodes":[
+    {
+      "id": 1,
+      "name": "The Internet",
+      "type": "INTERNET",
+      "connected_to": [2],
+      "communicates_to": [
+        {
+          "id": 2,
+          "complexity": "Low",
+          "privilege_needed": "None"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Test Device 1",
+      "type": "MACHINE",
+      "connected_to": [3],
+      "communicates_to": [
+        {
+          "id": 1,
+          "complexity": "Low",
+          "privilege_needed": "None"
+        },
+        {
+          "id": 3,
+          "complexity": "Low",
+          "privilege_needed": "None"
+        }
+      ]
+    },
+    {
+        "id": 3,
+        "name": "Test Device 2",
+        "type": "ROUTER",
+        "connected_to": [4, 5, 6, 11],
+        "communicates_to": [
+            {
+              "id": 2,
+              "complexity": "Low",
+              "privilege_needed": "None"
+            },
+            {
+              "id": 4,
+              "complexity": "Low",
+              "privilege_needed": "None"
+            }
+        ]
+    },
+    {
+      "id": 4,
+      "name": "Test Device 3",
+      "type": "MACHINE",
+      "connected_to": [],
+      "communicates_to": [
+        {
+          "id": 3,
+          "complexity": "Low",
+          "privilege_needed": "None"
+        },
+        {
+          "id": 5,
+          "complexity": "Low",
+          "privilege_needed": "None"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Test Device 4",
+      "type": "MACHINE",
+      "connected_to": [5],
+      "communicates_to": [
+        {
+          "id": 4,
+          "complexity": "Low",
+          "privilege_needed": "None"
+        },
+        {
+          "id": 6,
+          "complexity": "Low",
+          "privilege_needed": "None"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Test Device 5",
+      "type": "MACHINE",
+      "connected_to": [2],
+      "communicates_to": [
+        {
+            "id": 5,
+            "complexity": "Low",
+            "privilege_needed": "None"
+        },
+        {
+            "id": 7,
+            "complexity": "Low",
+            "privilege_needed": "None"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Test Device 6",
+      "type": "MACHINE",
+      "questionnaire_responses": {
+          "8": "YES"
+      },
+      "connected_to": [2],
+      "communicates_to": [
+        {
+          "id": 6,
+          "complexity": "Low",
+          "privilege_needed": "None"
+        }
+      ]
+    }
+  ]
+}

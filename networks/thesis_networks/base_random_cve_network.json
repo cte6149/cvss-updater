@@ -1,7 +1,7 @@
 {
   "meta": {
-    "name": "Base Thesis Network",
-    "description": "Base Network found in Wang paper",
+    "name": "Random CVE Template Network",
+    "description": "Network found in Wang paper",
     "version": "1.0.0",
     "confidentiality_requirement": "High",
     "integrity_requirement": "High",
@@ -23,7 +23,7 @@
       "type": "ROUTER",
       "connected_to": [
         3,
-        9
+        4
       ],
       "communicates_to": [
         {

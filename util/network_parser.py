@@ -5,19 +5,19 @@ from .network_parsers import json_parser
 from .exceptions import EmptyNetworkException, MissingInternetNodeException, MissingCveException
 
 
-def import_network(f):
+def import_network(f, ignore_cve=False):
     contents = json.load(f)
 
-    if contents != [] and valid_network(contents):
+    if contents != [] and valid_network(contents, ignore_cve):
         return json_parser.parse_network(contents)
 
 
-def valid_network(network_json):
+def valid_network(network_json, ignore_cve):
 
     if not nodes_exist(network_json):
         raise EmptyNetworkException("You must have a least 2 nodes in the network")
 
-    cve_exists = False
+    cve_exists = ignore_cve or False
     internet_exists = False
 
     for node in network_json["nodes"]:
