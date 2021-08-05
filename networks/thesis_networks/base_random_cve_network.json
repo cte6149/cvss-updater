@@ -362,10 +362,16 @@
           "privilege_needed": "HIGH"
         }],
       "questionnaire_responses": {
-        "2": "MAYBE",
-        "3": "MAYBE",
-        "5": "MAYBE",
-        "8": "MAYBE"
+        "1": "NO",
+        "2": "NO",
+        "3": "NO",
+        "4": "NO",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "NO",
+        "9": "YES",
+        "10": "NO"
       }
     },
     {
@@ -495,6 +501,6 @@
         "9": "NO",
         "10": "NO"
       }
-      }
+    }
   ]
 }

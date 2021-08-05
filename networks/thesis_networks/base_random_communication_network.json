@@ -20,70 +20,190 @@
       "name": "Network Router",
       "type": "ROUTER",
       "connected_to": [3, 9],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "YES",
+        "2": "MAYBE",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
+      }
     },
     {
       "id": 3,
       "name": "Subnet 1 Router",
       "type": "ROUTER",
       "connected_to": [ 5, 6, 7, 8],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "YES",
+        "2": "MAYBE",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
+      }
     },
     {
       "id": 5,
       "name": "192.168.4.110",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "NO",
+        "2": "NO",
+        "3": "YES",
+        "4": "YES",
+        "5": "MAYBE",
+        "6": "YES",
+        "7": "NO",
+        "8": "NO",
+        "9": "NO",
+        "10": "NO"
+      }
     },
-        {
+    {
       "id": 6,
       "name": "192.168.4.123",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "YES",
+        "2": "YES",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "NO",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
+      }
     },
     {
       "id": 7,
       "name": "192.168.4.136",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "NO",
+        "2": "NO",
+        "3": "YES",
+        "4": "NO",
+        "5": "NO",
+        "6": "NO",
+        "7": "NO",
+        "8": "NO",
+        "9": "NO",
+        "10": "NO"
+      }
     },
     {
       "id": 8,
       "name": "192.168.4.171",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "NO",
+        "2": "NO",
+        "3": "MAYBE",
+        "4": "MAYBE",
+        "5": "MAYBE",
+        "6": "MAYBE",
+        "7": "YES",
+        "8": "NO",
+        "9": "YES",
+        "10": "NO"
+      }
     },
     {
       "id": 4,
       "name": "Subnet 2 Router",
       "type": "ROUTER",
       "connected_to": [9, 10, 11, 12],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "YES",
+        "2": "MAYBE",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
+      }
     },
     {
       "id": 9,
       "name": "192.168.3.177",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "NO",
+        "2": "NO",
+        "3": "NO",
+        "4": "NO",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "NO",
+        "9": "YES",
+        "10": "NO"
+      }
     },
-        {
+    {
       "id": 10,
       "name": "192.168.3.182",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "YES",
+        "2": "MAYBE",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
+      }
     },
     {
       "id": 11,
       "name": "192.168.3.195",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": []
+      "communicates_to": [],
+      "questionnaire_responses": {
+        "1": "NO",
+        "2": "NO",
+        "3": "YES",
+        "4": "NO",
+        "5": "YES",
+        "6": "NO",
+        "7": "NO",
+        "8": "NO",
+        "9": "NO",
+        "10": "YES"
+      }
     },
     {
       "id": 12,
@@ -91,21 +211,17 @@
       "type": "MACHINE",
       "connected_to": [],
       "communicates_to": [],
-        "cve": {
-        "name": "CVE-2019-10129",
-        "cvss": {
-          "attack_vector": "Network",
-          "attack_complexity": "Low",
-          "privileges_required": "Low",
-          "user_interaction": "None",
-          "scope": "Unchanged",
-          "confidentiality": "High",
-          "integrity": "None",
-          "availability": "None",
-          "exploit_code_maturity": "Not Defined",
-          "remediation_level": "Not Defined",
-          "report_confidence": "Not Defined"
-        }
+      "questionnaire_responses": {
+        "1": "NO",
+        "2": "NO",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "YES",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
       }
     }
   ]
