@@ -133,17 +133,24 @@ def random_cve(args):
 #    generate_graph_view(connectivity_network, communication_network)
 
 
-def generate_random_communication_network(n, p):
+def generate_random_communication_network(base_network, p):
+
     # Generate random graph
-    G = random_graphs.erdos_renyi_graph(n, p)
+    G = random_graphs.erdos_renyi_graph(base_network.number_of_nodes(), p)
     # Increase Node Ids by 1
     G = nx.relabel_nodes(G, lambda x: x + 1)
+
+    nx.set_node_attributes(G, {
+        node: node_attrs for node, node_attrs in base_network.nodes.items()
+    })
 
     # Generate random attributes for each attribute
     attrs = {
         (edge[0], edge[1]): {
             "complexity": random.choice(list(AttackComplexity)),
             "privilege_needed": random.choice(("None", "Low", "High")),
+            "confidentiality_weight": base_network.nodes[edge[1]]['questionnaire'].confidentiality_weight,
+            "integrity_weight": base_network.nodes[edge[1]]['questionnaire'].confidentiality_weight,
         }
         for edge in G.edges
     }
@@ -153,7 +160,13 @@ def generate_random_communication_network(n, p):
 
 
 def random_communications(args):
-    connectivity_network, _ = import_network(args.network_filename)
+    if args.cve_filename:
+        connectivity_network, _ = import_network(args.network_filename, ignore_cve=True)
+        cve_json = json.load(args.cve_filename)
+        cve = json_parser._parse_cve(cve_json['cve'])
+        connectivity_network.nodes[args.cve_location]['cve'] = cve
+    else:
+        connectivity_network, _ = import_network(args.network_filename)
 
     print('Connectivity Graph:')
     print_graph_relationships(connectivity_network)
@@ -168,13 +181,9 @@ def random_communications(args):
 
         # randomly generate communications network
         communication_network = generate_random_communication_network(
-            connectivity_network.number_of_nodes(),
+            connectivity_network,
             edge_probability
         )
-
-        nx.set_node_attributes(communication_network, {
-            node: node_attrs for node, node_attrs in connectivity_network.nodes.items()
-        })
 
         # run cve updater on network
         cves = update_cvss(connectivity_network, communication_network)
@@ -214,6 +223,8 @@ def add_random_communications_command(subparser):
     """Create random cve command"""
     random_communications_cmd = subparser.add_parser(name='random_communications', description='Run CVE Calculator on a network with randomized communications')
     random_communications_cmd.add_argument('network_filename', type=JsonFileType('r'), help='The network file to generate runs off of')
+    random_communications_cmd.add_argument('--cve_filename', type=JsonFileType('r'), help='The description of the CVE')
+    random_communications_cmd.add_argument('--cve_location', type=int, help='The Node ID the CVE should be placed on')
     random_communications_cmd.add_argument('--num_runs', type=int, default=1, help='The number of runs to create')
     random_communications_cmd.add_argument('--seed', type=str, default=str(random.randrange(sys.maxsize)), help='The seed used for randomization')
     random_communications_cmd.set_defaults(func=random_communications)
