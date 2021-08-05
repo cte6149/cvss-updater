@@ -158,8 +158,24 @@ def _calculate_modified_integrity(communication_network, node):
 
 
 def _calculate_modified_availability(connectivity_network: nx.Graph, node):
-    score = nx.load_centrality(connectivity_network, normalized=True)[node]
+    # score = nx.load_centrality(connectivity_network, normalized=True)[node]
+    # get a list of connected nodes
+    connected_nodes = set()
+    for edge in nx.edge_bfs(connectivity_network, get_internet_nodes(connectivity_network)):
+        connected_nodes.update(edge)
 
+    # remove node from graph
+    sub_connectivity_network = nx.subgraph_view(connectivity_network, lambda x: x != node)
+
+    # get a new list of connected nodes from Internet
+    new_connected_nodes = set()
+    for edge in nx.edge_bfs(sub_connectivity_network, get_internet_nodes(connectivity_network)):
+        new_connected_nodes.update(edge)
+
+    # compare size of connected nodes
+    print(connected_nodes, new_connected_nodes)
+    score = len(connected_nodes - new_connected_nodes) / connectivity_network.number_of_nodes()
+    print(score)
     if score < 1/3:
         return util.Impact.NONE
     elif (1/3) <= score < (2/3):
