@@ -11,9 +11,9 @@ class AttackVector(enum.Enum):
 
 
 class AttackComplexity(enum.Enum):
-    NOT_DEFINED = 0.77
     HIGH = 0.44
     LOW = 0.77
+    NOT_DEFINED = 0.77
 
 
 class PrivilegeRequired(enum.Enum):

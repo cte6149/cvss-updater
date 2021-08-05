@@ -7,6 +7,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import sys
 import copy
+import pprint
 
 from networkx.generators import random_graphs
 
@@ -36,7 +37,10 @@ def print_cve_data_for_node(node_id, cve):
 
 def print_graph_relationships(graph: nx.Graph):
     for node, adjacency in graph.adjacency():
-        print(node, ": ", adjacency)
+        # print(node, ": ", adjacency)
+        print(f'Node {node} Neighbors')
+        pprint.pprint(adjacency, indent=4)
+        print()
 
 
 def generate_graph_view(connectivity_network, communication_network):
@@ -88,11 +92,15 @@ def random_cve(args):
     if args.num_runs >= number_of_nodes:
         raise Exception("Number of runs exceeds number of nodes")
 
+
+    print('Connectivity Graph:')
+    print_graph_relationships(connectivity_network)
+    print("=====\n")
+    print('Communication Gragh:')
+    print_graph_relationships(communication_network)
+
     cve_json = json.load(args.cve_filename)
     template_cve = json_parser._parse_cve(cve_json['cve'])
-
-    random.seed(args.seed)
-    print(args.seed)
 
     visited_nodes = set()
     cve_results = dict()
@@ -122,11 +130,6 @@ def random_cve(args):
         print_cve_data_for_node(node_id, cve)
         print('=====\n')
 
-    print('Connectivity Graph:')
-    print_graph_relationships(connectivity_network)
-    print("===\n")
-    print('Communication Gragh:')
-    print_graph_relationships(communication_network)
 #    generate_graph_view(connectivity_network, communication_network)
 
 
@@ -144,7 +147,6 @@ def generate_random_communication_network(n, p):
         }
         for edge in G.edges
     }
-    # attrs = {(0, 1): {"attr1": 20, "attr2": "nothing"}, (1, 2): {"attr2": 3}}
     nx.set_edge_attributes(G, attrs)
 
     return G
@@ -153,11 +155,16 @@ def generate_random_communication_network(n, p):
 def random_communications(args):
     connectivity_network, _ = import_network(args.network_filename)
 
-    random.seed(args.seed)
+    print('Connectivity Graph:')
+    print_graph_relationships(connectivity_network)
+    print('=====')
 
     for run in range(0, args.num_runs):
 
+        print(f'--- RUN #{run+1}---')
+
         edge_probability = random.randint(0, 100) / 100
+        print(f'Edge Probability: {edge_probability}')
 
         # randomly generate communications network
         communication_network = generate_random_communication_network(
@@ -172,17 +179,16 @@ def random_communications(args):
         # run cve updater on network
         cves = update_cvss(connectivity_network, communication_network)
 
+        print("=====\n")
+        print('Communication Gragh:')
+        print_graph_relationships(communication_network)
+
         print('\n=====')
         for node_id, cve in cves.items():
             print_cve_data_for_node(node_id, cve)
             print('=====\n')
 
-        print('Connectivity Graph:')
-        print_graph_relationships(connectivity_network)
-        print("===\n")
-        print('Communication Gragh:')
-        print_graph_relationships(communication_network)
-
+        print('-----')
 
 #    generate_graph_view(connectivity_network, communication_network
 
@@ -200,7 +206,7 @@ def add_random_cve_command(subparser):
     random_cve_cmd.add_argument('template_filename', type=JsonFileType('r'), help='The template file to generate runs off of')
     random_cve_cmd.add_argument('cve_filename', type=JsonFileType('r'), help='The description of the CVE')
     random_cve_cmd.add_argument('--num_runs', type=int, default=1, help='The number of runs to create')
-    random_cve_cmd.add_argument('--seed', type=str, default=random.randrange(sys.maxsize), help='The seed used for randomization')
+    random_cve_cmd.add_argument('--seed', type=str, default=str(random.randrange(sys.maxsize)), help='The seed used for randomization')
     random_cve_cmd.set_defaults(func=random_cve)
 
 
@@ -209,7 +215,7 @@ def add_random_communications_command(subparser):
     random_communications_cmd = subparser.add_parser(name='random_communications', description='Run CVE Calculator on a network with randomized communications')
     random_communications_cmd.add_argument('network_filename', type=JsonFileType('r'), help='The network file to generate runs off of')
     random_communications_cmd.add_argument('--num_runs', type=int, default=1, help='The number of runs to create')
-    random_communications_cmd.add_argument('--seed', type=str, default=random.randrange(sys.maxsize), help='The seed used for randomization')
+    random_communications_cmd.add_argument('--seed', type=str, default=str(random.randrange(sys.maxsize)), help='The seed used for randomization')
     random_communications_cmd.set_defaults(func=random_communications)
 
 
@@ -223,7 +229,8 @@ if __name__ == "__main__":
 
     try:
         args = parser.parse_args(sys.argv[1:])
-        print("=== Seed: ", args.seed)
+        print(f'=== Seed: {args.seed} ===')
+        random.seed(args.seed)
         args.func(args)
     except argparse.ArgumentError:
         parser.print_usage()

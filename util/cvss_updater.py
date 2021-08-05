@@ -158,7 +158,7 @@ def _calculate_modified_integrity(communication_network, node):
 
 
 def _calculate_modified_availability(connectivity_network: nx.Graph, node):
-    score = nx.betweenness_centrality(connectivity_network, normalized=True)[node]
+    score = nx.load_centrality(connectivity_network, normalized=True)[node]
 
     if score < 1/3:
         return util.Impact.NONE
