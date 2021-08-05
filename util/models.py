@@ -234,8 +234,8 @@ class Answer(enum.Enum):
 
 class Questionnaire(abc.MutableMapping):
 
-    CONFIDENTIALITY_QUESTIONS = [1, 2, 4, 5, 6, 7, 9]
-    INTEGRITY_QUESTIONS = [1, 2, 3, 4, 6, 8]
+    CONFIDENTIALITY_QUESTIONS = [1, 2, 4, 5, 6, 7, 8, 9]
+    INTEGRITY_QUESTIONS = [1, 2, 3, 4, 5, 6, 8, 10]
 
     def __init__(self, answers=()):
         self.answers = {
@@ -248,6 +248,7 @@ class Questionnaire(abc.MutableMapping):
             7: Answer.NO,
             8: Answer.NO,
             9: Answer.NO,
+            10: Answer.NO,
         }
         self.answers.update(answers)
 
