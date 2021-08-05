@@ -1,0 +1,18 @@
+{
+  "cve": {
+    "name": "CVE-2019-10209",
+    "cvss": {
+      "attack_vector": "Network",
+      "attack_complexity": "High",
+      "privileges_required": "High",
+      "user_interaction": "None",
+      "scope": "Unchanged",
+      "confidentiality": "Low",
+      "integrity": "None",
+      "availability": "None",
+      "exploit_code_maturity": "Not Defined",
+      "remediation_level": "Not Defined",
+      "report_confidence": "Not Defined"
+    }
+  }
+}

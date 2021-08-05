@@ -19,6 +19,36 @@
         {
           "id": 2,
           "complexity": "LOW",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 3,
+          "complexity": "LOW",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 5,
+          "complexity": "HIGH",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 6,
+          "complexity": "HIGH",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 10,
+          "complexity": "HIGH",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 11,
+          "complexity": "HIGH",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 12,
+          "complexity": "HIGH",
           "privilege_needed": "NONE"
         }
       ]
@@ -27,24 +57,40 @@
       "id": 2,
       "name": "Network Router",
       "type": "ROUTER",
-      "connected_to": [
-        3,
-        4
-      ],
+      "connected_to": [ 3, 4 ],
       "communicates_to": [
         {
-          "id": 1,
+          "id": 4,
           "complexity": "LOW",
           "privilege_needed": "NONE"
+        },
+        {
+          "id": 8,
+          "complexity": "LOW",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 9,
+          "complexity": "HIGH",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 10,
+          "complexity": "LOW",
+          "privilege_needed": "HIGH"
         }
       ],
       "questionnaire_responses": {
-        "1": "MAYBE",
-        "3": "MAYBE",
-        "4": "MAYBE",
-        "5": "YES",
-        "7": "MAYBE",
-        "8": "YES"
+        "1": "YES",
+        "2": "MAYBE",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
       }
     },
     {
@@ -59,17 +105,32 @@
       ],
       "communicates_to": [
         {
-          "id": 2,
+          "id": 1,
           "complexity": "LOW",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 4,
+          "complexity": "HIGH",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 8,
+          "complexity": "HIGH",
           "privilege_needed": "NONE"
         }
       ],
       "questionnaire_responses": {
-        "3": "MAYBE",
-        "5": "MAYBE",
-        "7": "MAYBE",
-        "8": "MAYBE",
-        "9": "YES"
+        "1": "YES",
+        "2": "MAYBE",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
       }
     },
     {
@@ -77,19 +138,33 @@
       "name": "192.168.4.110",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": [{
+      "communicates_to": [
+        {
           "id": 1,
           "complexity": "LOW",
           "privilege_needed": "NONE"
+        },
+        {
+          "id": 4,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 9,
+          "complexity": "LOW",
+          "privilege_needed": "HIGH"
         }],
       "questionnaire_responses": {
-        "2": "YES",
+        "1": "NO",
+        "2": "NO",
         "3": "YES",
-        "4": "MAYBE",
-        "5": "YES",
-        "7": "MAYBE",
-        "8": "YES",
-        "9": "MAYBE"
+        "4": "YES",
+        "5": "MAYBE",
+        "6": "YES",
+        "7": "NO",
+        "8": "NO",
+        "9": "NO",
+        "10": "NO"
       }
     },
     {
@@ -100,16 +175,26 @@
       "communicates_to": [
         {
           "id": 1,
-          "complexity": "LOW",
+          "complexity": "HIGH",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 4,
+          "complexity": "HIGH",
           "privilege_needed": "NONE"
         }
       ],
       "questionnaire_responses": {
         "1": "YES",
-        "3": "MAYBE",
-        "5": "YES",
-        "6": "MAYBE",
-        "9": "MAYBE"
+        "2": "YES",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "NO",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
       }
     },
     {
@@ -119,16 +204,31 @@
       "connected_to": [],
       "communicates_to": [
         {
-          "id": 1,
+          "id": 4,
+          "complexity": "HIGH",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 10,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 12,
           "complexity": "LOW",
           "privilege_needed": "NONE"
         }],
       "questionnaire_responses": {
-        "2": "YES",
-        "3": "MAYBE",
-        "5": "YES",
-        "6": "YES",
-        "9": "MAYBE"
+        "1": "NO",
+        "2": "NO",
+        "3": "YES",
+        "4": "NO",
+        "5": "NO",
+        "6": "NO",
+        "7": "NO",
+        "8": "NO",
+        "9": "NO",
+        "10": "NO"
       }
     },
     {
@@ -138,19 +238,31 @@
       "connected_to": [],
       "communicates_to": [
         {
-          "id": 1,
+          "id": 2,
           "complexity": "LOW",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 3,
+          "complexity": "HIGH",
           "privilege_needed": "NONE"
+        },
+        {
+          "id": 12,
+          "complexity": "HIGH",
+          "privilege_needed": "LOW"
         }],
       "questionnaire_responses": {
-        "1": "YES",
-        "2": "MAYBE",
+        "1": "NO",
+        "2": "NO",
         "3": "MAYBE",
         "4": "MAYBE",
+        "5": "MAYBE",
         "6": "MAYBE",
         "7": "YES",
-        "8": "MAYBE",
-        "9": "MAYBE"
+        "8": "NO",
+        "9": "YES",
+        "10": "NO"
       }
     },
     {
@@ -165,18 +277,57 @@
       ],
       "communicates_to": [
         {
+          "id": 1,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
+        },
+          {
           "id": 2,
           "complexity": "LOW",
           "privilege_needed": "NONE"
+        },
+        {
+          "id": 3,
+          "complexity": "HIGH",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 5,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 6,
+          "complexity": "HIGH",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 7,
+          "complexity": "HIGH",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 9,
+          "complexity": "LOW",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 12,
+          "complexity": "HIGH",
+          "privilege_needed": "HIGH"
         }
       ],
       "questionnaire_responses": {
-        "1": "MAYBE",
-        "2": "YES",
-        "4": "MAYBE",
-        "6": "MAYBE",
-        "8": "MAYBE",
-        "9": "MAYBE"
+        "1": "YES",
+        "2": "MAYBE",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
       }
     },
     {
@@ -186,9 +337,29 @@
       "connected_to": [],
       "communicates_to": [
         {
-          "id": 1,
+          "id": 2,
+          "complexity": "HIGH",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 4,
           "complexity": "LOW",
           "privilege_needed": "NONE"
+        },
+        {
+          "id": 5,
+          "complexity": "LOW",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 11,
+          "complexity": "LOW",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 12,
+          "complexity": "HIGH",
+          "privilege_needed": "HIGH"
         }],
       "questionnaire_responses": {
         "2": "MAYBE",
@@ -205,17 +376,35 @@
       "communicates_to": [
         {
           "id": 1,
+          "complexity": "HIGH",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 2,
           "complexity": "LOW",
-          "privilege_needed": "NONE"
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 7,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 12,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
         }],
       "questionnaire_responses": {
-        "2": "YES",
-        "3": "MAYBE",
-        "4": "MAYBE",
-        "5": "MAYBE",
+        "1": "YES",
+        "2": "MAYBE",
+        "3": "YES",
+        "4": "YES",
+        "5": "NO",
+        "6": "NO",
         "7": "YES",
         "8": "YES",
-        "9": "MAYBE"
+        "9": "NO",
+        "10": "NO"
       }
     },
     {
@@ -226,16 +415,31 @@
       "communicates_to": [
         {
           "id": 1,
-          "complexity": "LOW",
+          "complexity": "HIGH",
           "privilege_needed": "NONE"
-        }],
+        },
+        {
+          "id": 9,
+          "complexity": "LOW",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 12,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
+        }
+      ],
       "questionnaire_responses": {
-        "2": "YES",
-        "3": "MAYBE",
+        "1": "NO",
+        "2": "NO",
+        "3": "YES",
+        "4": "NO",
         "5": "YES",
-        "7": "YES",
-        "8": "MAYBE",
-        "9": "MAYBE"
+        "6": "NO",
+        "7": "NO",
+        "8": "NO",
+        "9": "NO",
+        "10": "YES"
       }
     },
     {
@@ -246,17 +450,51 @@
       "communicates_to": [
         {
           "id": 1,
+          "complexity": "HIGH",
+          "privilege_needed": "NONE"
+        },
+        {
+          "id": 4,
+          "complexity": "HIGH",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 7,
           "complexity": "LOW",
           "privilege_needed": "NONE"
+        },
+        {
+          "id": 8,
+          "complexity": "HIGH",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 9,
+          "complexity": "HIGH",
+          "privilege_needed": "HIGH"
+        },
+        {
+          "id": 10,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
+        },
+        {
+          "id": 1,
+          "complexity": "LOW",
+          "privilege_needed": "LOW"
         }],
       "questionnaire_responses": {
-        "1": "MAYBE",
-        "2": "MAYBE",
+        "1": "NO",
+        "2": "NO",
+        "3": "YES",
         "4": "YES",
-        "5": "YES",
-        "6": "MAYBE",
-        "7": "MAYBE"
+        "5": "NO",
+        "6": "YES",
+        "7": "YES",
+        "8": "YES",
+        "9": "NO",
+        "10": "NO"
       }
-    }
+      }
   ]
 }
