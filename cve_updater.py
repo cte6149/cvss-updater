@@ -8,11 +8,12 @@ import matplotlib.pyplot as plt
 import sys
 import copy
 
-from functools import partial
+from networkx.generators import random_graphs
 
 from util.cvss_updater import update_cvss
 from util.network_parser import import_network, json_parser
 from util.models import NodeType
+from util.cvss_updater import AttackComplexity
 
 
 class JsonFileType(argparse.FileType):
@@ -31,6 +32,11 @@ def print_cve_data_for_node(node_id, cve):
     print(f'==Full Diff==\n{cve.cvss.full_diff()}')
 
     print(f'++Diff++\n{cve.cvss.diff()}')
+
+
+def print_graph_relationships(graph: nx.Graph):
+    for node, adjacency in graph.adjacency():
+        print(node, ": ", adjacency)
 
 
 def generate_graph_view(connectivity_network, communication_network):
@@ -116,23 +122,69 @@ def random_cve(args):
         print_cve_data_for_node(node_id, cve)
         print('=====\n')
 
-    generate_graph_view(connectivity_network, communication_network)
+    print('Connectivity Graph:')
+    print_graph_relationships(connectivity_network)
+    print("===\n")
+    print('Communication Gragh:')
+    print_graph_relationships(communication_network)
+#    generate_graph_view(connectivity_network, communication_network)
+
+
+def generate_random_communication_network(n, p):
+    # Generate random graph
+    G = random_graphs.erdos_renyi_graph(n, p)
+    # Increase Node Ids by 1
+    G = nx.relabel_nodes(G, lambda x: x + 1)
+
+    # Generate random attributes for each attribute
+    attrs = {
+        (edge[0], edge[1]): {
+            "complexity": random.choice(list(AttackComplexity)),
+            "privilege_needed": random.choice(("None", "Low", "High")),
+        }
+        for edge in G.edges
+    }
+    # attrs = {(0, 1): {"attr1": 20, "attr2": "nothing"}, (1, 2): {"attr2": 3}}
+    nx.set_edge_attributes(G, attrs)
+
+    return G
 
 
 def random_communications(args):
-    print(args)
-    # parse network
+    connectivity_network, _ = import_network(args.network_filename)
 
-    # generate seed if not given
-    # set seed for randomization
-    # print seed for the run
+    random.seed(args.seed)
 
-    # check to make sure number of runs is less than or equal to number of nodes in network
-    # for each run in runs
+    for run in range(0, args.num_runs):
+
+        edge_probability = random.randint(0, 100) / 100
+
         # randomly generate communications network
+        communication_network = generate_random_communication_network(
+            connectivity_network.number_of_nodes(),
+            edge_probability
+        )
+
+        nx.set_node_attributes(communication_network, {
+            node: node_attrs for node, node_attrs in connectivity_network.nodes.items()
+        })
+
         # run cve updater on network
-        # print the results of the run
-        # print communications in A -> [B,C] pairs
+        cves = update_cvss(connectivity_network, communication_network)
+
+        print('\n=====')
+        for node_id, cve in cves.items():
+            print_cve_data_for_node(node_id, cve)
+            print('=====\n')
+
+        print('Connectivity Graph:')
+        print_graph_relationships(connectivity_network)
+        print("===\n")
+        print('Communication Gragh:')
+        print_graph_relationships(communication_network)
+
+
+#    generate_graph_view(connectivity_network, communication_network
 
 
 def add_single_run_command(subparser):
@@ -157,7 +209,7 @@ def add_random_communications_command(subparser):
     random_communications_cmd = subparser.add_parser(name='random_communications', description='Run CVE Calculator on a network with randomized communications')
     random_communications_cmd.add_argument('network_filename', type=JsonFileType('r'), help='The network file to generate runs off of')
     random_communications_cmd.add_argument('--num_runs', type=int, default=1, help='The number of runs to create')
-    random_communications_cmd.add_argument('--seed', type=str, default=1, help='The seed used for randomization')
+    random_communications_cmd.add_argument('--seed', type=str, default=random.randrange(sys.maxsize), help='The seed used for randomization')
     random_communications_cmd.set_defaults(func=random_communications)
 
 
@@ -171,6 +223,7 @@ if __name__ == "__main__":
 
     try:
         args = parser.parse_args(sys.argv[1:])
+        print("=== Seed: ", args.seed)
         args.func(args)
     except argparse.ArgumentError:
         parser.print_usage()

@@ -15,7 +15,13 @@
       "connected_to": [
         2
       ],
-      "communicates_to": []
+      "communicates_to": [
+        {
+          "id": 2,
+          "complexity": "LOW",
+          "privilege_needed": "NONE"
+        }
+      ]
     },
     {
       "id": 2,
@@ -51,7 +57,13 @@
         7,
         8
       ],
-      "communicates_to": [],
+      "communicates_to": [
+        {
+          "id": 2,
+          "complexity": "LOW",
+          "privilege_needed": "NONE"
+        }
+      ],
       "questionnaire_responses": {
         "3": "MAYBE",
         "5": "MAYBE",
@@ -151,7 +163,13 @@
         11,
         12
       ],
-      "communicates_to": [],
+      "communicates_to": [
+        {
+          "id": 2,
+          "complexity": "LOW",
+          "privilege_needed": "NONE"
+        }
+      ],
       "questionnaire_responses": {
         "1": "MAYBE",
         "2": "YES",

@@ -90,7 +90,23 @@
       "name": "192.168.3.94",
       "type": "MACHINE",
       "connected_to": [],
-      "communicates_to": []
+      "communicates_to": [],
+        "cve": {
+        "name": "CVE-2019-10129",
+        "cvss": {
+          "attack_vector": "Network",
+          "attack_complexity": "Low",
+          "privileges_required": "Low",
+          "user_interaction": "None",
+          "scope": "Unchanged",
+          "confidentiality": "High",
+          "integrity": "None",
+          "availability": "None",
+          "exploit_code_maturity": "Not Defined",
+          "remediation_level": "Not Defined",
+          "report_confidence": "Not Defined"
+        }
+      }
     }
   ]
 }
