@@ -131,27 +131,32 @@ def internetless_subgraph(G):
     return nx.subgraph_view(G, lambda node: node not in internet_nodes)
 
 
-def _calculate_modified_confidentiality(communication_network, node):
-    # subnet = internetless_subgraph(communication_network)
-    # score = nx.eigenvector_centrality(subnet, weight='confidentiality_weight')[node]
-    score = nx.eigenvector_centrality(communication_network, weight='confidentiality_weight')[node]
+def normalize(n, min_val, max_val):
+    return (n - min_val) / (max_val - min_val)
 
-    if score < 1/3:
+def _calculate_modified_confidentiality(communication_network, node):
+    scores = nx.eigenvector_centrality(communication_network, weight='confidentiality_weight')
+    min_eigen, max_eigen = min(scores.values()), max(scores.values())
+    scores = {node: normalize(val, min_eigen, max_eigen) for node, val in scores.items()}
+    print(scores)
+
+    if scores[node] < 1/3:
         return Impact.NONE
-    elif (1/3) <= score < (2/3):
+    elif (1/3) <= scores[node] < (2/3):
         return Impact.LOW
     else:
         return Impact.HIGH
 
 
 def _calculate_modified_integrity(communication_network, node):
-    # subnet = internetless_subgraph(communication_network)
-    # score = nx.eigenvector_centrality(subnet, weight='integrity_weight')[node]
-    score = nx.eigenvector_centrality(communication_network, weight='integrity_weight')[node]
+    scores = nx.eigenvector_centrality(communication_network, weight='integrity_weight')
+    min_eigen, max_eigen = min(scores.values()), max(scores.values())
+    scores = {node: normalize(val, min_eigen, max_eigen) for node, val in scores.items()}
+    print(scores)
 
-    if score < 1/3:
+    if scores[node] < 1/3:
         return Impact.NONE
-    elif (1/3) <= score < (2/3):
+    elif (1/3) <= scores[node] < (2/3):
         return Impact.LOW
     else:
         return Impact.HIGH
@@ -173,9 +178,8 @@ def _calculate_modified_availability(connectivity_network: nx.Graph, node):
         new_connected_nodes.update(edge)
 
     # compare size of connected nodes
-    print(connected_nodes, new_connected_nodes)
     score = len(connected_nodes - new_connected_nodes) / connectivity_network.number_of_nodes()
-    print(score)
+
     if score < 1/3:
         return util.Impact.NONE
     elif (1/3) <= score < (2/3):
