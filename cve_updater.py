@@ -39,7 +39,7 @@ def print_graph_relationships(graph: nx.Graph):
     for node, adjacency in graph.adjacency():
         # print(node, ": ", adjacency)
         print(f'Node {node} Neighbors')
-        pprint.pprint(adjacency, indent=4)
+        pprint.pprint(adjacency)
         print()
 
 
