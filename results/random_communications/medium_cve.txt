@@ -1,0 +1,1406 @@
+=== Seed: 7210646720054949315 ===
+Successfully loaded network: Base Thesis Network
+{'name': 'The Internet', 'questionnaire': confidentiality_weight: 8 -- integrity_weight: 8}
+{'name': 'Network Router', 'questionnaire': confidentiality_weight: 17 -- integrity_weight: 17}
+{'name': 'Subnet 1 Router', 'questionnaire': confidentiality_weight: 17 -- integrity_weight: 17}
+{'name': '192.168.4.110', 'questionnaire': confidentiality_weight: 13 -- integrity_weight: 15}
+{'name': '192.168.4.123', 'questionnaire': confidentiality_weight: 16 -- integrity_weight: 18}
+{'name': '192.168.4.136', 'questionnaire': confidentiality_weight: 8 -- integrity_weight: 10}
+{'name': '192.168.4.171', 'questionnaire': confidentiality_weight: 15 -- integrity_weight: 12}
+{'name': 'Subnet 2 Router', 'questionnaire': confidentiality_weight: 17 -- integrity_weight: 17}
+{'name': '192.168.3.177', 'questionnaire': confidentiality_weight: 12 -- integrity_weight: 8}
+{'name': '192.168.3.182', 'questionnaire': confidentiality_weight: 17 -- integrity_weight: 17}
+{'name': '192.168.3.195', 'questionnaire': confidentiality_weight: 10 -- integrity_weight: 14}
+{'name': '192.168.3.94', 'questionnaire': confidentiality_weight: 16 -- integrity_weight: 16}
+Connectivity Graph:
+Node 1 Neighbors
+{2: {}}
+
+Node 2 Neighbors
+{1: {}, 3: {}, 9: {}}
+
+Node 3 Neighbors
+{2: {}, 5: {}, 6: {}, 7: {}, 8: {}}
+
+Node 9 Neighbors
+{2: {}, 4: {}}
+
+Node 5 Neighbors
+{3: {}}
+
+Node 6 Neighbors
+{3: {}}
+
+Node 7 Neighbors
+{3: {}}
+
+Node 8 Neighbors
+{3: {}}
+
+Node 4 Neighbors
+{9: {}, 10: {}, 11: {}, 12: {}}
+
+Node 10 Neighbors
+{4: {}}
+
+Node 11 Neighbors
+{4: {}}
+
+Node 12 Neighbors
+{4: {}}
+
+=====
+--- RUN #1---
+Edge Probability: 0.69
+{1: 0.16048995247970121, 2: 0.3472858892694225, 3: 1.0, 4: 0.9199414584550042, 5: 0.26928199479598625, 6: 0.6079268391930329, 7: 0.0, 8: 0.736463873383554, 9: 0.3271025158217097, 10: 0.8618037093147547, 11: 0.10622848898683, 12: 0.7834023387216298}
+{1: 0.16048995247970121, 2: 0.3472858892694225, 3: 1.0, 4: 0.9199414584550042, 5: 0.26928199479598625, 6: 0.6079268391930329, 7: 0.0, 8: 0.736463873383554, 9: 0.3271025158217097, 10: 0.8618037093147547, 11: 0.10622848898683, 12: 0.7834023387216298}
+=====
+
+Communication Gragh:
+Node 1 Neighbors
+{2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'}}
+
+Node 2 Neighbors
+{1: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+Node 3 Neighbors
+{1: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'Low'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 9: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 4 Neighbors
+{1: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'Low'},
+ 6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 9: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'High'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'None'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 5 Neighbors
+{3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'High'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+Node 6 Neighbors
+{3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'Low'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'Low'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 7 Neighbors
+{3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'Low'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'High'}}
+
+Node 8 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 9: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'High'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'}}
+
+Node 9 Neighbors
+{3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'High'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'High'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'None'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 10 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 11 Neighbors
+{4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'High'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 12 Neighbors
+{2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+
+=====
+Updated CVSS for Node: 10
+Base Score: 6.5
+Environmental Score: 9.1 
+
+==Full Diff==
+attack_vector		|	AttackVector.NETWORK -> AttackVector.NETWORK
+attack_complexity	|	AttackComplexity.LOW -> AttackComplexity.LOW
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.NONE
+user_interaction	|	UserInteraction.NONE -> UserInteraction.NONE
+scope			|	Scope.UNCHANGED -> Scope.UNCHANGED
+confidentiality		|	Impact.HIGH -> Impact.HIGH
+integrity		|	Impact.NONE -> Impact.HIGH
+availability		|	Impact.NONE -> Impact.NONE
+
+++Diff++
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.NONE
+integrity		|	Impact.NONE -> Impact.HIGH
+
+=====
+
+-----
+--- RUN #2---
+Edge Probability: 0.38
+{1: 0.45942852439704923, 2: 0.64931305233586, 3: 0.8742368988226699, 4: 0.6364338242323819, 5: 0.3425788641640606, 6: 0.9422742386657221, 7: 0.040208078224101385, 8: 0.21860408143535326, 9: 0.0, 10: 0.3503044312805231, 11: 0.5219238102958526, 12: 1.0}
+{1: 0.45942852439704923, 2: 0.64931305233586, 3: 0.8742368988226699, 4: 0.6364338242323819, 5: 0.3425788641640606, 6: 0.9422742386657221, 7: 0.040208078224101385, 8: 0.21860408143535326, 9: 0.0, 10: 0.3503044312805231, 11: 0.5219238102958526, 12: 1.0}
+=====
+
+Communication Gragh:
+Node 1 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 2 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 7: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'High'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 3 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'Low'}}
+
+Node 4 Neighbors
+{3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 5 Neighbors
+{6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 6 Neighbors
+{1: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 7 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 8 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'}}
+
+Node 9 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'High'},
+ 3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'None'}}
+
+Node 10 Neighbors
+{3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'Low'}}
+
+Node 11 Neighbors
+{3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'High'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+Node 12 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+
+=====
+Updated CVSS for Node: 10
+Base Score: 6.5
+Environmental Score: 5.4 
+
+==Full Diff==
+attack_vector		|	AttackVector.NETWORK -> AttackVector.NETWORK
+attack_complexity	|	AttackComplexity.LOW -> AttackComplexity.LOW
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.LOW
+user_interaction	|	UserInteraction.NONE -> UserInteraction.NONE
+scope			|	Scope.UNCHANGED -> Scope.UNCHANGED
+confidentiality		|	Impact.HIGH -> Impact.LOW
+integrity		|	Impact.NONE -> Impact.LOW
+availability		|	Impact.NONE -> Impact.NONE
+
+++Diff++
+confidentiality		|	Impact.HIGH -> Impact.LOW
+integrity		|	Impact.NONE -> Impact.LOW
+
+=====
+
+-----
+--- RUN #3---
+Edge Probability: 0.52
+{1: 0.09031717939334796, 2: 0.9594371257990374, 3: 0.5611739489258614, 4: 0.5325036736807528, 5: 0.8269242545225542, 6: 0.0, 7: 0.10577242674860611, 8: 0.7009408914500367, 9: 0.47589943132997375, 10: 0.6386196029004861, 11: 0.00396661146701416, 12: 1.0}
+{1: 0.09031717939334796, 2: 0.9594371257990374, 3: 0.5611739489258614, 4: 0.5325036736807528, 5: 0.8269242545225542, 6: 0.0, 7: 0.10577242674860611, 8: 0.7009408914500367, 9: 0.47589943132997375, 10: 0.6386196029004861, 11: 0.00396661146701416, 12: 1.0}
+=====
+
+Communication Gragh:
+Node 1 Neighbors
+{6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 7: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 2 Neighbors
+{3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'None'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'High'},
+ 9: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'None'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+Node 3 Neighbors
+{2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+Node 4 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'Low'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'High'}}
+
+Node 5 Neighbors
+{2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'None'},
+ 3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'High'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 6 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'}}
+
+Node 7 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'None'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 8 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'High'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 9 Neighbors
+{2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'None'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'Low'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+Node 10 Neighbors
+{2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 11 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'High'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'High'}}
+
+Node 12 Neighbors
+{1: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 9: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+
+=====
+Updated CVSS for Node: 10
+Base Score: 6.5
+Environmental Score: 6.5 
+
+==Full Diff==
+attack_vector		|	AttackVector.NETWORK -> AttackVector.NETWORK
+attack_complexity	|	AttackComplexity.LOW -> AttackComplexity.LOW
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.NONE
+user_interaction	|	UserInteraction.NONE -> UserInteraction.NONE
+scope			|	Scope.UNCHANGED -> Scope.UNCHANGED
+confidentiality		|	Impact.HIGH -> Impact.LOW
+integrity		|	Impact.NONE -> Impact.LOW
+availability		|	Impact.NONE -> Impact.NONE
+
+++Diff++
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.NONE
+confidentiality		|	Impact.HIGH -> Impact.LOW
+integrity		|	Impact.NONE -> Impact.LOW
+
+=====
+
+-----
+--- RUN #4---
+Edge Probability: 0.39
+{1: 0.6087092099979861, 2: 0.6350762591654725, 3: 0.6239907619286016, 4: 0.8365841902402448, 5: 0.26893956985723605, 6: 0.9836321826411442, 7: 0.0, 8: 0.3607044588059944, 9: 0.28114659452743873, 10: 1.0, 11: 0.6401884986018482, 12: 0.9643577718471488}
+{1: 0.6087092099979861, 2: 0.6350762591654725, 3: 0.6239907619286016, 4: 0.8365841902402448, 5: 0.26893956985723605, 6: 0.9836321826411442, 7: 0.0, 8: 0.3607044588059944, 9: 0.28114659452743873, 10: 1.0, 11: 0.6401884986018482, 12: 0.9643577718471488}
+=====
+
+Communication Gragh:
+Node 1 Neighbors
+{5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'None'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'High'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 2 Neighbors
+{6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'None'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+Node 3 Neighbors
+{4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'High'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'Low'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'}}
+
+Node 4 Neighbors
+{3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'High'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 9: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'High'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'High'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 5 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 13,
+     'integrity_weight': 13,
+     'privilege_needed': 'High'},
+ 7: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'Low'},
+ 8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'None'}}
+
+Node 6 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 7: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'High'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'High'},
+ 11: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'Low'}}
+
+Node 7 Neighbors
+{5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'Low'},
+ 6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 8,
+     'integrity_weight': 8,
+     'privilege_needed': 'High'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'Low'}}
+
+Node 8 Neighbors
+{2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'},
+ 3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'High'},
+ 5: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'None'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'High'}}
+
+Node 9 Neighbors
+{4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'High'},
+ 7: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 12,
+     'integrity_weight': 12,
+     'privilege_needed': 'Low'},
+ 10: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 17,
+      'integrity_weight': 17,
+      'privilege_needed': 'High'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 10,
+      'integrity_weight': 10,
+      'privilege_needed': 'Low'}}
+
+Node 10 Neighbors
+{1: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'None'},
+ 3: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'Low'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 17,
+     'integrity_weight': 17,
+     'privilege_needed': 'High'},
+ 12: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 11 Neighbors
+{1: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 2: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'Low'},
+ 3: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'Low'},
+ 5: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'None'},
+ 6: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'High'},
+ 9: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 10,
+     'integrity_weight': 10,
+     'privilege_needed': 'Low'},
+ 12: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+Node 12 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'None'},
+ 2: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 4: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 6: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'Low'},
+ 8: {'complexity': <AttackComplexity.LOW: 0.77>,
+     'confidentiality_weight': 16,
+     'integrity_weight': 16,
+     'privilege_needed': 'High'},
+ 10: {'complexity': <AttackComplexity.LOW: 0.77>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'},
+ 11: {'complexity': <AttackComplexity.HIGH: 0.44>,
+      'confidentiality_weight': 16,
+      'integrity_weight': 16,
+      'privilege_needed': 'None'}}
+
+
+=====
+Updated CVSS for Node: 10
+Base Score: 6.5
+Environmental Score: 9.1 
+
+==Full Diff==
+attack_vector		|	AttackVector.NETWORK -> AttackVector.NETWORK
+attack_complexity	|	AttackComplexity.LOW -> AttackComplexity.LOW
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.NONE
+user_interaction	|	UserInteraction.NONE -> UserInteraction.NONE
+scope			|	Scope.UNCHANGED -> Scope.UNCHANGED
+confidentiality		|	Impact.HIGH -> Impact.HIGH
+integrity		|	Impact.NONE -> Impact.HIGH
+availability		|	Impact.NONE -> Impact.NONE
+
+++Diff++
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.NONE
+integrity		|	Impact.NONE -> Impact.HIGH
+
+=====
+
+-----
+--- RUN #5---
+Edge Probability: 0.04
+{1: 1.0, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 1.0, 9: 0.0, 10: 0.0, 11: 0.0, 12: 0.0}
+{1: 1.0, 2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 1.0, 9: 0.0, 10: 0.0, 11: 0.0, 12: 0.0}
+=====
+
+Communication Gragh:
+Node 1 Neighbors
+{8: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'}}
+
+Node 2 Neighbors
+{}
+
+Node 3 Neighbors
+{}
+
+Node 4 Neighbors
+{}
+
+Node 5 Neighbors
+{}
+
+Node 6 Neighbors
+{}
+
+Node 7 Neighbors
+{}
+
+Node 8 Neighbors
+{1: {'complexity': <AttackComplexity.HIGH: 0.44>,
+     'confidentiality_weight': 15,
+     'integrity_weight': 15,
+     'privilege_needed': 'Low'}}
+
+Node 9 Neighbors
+{}
+
+Node 10 Neighbors
+{}
+
+Node 11 Neighbors
+{}
+
+Node 12 Neighbors
+{}
+
+
+=====
+Updated CVSS for Node: 10
+Base Score: 6.5
+Environmental Score: 0 
+
+==Full Diff==
+attack_vector		|	AttackVector.NETWORK -> AttackVector.NETWORK
+attack_complexity	|	AttackComplexity.LOW -> AttackComplexity.HIGH
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.HIGH
+user_interaction	|	UserInteraction.NONE -> UserInteraction.NONE
+scope			|	Scope.UNCHANGED -> Scope.UNCHANGED
+confidentiality		|	Impact.HIGH -> Impact.NONE
+integrity		|	Impact.NONE -> Impact.NONE
+availability		|	Impact.NONE -> Impact.NONE
+
+++Diff++
+attack_complexity	|	AttackComplexity.LOW -> AttackComplexity.HIGH
+privileges_required	|	PrivilegeRequired.LOW -> PrivilegeRequired.HIGH
+confidentiality		|	Impact.HIGH -> Impact.NONE
+
+=====
+
+-----
